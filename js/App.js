@@ -5,7 +5,7 @@ App.Store = DS.Store.extend({
     adapter: 'DS.FixtureAdapter'
 });
 
-App.Poney = DS.model.extend({
+App.Poney = DS.Model.extend({
     name: DS.attr('string'),
     color: DS.attr('string'),
     type:DS.attr('string')
@@ -31,6 +31,13 @@ App.Poney.FIXTURES = [
         type:'Earth Pony'
     }
 ];
+
+App.IndexRoute = Ember.Route.extend({
+   model: function() {
+       return App.Poney.find();
+   }
+});
+
 
 
 
