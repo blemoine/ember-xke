@@ -12,14 +12,20 @@
 </head>
 <body>
 
-<script type="text/x-handlebars" data-template-name="index">
+<script type="text/x-handlebars" data-template-name="application">
     Hello world !
+    {{outlet}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+
     <ul>
         {{#each content}}
         <li>{{name}}</li>
         {{/each}}
     </ul>
 </script>
+
 
 </body>
 </html>

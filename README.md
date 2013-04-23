@@ -23,8 +23,10 @@ EMBER XKE
 * Faire un hello world
 * Créer une classe modele
 * Créer une fixture Ember-Data
-* Controller
 * Créer le template (liste) (en plus du template application, avec l'outlet)
+
+
+* Controller ??
 * Créer une propriété calculée
 * Créer une route consultation (Controller / template )
 * Créer une route add (Controller / template / composant de form / méthode d'ajout dans la fixture)
