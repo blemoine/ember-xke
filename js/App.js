@@ -6,36 +6,43 @@ App.Store = DS.Store.extend({
 });
 
 App.Poney = DS.Model.extend({
-    name: DS.attr('string'),
+    lastName: DS.attr('string'),
+    firstName: DS.attr('string'),
     color: DS.attr('string'),
-    type:DS.attr('string')
+    type: DS.attr('string'),
+    name: function () {
+        return this.get('firstName') + ' ' + this.get('lastName');
+    }.property('firstName','lastName')
 });
 
 App.Poney.FIXTURES = [
     {
         id: 1,
-        name: 'Rainbow Dash',
+        firstName: 'Rainbow',
+        lastName: 'Dash',
         color: 'Sky blue',
-        type:'Pegasus'
+        type: 'Pegasus'
     },
     {
         id: 2,
-        name: 'Twilight Sparkle',
+        firstName: 'Twillight',
+        lastName: 'Sparkle',
         color: 'Lavender',
-        type:'Alicorn'
+        type: 'Alicorn'
     },
     {
         id: 3,
-        name: 'Applejack',
+        firstName: 'Apple',
+        lastName: 'Jack',
         color: 'orange',
-        type:'Earth Pony'
+        type: 'Earth Pony'
     }
 ];
 
 App.IndexRoute = Ember.Route.extend({
-   model: function() {
-       return App.Poney.find();
-   }
+    model: function () {
+        return App.Poney.find();
+    }
 });
 
 
