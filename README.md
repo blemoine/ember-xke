@@ -27,8 +27,8 @@ EMBER XKE
 * Créer une propriété calculée
 * Créer une route consultation (Controller / template )
 
-* Controller ??
 
+* Controller ??
 * Créer une route add (Controller / template / composant de form / méthode d'ajout dans la fixture)
 * Switcher sur API REST
 * Helpers

@@ -32,6 +32,30 @@
     <span>Type: {{content.type}}</span><br/>
 </script>
 
+<script type="text/x-handlebars" data-template-name="add">
+    <form>
+        <label for="firstName">First Name</label>
+        {{input value=firstName}}
+        <br />
+
+        <label for="lastName">Last Name</label>
+        {{input value=lastName}}
+        <br />
+
+        <label for="color">Color</label>
+        {{input value=color}}
+        <br />
+
+        <label for="type">Type</label>
+        {{input value=type}}
+        <br />
+
+        <input type="submit" {{action savePoney}}/>
+
+
+
+    </form>
+</script>
 
 </body>
 </html>
