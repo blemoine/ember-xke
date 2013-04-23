@@ -13,17 +13,23 @@
 <body>
 
 <script type="text/x-handlebars" data-template-name="application">
-    Hello world !
+    <h1>My Li'l Poney Application</h1>
     {{outlet}}
 </script>
 
 <script type="text/x-handlebars" data-template-name="index">
 
     <ul>
-        {{#each content}}
-        <li>{{name}}</li>
+        {{#each poney in content}}
+        <li>{{#linkTo detail poney}}{{poney.name}}{{/linkTo}}</li>
         {{/each}}
     </ul>
+</script>
+
+<script type="text/x-handlebars" data-template-name="detail">
+    <span>Name: {{content.name}}</span><br/>
+    <span>Color: {{content.color}}</span><br/>
+    <span>Type: {{content.type}}</span><br/>
 </script>
 
 

@@ -45,6 +45,10 @@ App.IndexRoute = Ember.Route.extend({
     }
 });
 
+App.Router.map(function() {
+   this.route('detail', {path:'poney/:poney_id'})
+});
+
 
 
 
