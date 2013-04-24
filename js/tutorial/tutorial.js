@@ -20,15 +20,30 @@ $.get('tutorial.html').done(function(content){
             detail: "Aller dans le fichier App.js, et créer un objet 'App' de type Ember.Application et préciser que son" +
                 " élement principale est un ",
             isActive:function(){
-                return true;
+                var isOk = typeof App != "undefined"
+                    && Em.typeOf(App) == "instance"
+                    && App.rootElement == "#ember-app"
+                    && $('#ember-app').hasClass("ember-application");
+                return !isOk;
             }.property()
         }),
         Tuto.Step.createWithMixins({
             title:"Dites hello Poney",
-            detail: "Créer une classe à l'aide de DS.Model."
+
+            isActive:function(){
+                var isOk = $('#ember-app :first-child').hasClass('ember-view')
+                    && $('#ember-app :first-child h1').text() == "My Li'l Poney Application"
+
+                return !isOk;
+            }.property()
         }),
         Tuto.Step.createWithMixins({
-            title:"Créer une classe modele"
+            title:"Créer une classe modele",
+            detail: "Créer une classe à l'aide de DS.Model.",
+            isActive:function(){
+                var isOk = false;
+                return !isOk;
+            }.property()
         }),
         Tuto.Step.createWithMixins({
             title:"Créer une fixture Ember-Data"
