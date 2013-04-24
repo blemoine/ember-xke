@@ -1,4 +1,6 @@
-App = Ember.Application.create();
+App = Ember.Application.create({
+    rootElement: '#ember-app'
+});
 
 App.Store = DS.Store.extend({
     revision: 12,
