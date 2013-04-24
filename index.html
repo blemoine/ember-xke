@@ -10,59 +10,60 @@
     <script src="js/vendor/bootstrap.min.js"></script>
 
     <link href="css/vendor/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="css/main.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="css/main.less" media="screen" rel="stylesheet/less" type="text/css">
 
+    <script src="js/vendor/less.js"></script>
 
     <script src="js/App.js"></script>
 </head>
-<body class="row">
+<body>
+    <div id="tutorial" class="span4"></div>
+    <div id="ember-app" class="span5"></div>
 
-        <div id="tutorial" class="span3"></div>
-        <div id="ember-app" class="span6"></div>
 
 
-<script type="text/x-handlebars" data-template-name="application">
-    <h1>My Li'l Poney Application</h1>
-    {{outlet}}
-</script>
+    <script type="text/x-handlebars" data-template-name="application">
+        <h1>My Li'l Poney Application</h1>
+        {{outlet}}
+    </script>
 
-<script type="text/x-handlebars" data-template-name="index">
+    <script type="text/x-handlebars" data-template-name="index">
 
-    <ul>
-        {{#each poney in content}}
-        <li>{{#linkTo detail poney}}{{poney.name}}{{/linkTo}}</li>
-        {{/each}}
-    </ul>
-</script>
+        <ul>
+            {{#each poney in content}}
+            <li>{{#linkTo detail poney}}{{poney.name}}{{/linkTo}}</li>
+            {{/each}}
+        </ul>
+    </script>
 
-<script type="text/x-handlebars" data-template-name="detail">
-    <span>Name: {{content.name}}</span><br/>
-    <span>Color: {{content.color}}</span><br/>
-    <span>Type: {{content.type}}</span><br/>
-</script>
+    <script type="text/x-handlebars" data-template-name="detail">
+        <span>Name: {{content.name}}</span><br/>
+        <span>Color: {{content.color}}</span><br/>
+        <span>Type: {{content.type}}</span><br/>
+    </script>
 
-<script type="text/x-handlebars" data-template-name="add">
-    <form>
-        <label for="firstName">First Name</label>
-        {{input value=firstName}}
-        <br />
+    <script type="text/x-handlebars" data-template-name="add">
+        <form>
+            <label for="firstName">First Name</label>
+            {{input value=firstName}}
+            <br />
 
-        <label for="lastName">Last Name</label>
-        {{input value=lastName}}
-        <br />
+            <label for="lastName">Last Name</label>
+            {{input value=lastName}}
+            <br />
 
-        <label for="color">Color</label>
-        {{input value=color}}
-        <br />
+            <label for="color">Color</label>
+            {{input value=color}}
+            <br />
 
-        <label for="type">Type</label>
-        {{input value=type}}
-        <br />
+            <label for="type">Type</label>
+            {{input value=type}}
+            <br />
 
-        <input type="submit" {{action savePoney}}/>
+            <input type="submit" {{action savePoney}}/>
 
-    </form>
-</script>
+        </form>
+    </script>
 
     <script src="js/tutorial/tutorial.js"></script>
 </body>

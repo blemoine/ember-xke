@@ -1,4 +1,24 @@
 <script type="text/x-handlebars" data-template-name="tutorial-app">
+    <div id="header">
+        <img src="img/tuto-header.png"/>
+        <h2>Tutoriel</h2>
+    </div>
+    <div class="steps">
+        {{#each step in Tuto.STEPS}}
+            <div {{bindAttr class=":step step.isActive::inactived"}}>
+                <div class="step-title">
+                    {{step.title}}
+                    <span class="vline a"></span>
+                    <span class="picto"></span>
+                    <span class="vline b"></span>
+                </div>
+                <div {{bindAttr class=":step-detail step.isActive::hidden"}}>
+                    {{step.detail}}
+                </div>
+            </div>
+        {{/each}}
+        </div>
+    </div>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial">
