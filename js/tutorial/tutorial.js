@@ -16,7 +16,7 @@ $.get('tutorial.html').done(function(content){
 
     Tuto.STEPS = [
         Tuto.Step.createWithMixins({
-            title:"Créer le l'application",
+            title:"Création de l'application",
             detail: "Aller dans le fichier App.js, et créer un objet 'App' de type Ember.Application et préciser que son" +
                 " élement principale est un ",
             isActive:function(){
