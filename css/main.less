@@ -12,6 +12,7 @@
   font-weight: 400;
   src: local('IM FELL French Canon Roman'), local('IM_FELL_French_Canon_Roman'), url(font.woff) format('woff');
 }
+
 @font-face {
   font-family: 'IM Fell French Canon';
   font-style: italic;
@@ -19,55 +20,58 @@
   src: local('IM FELL French Canon Italic'), local('IM_FELL_French_Canon_Italic'), url(font-italic.woff) format('woff');
 }
 
-.fill{
-  height: 100%;
-  min-height: 100%;
+#ember-app {
+  display: inline-block;
+  margin-left: 23%
 }
 
-
-#tutorial{
-  .fill;
+#tutorial {
+  min-height: 100%;
   margin-left: 0px;
   box-shadow: 5px 0px 5px gray;
   font-family: 'IM Fell French Canon', serif;
   font-style: italic;
   background: url("/img/tutorial-bg.jpg");
   z-index: -2;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  width: 20%;
 
-  #header{
+  #header {
     margin-left: 10px;
     margin-top: 10px;
 
-    img{
+    img {
       width: 100px;
     }
 
-    h2{
+    h2 {
       padding-left: 10px;
       display: inline;
       font-size: 50px;
-      text-shadow: 0px 2px 3px rgba(255,255,255,0.5);
+      text-shadow: 0px 2px 3px rgba(255, 255, 255, 0.5);
       -webkit-background-clip: text;
       -moz-background-clip: text;
       background-clip: text;
     }
   }
 
-  .steps{
+  .steps {
     overflow: auto;
     position: relative;
     overflow-x: hidden;
     bottom: 0px;
 
-    .step{
+    .step {
       font-size: 18px;
       cursor: pointer; // lignes verticales a gauche dans les steps
       padding-left: 40px;
       padding-top: 30px;
 
-
-      .picto{
-        /*background: url(/img/picto.png) no-repeat 0px 0px;*/
+      .picto {
+      /*background: url(/img/picto.png) no-repeat 0px 0px;*/
         width: 14px;
         height: 14px;
         background-color: #e44bdb;
@@ -76,16 +80,16 @@
         margin-top: -17px;
       }
 
-      &.inactived{
+      &.inactived {
         color: #bfbfbf;
 
       }
-      .step-title{
+      .step-title {
         font-size: 22px;
         font-weight: bold;
         padding-left: 10px;
       }
-      .step-detail{
+      .step-detail {
         padding-left: 25px;
         padding-top: 5px;
       }
@@ -109,7 +113,19 @@
 }
 
 html, body {
-  .fill;
   padding: 0;
   margin: 0;
+  height: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  #tutorial {
+    display: block;
+    position: relative;
+    width: auto;
+  }
+
+  #ember-app {
+    margin: 2%;
+  }
 }
