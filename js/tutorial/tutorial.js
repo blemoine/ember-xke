@@ -12,7 +12,7 @@ $.get('tutorial.html').done(function(content){
         isActive:function(){
             if(this.test){
                 QUnit.onReportReady = function(result,run){
-                    debugger;
+                    //debugger;
                 }
                 module(this.title);
                 test(this.title, this.test);
