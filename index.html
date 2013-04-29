@@ -32,6 +32,7 @@
 
     <script type="text/x-handlebars" data-template-name="index">
 
+        {{#linkTo add}}Add{{/linkTo}}
         <ul>
             {{#each poney in content}}
             <li>{{#linkTo detail poney}}{{poney.name}}{{/linkTo}}</li>
