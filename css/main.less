@@ -1,5 +1,14 @@
-.border-radius (@params) {
-  border-radius: @params;
+@myPink : #cc0088;
+@myComplementaryPink: #FFFF00;
+@myComplementaryPinkDark: #FF9900;
+@myBlue: #55E;
+
+.border-radius (@radius) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
 }
 
 .box-shadow (@params) {
@@ -20,9 +29,107 @@
   src: local('IM FELL French Canon Italic'), local('IM_FELL_French_Canon_Italic'), url(font-italic.woff) format('woff');
 }
 
+.drop-shadow (@x: 0, @y: 2px, @blur: 4px, @spread: 0, @alpha: 0.35) {
+  -webkit-box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  -moz-box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.box-shadow (@x: 0, @y: 2px, @blur: 4px, @spread: 0, @color: rgba(0,0,0,0.5)) {
+  -webkit-box-shadow: @x @y @blur @spread @color;
+  -moz-box-shadow: @x @y @blur @spread @color;
+  box-shadow: @x @y @blur @spread @color;
+}
+
+.inset-box-shadow (@string, @string2) {
+  -webkit-box-shadow: @string , @string2;
+  -moz-box-shadow: @string, @string2;
+  box-shadow: @string, @string2;
+}
+
+.gradient (@startColor: #eee, @endColor: white) {
+  background-color: @startColor;
+  background: -webkit-linear-gradient(top, @startColor, @endColor);
+  background: -moz-linear-gradient(top, @startColor, @endColor);
+  background: -ms-linear-gradient(top, @startColor, @endColor);
+  background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.transition (@transition) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -ms-transition: @transition;
+  -o-transition: @transition;
+}
+
+@tutoWidth: 20%;
+
 #ember-app {
   display: inline-block;
-  margin-left: 23%
+
+  margin-left: @tutoWidth;
+  padding-left: 3%;
+  padding-right: 3%;
+  width: 100% - @tutoWidth - 6%;
+
+  h1 {
+    color: @myPink;
+
+    display: block;
+    padding: 10px 5px;
+    text-align: center;
+    text-shadow: -1px 1px 1px rgba(255, 255, 255, 0.7);
+    margin-top: 0;
+    margin-bottom: 80px;
+    .border-radius(0 0 200px 200px );
+    .drop-shadow();
+    .gradient(@myComplementaryPink,@myComplementaryPinkDark);
+  }
+  ul {
+    margin-top: 30px;
+    li {
+      list-style: ;
+    }
+
+  }
+
+  a {
+    color: @myPink;
+    .transition(all 0.4s);
+
+    &:hover {
+      color: lighten(@myPink, 30%);
+      font-size:150%;
+    }
+  }
+
+  > div > a {
+    padding: 10px 80px;
+    background-color: @myComplementaryPink;
+    .inset-box-shadow(inset 5px 5px 15px white, inset -5px -5px 15px @myComplementaryPinkDark);
+
+    &:hover {
+      color: @myBlue;
+      background-color: lighten(@myPink,20%);
+      .inset-box-shadow(inset 5px 5px 15px white, inset -5px -5px 15px darken(@myPink,20%));
+    }
+  }
+
+  input[type=submit] {
+    color: @myPink;
+    .transition(all 0.4s);
+    margin-top:20px;
+    padding: 10px 80px;
+    background-color: @myComplementaryPink;
+    .inset-box-shadow(inset 5px 5px 15px white, inset -5px -5px 15px @myComplementaryPinkDark);
+
+    &:hover {
+      color: @myBlue;
+      background-color: lighten(@myPink,20%);
+      .inset-box-shadow(inset 5px 5px 15px white, inset -5px -5px 15px darken(@myPink,20%));
+      font-size:150%;
+    }
+  }
 }
 
 #tutorial {
@@ -37,7 +144,7 @@
   position: absolute;
   top: 0;
   bottom: 0px;
-  width: 20%;
+  width: @tutoWidth;
 
   #header {
     margin-left: 10px;
@@ -74,10 +181,11 @@
       /*background: url(/img/picto.png) no-repeat 0px 0px;*/
         width: 14px;
         height: 14px;
-        background-color: #e44bdb;
+        background-color: @myPink;
         display: block;
         margin-left: -16px;
         margin-top: -17px;
+        .border-radius(14px);
       }
 
       &.inactived {
@@ -97,7 +205,7 @@
         width: 1px;
         position: absolute;
         left: 40px;
-        border-left: 4px solid #e44bdb;
+        border-left: 4px solid @myPink;
         z-index: 0;
         &.a {
           top: -1px;
