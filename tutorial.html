@@ -5,24 +5,51 @@
     </div>
     <div class="steps">
         {{#each step in Tuto.STEPS}}
-            <div {{bindAttr class=":step step.isActive::inactived"}}>
-                <div class="step-title">
-                    {{step.title}}
-                    <span class="vline a"></span>
-                    <span class="picto"></span>
-                    <span class="vline b"></span>
-                </div>
-                <div {{bindAttr class=":step-detail step.isActive::hidden"}}>
-                    {{step.detail}}
-                </div>
-            </div>
+            {{view Tuto.StepView stepBinding=step}}
         {{/each}}
-        </div>
     </div>
 </script>
 
-<script type="text/x-handlebars" data-template-name="tutorial">
+<script type="text/x-handlebars" data-template-name="tutorial-step">
+    <div class="step-title">
+        {{unbound step.title}}
+        <span class="vline a"></span>
+        <span class="picto"></span>
+        <span class="vline b"></span>
+    </div>
+    <div {{bindAttr class=":step-detail step.isActive::hidden"}}>
+
+        {{view view.detailView}}
+
+        <div>
+            {{unbound step.errors}}
+        </div>
+
+        {{view view.solutionView}}
+    </div>
+
 </script>
 
-<script type="text/x-handlebars" data-template-name="tutorial-step">
+<script type="text/x-handlebars" data-template-name="tutorial-step-empty">
+    Pas détail, débrouille toi !
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-solution-empty">
+    Ni de solution
+</script>
+
+
+
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-app">
+    Aller dans le fichier App.js, et créer un objet 'App' de type Ember.Application et préciser que son
+    élement principale est un
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-hello">
+    Votre application Ember est créé, mais vous n'avez définie aucune interface
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-ds">
+    Créer une classe à l'aide de DS.Model.
 </script>

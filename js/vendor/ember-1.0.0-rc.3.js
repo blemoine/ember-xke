@@ -6442,7 +6442,7 @@
                                 binding = callbackTuple[1];
 
                                 if (typeof options !== 'object') {
-                                    options = { detail: options };
+                                    options = { detailTemplateName: options };
                                 }
 
                                 event = new Event(eventName, options);
@@ -6454,11 +6454,11 @@
 
                 var Promise = function() {
                     this.on('promise:resolved', function(event) {
-                        this.trigger('success', { detail: event.detail });
+                        this.trigger('success', { detailTemplateName: event.detailTemplateName });
                     }, this);
 
                     this.on('promise:failed', function(event) {
-                        this.trigger('error', { detail: event.detail });
+                        this.trigger('error', { detailTemplateName: event.detailTemplateName });
                     }, this);
                 };
 
@@ -6470,14 +6470,14 @@
 
                     if (hasCallback) {
                         try {
-                            value = callback(event.detail);
+                            value = callback(event.detailTemplateName);
                             succeeded = true;
                         } catch(e) {
                             failed = true;
                             error = e;
                         }
                     } else {
-                        value = event.detail;
+                        value = event.detailTemplateName;
                         succeeded = true;
                     }
 
@@ -6502,13 +6502,13 @@
 
                         if (this.isResolved) {
                             RSVP.async(function() {
-                                invokeCallback('resolve', thenPromise, done, { detail: this.resolvedValue });
+                                invokeCallback('resolve', thenPromise, done, { detailTemplateName: this.resolvedValue });
                             }, this);
                         }
 
                         if (this.isRejected) {
                             RSVP.async(function() {
-                                invokeCallback('reject', thenPromise, fail, { detail: this.rejectedValue });
+                                invokeCallback('reject', thenPromise, fail, { detailTemplateName: this.rejectedValue });
                             }, this);
                         }
 
@@ -6540,7 +6540,7 @@
 
                 function resolve(promise, value) {
                     RSVP.async(function() {
-                        promise.trigger('promise:resolved', { detail: value });
+                        promise.trigger('promise:resolved', { detailTemplateName: value });
                         promise.isResolved = true;
                         promise.resolvedValue = value;
                     });
@@ -6548,7 +6548,7 @@
 
                 function reject(promise, value) {
                     RSVP.async(function() {
-                        promise.trigger('promise:failed', { detail: value });
+                        promise.trigger('promise:failed', { detailTemplateName: value });
                         promise.isRejected = true;
                         promise.rejectedValue = value;
                     });
