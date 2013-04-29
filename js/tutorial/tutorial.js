@@ -10,6 +10,13 @@ $.get('tutorial.html').done(function(content){
         detail:"",
         solution:"",
         isActive:function(){
+            if(this.test){
+                QUnit.onReportReady = function(result,run){
+                    debugger;
+                }
+                module(this.title);
+                test(this.title, this.test);
+            }
             return false;
         }.property()
     });
@@ -19,23 +26,26 @@ $.get('tutorial.html').done(function(content){
             title:"Création de l'application",
             detail: "Aller dans le fichier App.js, et créer un objet 'App' de type Ember.Application et préciser que son" +
                 " élement principale est un ",
-            isActive:function(){
-                var isOk = typeof App != "undefined"
-                    && Em.typeOf(App) == "instance"
-                    && App.rootElement == "#ember-app"
-                    && $('#ember-app').hasClass("ember-application");
-                return !isOk;
-            }.property()
+
+            test:function() {
+                ok( typeof App != "undefined" ,
+                    "Un objet App est bien définie" );
+                ok( Em.typeOf(App) == "instance" ,
+                    "L'objet App est bien un objet créé par ember" );
+                ok( $('#ember-app').hasClass("ember-application") ,
+                    "La div est l'id #ember-app a bien la class 'ember-application, " +
+                    "ce qui prouve que l'application à bien été contruite avec cette div comme élément racine." );
+            }
         }),
         Tuto.Step.createWithMixins({
             title:"Dites hello Poney",
+            test : function() {
+                ok( $('#ember-app :first-child').hasClass('ember-view') ,
+                    "Le premier élément enfant de la div racine est bien une vue ember" );
 
-            isActive:function(){
-                var isOk = $('#ember-app :first-child').hasClass('ember-view')
-                    && $('#ember-app :first-child h1').text() == "My Li'l Poney Application"
-
-                return !isOk;
-            }.property()
+                ok( $('#ember-app :first-child h1').text() == "My Li'l Poney Application" ,
+                    "La vue ember contient bien une balise H1 contenant elle-même le text 'My Li'l Poney Application'" );
+            }
         }),
         Tuto.Step.createWithMixins({
             title:"Créer une classe modele",
