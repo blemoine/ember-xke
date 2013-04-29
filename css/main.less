@@ -1,7 +1,7 @@
 @myPink : #cc0088;
 @myComplementaryPink: #FFFF00;
 @myComplementaryPinkDark: #FF9900;
-@myBlue: #55E;
+@myBlue: #5CE;
 
 .border-radius (@radius) {
   -webkit-border-radius: @radius;
@@ -66,11 +66,14 @@
 
 #ember-app {
   display: inline-block;
-
+  color: @myPink;
   margin-left: @tutoWidth;
   padding-left: 3%;
   padding-right: 3%;
   width: 100% - @tutoWidth - 6%;
+  * {
+    font-family: 'IM Fell French Canon', serif;
+  }
 
   h1 {
     color: @myPink;
@@ -88,7 +91,7 @@
   ul {
     margin-top: 30px;
     li {
-      list-style: ;
+      list-style: disc;
     }
 
   }
@@ -99,7 +102,7 @@
 
     &:hover {
       color: lighten(@myPink, 30%);
-      font-size:150%;
+      font-size: 150%;
     }
   }
 
@@ -110,7 +113,7 @@
 
     &:hover {
       color: @myBlue;
-      background-color: lighten(@myPink,20%);
+      background-color: lighten(@myPink, 20%);
       .inset-box-shadow(inset 5px 5px 15px white, inset -5px -5px 15px darken(@myPink,20%));
     }
   }
@@ -118,16 +121,32 @@
   input[type=submit] {
     color: @myPink;
     .transition(all 0.4s);
-    margin-top:20px;
+    margin-top: 20px;
     padding: 10px 80px;
     background-color: @myComplementaryPink;
     .inset-box-shadow(inset 5px 5px 15px white, inset -5px -5px 15px @myComplementaryPinkDark);
 
-    &:hover {
+    &:hover, &:focus {
       color: @myBlue;
-      background-color: lighten(@myPink,20%);
+      background-color: lighten(@myPink, 20%);
       .inset-box-shadow(inset 5px 5px 15px white, inset -5px -5px 15px darken(@myPink,20%));
-      font-size:150%;
+      font-size: 150%;
+    }
+  }
+
+  label, input.ember-text-field{
+    display: inline-block;
+    width: 200px;
+  }
+
+  input.ember-text-field {
+    color: @myPink;
+    background-color: lighten(@myBlue, 30%);
+    .transition(all 0.8s);
+    &:focus {
+      border-color:@myComplementaryPink;
+      border-width: 7px;
+      font-size:140%;
     }
   }
 }
