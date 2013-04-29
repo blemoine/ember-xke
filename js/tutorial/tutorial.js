@@ -5,6 +5,10 @@ $.get('tutorial.html').done(function(content){
         rootElement: '#tutorial'
     });
 
+    Tuto.Router.reopen({
+        location: 'none'
+    });
+
     Tuto.Step = Em.Object.extend({
         title:"",
         detail:"",

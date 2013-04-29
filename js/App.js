@@ -4,7 +4,7 @@ App = Ember.Application.create({
 
 App.Store = DS.Store.extend({
     revision: 12,
-    adapter: 'DS.FixtureAdapter'
+    adapter: 'DS.RESTAdapter'
 });
 
 App.Poney = DS.Model.extend({
@@ -17,29 +17,6 @@ App.Poney = DS.Model.extend({
     }.property('firstName', 'lastName')
 });
 
-App.Poney.FIXTURES = [
-    {
-        id: 1,
-        firstName: 'Rainbow',
-        lastName: 'Dash',
-        color: 'Sky blue',
-        type: 'Pegasus'
-    },
-    {
-        id: 2,
-        firstName: 'Twillight',
-        lastName: 'Sparkle',
-        color: 'Lavender',
-        type: 'Alicorn'
-    },
-    {
-        id: 3,
-        firstName: 'Apple',
-        lastName: 'Jack',
-        color: 'orange',
-        type: 'Earth Pony'
-    }
-];
 
 App.IndexRoute = Ember.Route.extend({
     model: function () {
@@ -49,7 +26,7 @@ App.IndexRoute = Ember.Route.extend({
 
 App.Router.map(function () {
     this.route('detail', {path: 'poney/:poney_id'});
-    this.route('add')
+    this.route('add');
 });
 
 App.AddRoute = Ember.Route.extend({
@@ -61,6 +38,7 @@ App.AddRoute = Ember.Route.extend({
 App.AddController = Ember.ObjectController.extend({
     savePoney: function () {
         App.Poney.createRecord(this.get('content'));
+        this.get('store').commit();
         this.transitionToRoute('index');
     }
 });
