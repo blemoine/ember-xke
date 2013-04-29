@@ -8,10 +8,28 @@ app.configure(function () {
 });
 
 var ponies = {
-    1: {"id":1, "firstName":"Georges","lastName":"Abitbol"},
-    2: {"id":2, "firstName":"Bruce","lastName":"Wayne"},
-    3: {"id":3, "firstName":"Peter","lastName":"Parker"}
-}
+    1: {
+        id: 1,
+        firstName: 'Rainbow',
+        lastName: 'Dash',
+        color: 'Sky blue',
+        type: 'Pegasus'
+    },
+    2: {
+        id: 2,
+        firstName: 'Twillight',
+        lastName: 'Sparkle',
+        color: 'Lavender',
+        type: 'Alicorn'
+    },
+    3: {
+        id: 3,
+        firstName: 'Apple',
+        lastName: 'Jack',
+        color: 'orange',
+        type: 'Earth Pony'
+    }
+};
 
 
 app.use(express.static(__dirname));
