@@ -62,6 +62,51 @@
   -o-transition: @transition;
 }
 
+.animation (@name, @duration: 300ms, @delay: 0, @ease: ease) {
+  -webkit-animation: @name @duration @delay @ease;
+  -moz-animation: @name @duration @delay @ease;
+  -ms-animation: @name @duration @delay @ease;
+}
+
+.mixi-frames () {
+  0% {
+    color: @myPink;
+    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  17% {
+    color: @myBlue;
+    text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  50% {
+    color: darken(lime, 10%);
+    text-shadow: 1px -1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  83% {
+    color: darken(@myBlue, 20%);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  100% {
+    color: @myPink;
+    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
+}
+
+@-webkit-keyframes letterColor {
+
+  .mixi-frames
+
+  }
+
+@-moz-keyframes letterColor {
+
+  .mixi-frames
+
+  }
+
 @tutoWidth: 50%;
 
 #ember-app {
@@ -87,6 +132,18 @@
     .border-radius(0 0 200px 200px );
     .drop-shadow();
     .gradient(@myComplementaryPink,@myComplementaryPinkDark);
+
+    a {
+      text-decoration: none;
+      &:hover {
+        font-size: 100%;
+        color: darken(@myBlue, 20%);
+        text-shadow: -1px 1px 1px rgba(0, 0, 0, 0.8);
+        .animation(letterColor, 1s infinite);
+      }
+
+    }
+
   }
   ul {
     margin-top: 30px;
@@ -134,7 +191,7 @@
     }
   }
 
-  label, input.ember-text-field{
+  label, input.ember-text-field {
     display: inline-block;
     width: 200px;
   }
@@ -144,9 +201,9 @@
     background-color: lighten(@myBlue, 30%);
     .transition(all 0.8s);
     &:focus {
-      border-color:@myComplementaryPink;
+      border-color: @myComplementaryPink;
       border-width: 7px;
-      font-size:140%;
+      font-size: 140%;
     }
   }
 }
@@ -163,7 +220,7 @@
   position: absolute;
   top: 0;
   overflow: auto;
-  height:100%;
+  height: 100%;
   width: @tutoWidth;
 
   #header {
@@ -216,7 +273,7 @@
         font-weight: bold;
         padding-left: 10px;
         cursor: pointer;
-        &:hover{
+        &:hover {
           color: #5f5f5f;
         }
       }
@@ -264,6 +321,6 @@ html, body {
   }
 }
 
-.code{
+.code {
   font-size: 11px;
 }

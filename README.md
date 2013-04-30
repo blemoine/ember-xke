@@ -26,7 +26,7 @@ EMBER XKE
 * Créer le template (liste) (en plus du template application, avec l'outlet)
 * Créer une propriété calculée
 * Créer une route consultation (Controller / template )
-
+* Créer un lien vers la racine depuis le titre de l'application
 
 * Controller ??
 * Créer une route add (Controller / template / composant de form / méthode d'ajout dans la fixture)
