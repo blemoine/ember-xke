@@ -36,24 +36,24 @@ app.use(express.static(__dirname));
 
 
 // list of poney
-app.get('/poneys', function(req, res) {
+app.get('/ponys', function(req, res) {
     var ponyInArray = [];
     for (var userId in poneys){
         ponyInArray.push(poneys[userId])
     }
 
-    res.send({'poneys': ponyInArray});
+    res.send({'ponys': ponyInArray});
 });
 
 
 // get poney by id
-app.get('/poneys/:id', function(req, res) {
-    res.send({'poney':poneys[req.params.id]});
+app.get('/ponys/:id', function(req, res) {
+    res.send({'pony':poneys[req.params.id]});
 });
 
 
 // new pony
-app.post('/poneys', function(req, res) {
+app.post('/ponys', function(req, res) {
     if (!!req.body.poney.id && poneys[req.body.poney.id] == null){
         poneys[req.body.poney.id] = req.body.poney;
         res.send("ok");
@@ -63,7 +63,7 @@ app.post('/poneys', function(req, res) {
 
 
 // update poney
-app.put('/poneys/:id', function(req, res) {
+app.put('/ponys/:id', function(req, res) {
     if (!!req.body.id && poneys[req.body.id] != null){
         poneys[req.body.id] = req.body;
         res.send("ok");
@@ -71,7 +71,7 @@ app.put('/poneys/:id', function(req, res) {
     res.send("ko");
 });
 
-app.delete('/poneys/:id', function(req, res) {
+app.delete('/ponys/:id', function(req, res) {
     if (!!req.params.id && poneys[req.params.id] != null){
         delete poneys[req.params.id];
         res.send("ok");

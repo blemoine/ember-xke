@@ -106,6 +106,14 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
+            title: "Créer un datastore",
+            detailTemplateName: "tutorial-step-ds",
+            solutionTemplateName: "tutorial-solution-ds",
+            test: function () {
+                //TODO A implémenter
+            }
+        }),
+        Tuto.Step.create({
             title: "Créer une classe Pony",
             detailTemplateName: "tutorial-step-model",
             solutionTemplateName: "tutorial-solution-model",
