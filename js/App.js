@@ -43,4 +43,8 @@ App.AddController = Ember.ObjectController.extend({
     }
 });
 
+Ember.Handlebars.registerBoundHelper('upperCase', function (text) {
+    return text.toUpperCase();
+});
+
 
