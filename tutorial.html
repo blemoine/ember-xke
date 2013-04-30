@@ -11,16 +11,16 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step">
-    <div class="step-title">
+    <div class="step-title" {{action toggleDetail target="view"}}>
         {{unbound step.title}}
         <span class="vline a"></span>
         <span class="picto"></span>
         <span class="vline b"></span>
     </div>
-    <div {{bindAttr class=":step-detail :well step.isActive::hidden"}}>
+    <div {{bindAttr class=":step-detail :well view.detailIsShown::hidden"}}>
 
         <h4>Explications</h4>
-        {{view view.detailView}}
+        {{view view.explanationView}}
 
         <h4>Que manque t'il ?</h4>
         <div class="well">
@@ -28,7 +28,7 @@
         </div>
         <button class="btn btn-success" type="button" {{action toggleSolution target="view"}}>Solution<span class="caret"></span></button>
 
-        <div {{bindAttr class="view.solutionIsDisplay::hidden"}}>
+        <div {{bindAttr class="view.solutionIsShown::hidden"}}>
             {{view view.solutionView}}
         </div>
     </div>

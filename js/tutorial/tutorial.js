@@ -103,20 +103,27 @@ $.get('tutorial.html').done(function (content) {
         templateName: "tutorial-step",
         classNames:"step",
         classNameBindings:['step.isActive'],
-        solutionIsDisplay:false,
+        solutionIsShown:false,
         toggleSolution:function(){
-            this.toggleProperty("solutionIsDisplay");
+            this.toggleProperty("solutionIsShown");
             Em.run.next(function(){
                 SyntaxHighlighter.defaults['gutter'] = false;
                 SyntaxHighlighter.all();
             });
         },
-        detailView: function (){
+        explanationView: function (){
             return Em.View.extend({
                 classNames:"well",
                 templateName: this.step.detailTemplateName
             });
         }.property('step'),
+        detailIsShownToggler:false,
+        toggleDetail:function(){
+            this.toggleProperty("detailIsShownToggler");
+        },
+        detailIsShown:function(){
+            return this.get('step.isActive') || this.detailIsShownToggler;
+        }.property("step.isActive", "detailIsShownToggler"),
         solutionView: function (){
             return Em.View.extend({
                 tagName:"pre",
