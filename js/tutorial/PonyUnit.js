@@ -44,12 +44,12 @@ var PonyUnit = (function () {
         }
     }
 
+    window.fail = function (msg) {
+        ok (false, msg)
+    }
+
     window.equal = function (a , b, msg) {
-        countAssert++;
-        var testPassed = ok (a === b);
-        if (!testPassed) {
-            throw new Failed(msg)
-        }
+        ok (a === b, msg);
     }
 
     return {

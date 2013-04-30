@@ -2,14 +2,9 @@ App = Ember.Application.create({
     rootElement: '#ember-app'
 });
 
-App.Store = DS.Store.extend({
-    revision: 12,
-    adapter: 'DS.RESTAdapter'
-});
-
-App.Poney = DS.Model.extend({
-    lastName: DS.attr('string'),
+App.Pony = DS.Model.extend({
     firstName: DS.attr('string'),
+    lastName: DS.attr('string'),
     color: DS.attr('string'),
     type: DS.attr('string'),
     name: function () {
@@ -18,14 +13,19 @@ App.Poney = DS.Model.extend({
 });
 
 
+App.Store = DS.Store.extend({
+    revision: 12,
+    adapter: 'DS.RESTAdapter'
+});
+
 App.IndexRoute = Ember.Route.extend({
     model: function () {
-        return App.Poney.find();
+        return App.Pony.find();
     }
 });
 
 App.Router.map(function () {
-    this.route('detail', {path: 'poney/:poney_id'});
+    this.route('detail', {path: 'pony/:pony_id'});
     this.route('add');
 });
 
@@ -36,8 +36,8 @@ App.AddRoute = Ember.Route.extend({
 });
 
 App.AddController = Ember.ObjectController.extend({
-    savePoney: function () {
-        App.Poney.createRecord(this.get('content'));
+    savePony: function () {
+        App.Pony.createRecord(this.get('content'));
         this.get('store').commit();
         this.transitionToRoute('index');
     }
@@ -46,5 +46,3 @@ App.AddController = Ember.ObjectController.extend({
 Ember.Handlebars.registerBoundHelper('upperCase', function (text) {
     return text.toUpperCase();
 });
-
-

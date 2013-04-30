@@ -13,6 +13,16 @@ $.get('tutorial.html').done(function (content) {
         templateName: "tutorial-app",
         didInsertElement:function(){
             SyntaxHighlighter.highlight();
+            $.each(Tuto.STEPS, function(idx, step){
+                exec(step.test, function(result){
+                    step.setProperties({
+                        executed: true,
+                        passed: !result.failed,
+                        errors: result.errors
+                    });
+                });
+                return step.passed;
+            });
         }
     });
 
@@ -77,12 +87,12 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Dites hello Poney",
+            title: "Dites hello Pony",
             detailTemplateName: "tutorial-step-hello",
             solutionTemplateName:"tutorial-solution-hello",
 
             test: function () {
-                ok($('#ember-app').children().length == 1,
+                ok($('#ember-app').children().length >= 1,
                     "La div racine de l'application est vide");
 
                 ok($('#ember-app :first-child').hasClass('ember-view'),
@@ -91,20 +101,38 @@ $.get('tutorial.html').done(function (content) {
                 ok($('#ember-app :first-child h1').length == 1,
                     "Il n'y pas de balise h1 dans la view ember");
 
-                ok($('#ember-app :first-child h1').text() == "My Li'l Poney Application",
-                    "la balide h1 ne contient pas le text 'My Li'l Poney Application'");
+                ok($('#ember-app :first-child h1').text() == "My Li'l Pony Application",
+                    "la balide h1 ne contient pas le text 'My Li'l Pony Application'");
             }
         }),
         Tuto.Step.create({
-            title: "Créer une classe Poney",
+            title: "Créer une classe Pony",
             detailTemplateName: "tutorial-step-model",
             solutionTemplateName: "tutorial-solution-model",
             test: function () {
-                ok(typeof App.Poney != "undefined",
-                    "Il n'y a pas d'élement Poney dans App");
+                ok(typeof App.Pony != "undefined",
+                    "Il n'y a pas d'élement Pony dans App");
 
-                ok(Em.typeOf(App.Poney) == "class",
-                    "App.Poney n'est pas une classe ember");
+                ok(Em.typeOf(App.Pony) == "class",
+                    "App.Pony n'est pas une classe ember");
+
+                var assertPonyPropertyExistenceAndType = function (propertyName, propertyType){
+                    try{
+                        equal(App.Pony.metaForProperty(propertyName).type, propertyType,
+                            "la proprité " +proriété+ " App.pony n'est pas de type "+ propertyType);
+                    } catch (e){
+                        if (e instanceof ReferenceError){
+                            //fail("App.Pony ne contient pas de propriété "+propertyName);
+                        } else{
+                            throw  e;
+                        }
+                    }
+                }
+
+                assertPonyPropertyExistenceAndType("firstName", 'string');
+                assertPonyPropertyExistenceAndType("lastName", 'string');
+                assertPonyPropertyExistenceAndType("color", 'string');
+                assertPonyPropertyExistenceAndType("type", 'string');
             }
         }),
         Tuto.Step.create({
@@ -120,17 +148,6 @@ $.get('tutorial.html').done(function (content) {
             title: "Créer une route consultation"
         })
     ];
-
-    $.each(Tuto.STEPS, function(idx, step){
-        exec(step.test, function(result){
-            step.setProperties({
-                executed: true,
-                passed: !result.failed,
-                errors: result.errors
-            });
-        });
-        return step.passed;
-    });
 
     Tuto.StepView = Em.View.extend({
         templateName: "tutorial-step",
