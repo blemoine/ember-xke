@@ -10,7 +10,10 @@ $.get('tutorial.html').done(function (content) {
     });
 
     Tuto.ApplicationView = Ember.View.extend({
-        templateName: "tutorial-app"
+        templateName: "tutorial-app",
+        didInsertElement:function(){
+            SyntaxHighlighter.highlight();
+        }
     });
 
     Tuto.Step = Em.Object.extend({
@@ -24,6 +27,36 @@ $.get('tutorial.html').done(function (content) {
         isActive:function(){
             return !this.passed && this.executed;
         }.property("passed", "executed")
+    });
+
+    Tuto.StepView = Em.View.extend({
+        templateName: "tutorial-step",
+        classNames:"step",
+        classNameBindings:['step.isActive'],
+        solutionIsShown:false,
+        toggleSolution:function(){
+            this.toggleProperty("solutionIsShown");
+        },
+        explanationView: function (){
+            return Em.View.extend({
+                classNames:"well",
+                templateName: this.step.detailTemplateName
+            });
+        }.property('step'),
+        detailIsShownToggler:false,
+        toggleDetail:function(){
+            this.toggleProperty("detailIsShownToggler");
+        },
+        detailIsShown:function(){
+            return this.get('step.isActive') || this.detailIsShownToggler;
+        }.property("step.isActive", "detailIsShownToggler"),
+        solutionView: function (){
+            return Em.View.extend({
+                tagName:"pre",
+                classNames:["code","brush: js;"],
+                templateName: this.step.solutionTemplateName
+            });
+        }.property('step')
     });
 
     Tuto.STEPS = [
@@ -98,38 +131,7 @@ $.get('tutorial.html').done(function (content) {
         });
         return step.passed;
     });
-
-    Tuto.StepView = Em.View.extend({
-        templateName: "tutorial-step",
-        classNames:"step",
-        classNameBindings:['step.isActive'],
-        solutionIsShown:false,
-        toggleSolution:function(){
-            this.toggleProperty("solutionIsShown");
-            Em.run.next(function(){
-                SyntaxHighlighter.defaults['gutter'] = false;
-                SyntaxHighlighter.all();
-            });
-        },
-        explanationView: function (){
-            return Em.View.extend({
-                classNames:"well",
-                templateName: this.step.detailTemplateName
-            });
-        }.property('step'),
-        detailIsShownToggler:false,
-        toggleDetail:function(){
-            this.toggleProperty("detailIsShownToggler");
-        },
-        detailIsShown:function(){
-            return this.get('step.isActive') || this.detailIsShownToggler;
-        }.property("step.isActive", "detailIsShownToggler"),
-        solutionView: function (){
-            return Em.View.extend({
-                tagName:"pre",
-                classNames:["code","brush: js"],
-                templateName: this.step.solutionTemplateName
-            });
-        }.property('step')
-    });
 });
+
+SyntaxHighlighter.defaults['gutter'] = false;
+
