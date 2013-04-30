@@ -17,15 +17,20 @@
         <span class="picto"></span>
         <span class="vline b"></span>
     </div>
-    <div {{bindAttr class=":step-detail step.isActive::hidden"}}>
+    <div {{bindAttr class=":step-detail :well step.isActive::hidden"}}>
 
+        <h4>Explications</h4>
         {{view view.detailView}}
 
-        <div>
+        <h4>Que manque t'il ?</h4>
+        <div class="well">
             {{unbound step.errors}}
         </div>
+        <button class="btn btn-success" type="button" {{action toggleSolution target="view"}}>Solution<span class="caret"></span></button>
 
-        {{view view.solutionView}}
+        <div {{bindAttr class="view.solutionIsDisplay::hidden"}}>
+            {{view view.solutionView}}
+        </div>
     </div>
 
 </script>
@@ -35,21 +40,53 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-empty">
-    Ni de solution
+    Pas de solution
 </script>
 
 
 
-
 <script type="text/x-handlebars" data-template-name="tutorial-step-app">
+    Il était une fois un petit Poney-Licorne nommé Raimond qui cherchait désespérément à construire une application
+    ember, malheuresement il ne trouvait personne pour l'aider.
+
+
     Aller dans le fichier App.js, et créer un objet 'App' de type Ember.Application et préciser que son
     élement principale est un
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-solution-app">
+    App = Ember.Application.create({
+        rootElement: '#ember-app'
+    });
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-hello">
     Votre application Ember est créé, mais vous n'avez définie aucune interface
 </script>
 
+<script type="text/x-handlebars" data-template-name="tutorial-solution-hello">
+    &#8249;script type="text/x-handlebars" data-template-name="application">
+        <h1>My Li'l Poney Application</h1>
+    &#8249;/script>
+</script>
+
 <script type="text/x-handlebars" data-template-name="tutorial-step-ds">
     Créer une classe à l'aide de DS.Model.
+</script>
+
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-model">
+    Créer une classe à l'aide de DS.Model.
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-solution-model">
+    App.Poney = DS.Model.extend({
+        lastName: DS.attr('string'),
+        firstName: DS.attr('string'),
+        color: DS.attr('string'),
+        type: DS.attr('string'),
+        name: function () {
+            return this.get('firstName') + ' ' + this.get('lastName');
+        }.property('firstName', 'lastName')
+    });
 </script>

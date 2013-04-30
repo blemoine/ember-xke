@@ -1,4 +1,3 @@
-
 $.get('tutorial.html').done(function (content) {
     $('body').append(content);
 
@@ -6,21 +5,19 @@ $.get('tutorial.html').done(function (content) {
         rootElement: '#tutorial'
     });
 
-
     Tuto.Router.reopen({
         location: 'none'
     });
 
     Tuto.ApplicationView = Ember.View.extend({
-        templateName: "tutorial-app",
-        classNames: ["fill"]
+        templateName: "tutorial-app"
     });
 
     Tuto.Step = Em.Object.extend({
         title: "",
         detailTemplateName: "tutorial-step-empty",
         solutionTemplateName: "tutorial-solution-empty",
-        test:function(){},
+        test:function(){ok(false, "Test not implemented")},
         passed:false,
         executed:false,
         errors:[],
@@ -33,20 +30,26 @@ $.get('tutorial.html').done(function (content) {
         Tuto.Step.create({
             title: "Création de l'application",
             detailTemplateName: "tutorial-step-app",
+            solutionTemplateName:"tutorial-solution-app",
 
             test: function () {
                 ok(typeof App != "undefined",
                     "Il n'y a pas d'Objet App dans window");
+
                 ok(Em.typeOf(App) == "instance",
                     "Cet objet App doit être un objet Ember");
+
                 ok($('#ember-app').hasClass("ember-application"),
                     "La div avec l'id #ember-app n'a pas la class 'ember-application, ce n'est donc pas encore un élément racine ember");
             }
         }),
         Tuto.Step.create({
             title: "Dites hello Poney",
+            detailTemplateName: "tutorial-step-hello",
+            solutionTemplateName:"tutorial-solution-hello",
+
             test: function () {
-                ok($('#ember-app :first-child').hasClass('ember-view'),
+                ok($('#ember-app').children().length == 1,
                     "La div racine de l'application est vide");
 
                 ok($('#ember-app :first-child').hasClass('ember-view'),
@@ -60,8 +63,16 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer une classe modele",
-            detailTemplateName: "tutorial-step-ds"
+            title: "Créer une classe Poney",
+            detailTemplateName: "tutorial-step-model",
+            solutionTemplateName: "tutorial-solution-model",
+            test: function () {
+                ok(typeof App.Poney != "undefined",
+                    "Il n'y a pas d'élement Poney dans App");
+
+                ok(Em.typeOf(App.Poney) == "class",
+                    "App.Poney n'est pas une classe ember");
+            }
         }),
         Tuto.Step.create({
             title: "Créer une fixture Ember-Data"
@@ -92,11 +103,26 @@ $.get('tutorial.html').done(function (content) {
         templateName: "tutorial-step",
         classNames:"step",
         classNameBindings:['step.isActive'],
+        solutionIsDisplay:false,
+        toggleSolution:function(){
+            this.toggleProperty("solutionIsDisplay");
+            Em.run.next(function(){
+                SyntaxHighlighter.defaults['gutter'] = false;
+                SyntaxHighlighter.all();
+            });
+        },
         detailView: function (){
-            return Em.View.extend({ templateName: this.step.detailTemplateName });
+            return Em.View.extend({
+                classNames:"well",
+                templateName: this.step.detailTemplateName
+            });
         }.property('step'),
         solutionView: function (){
-            return Em.View.extend({ templateName: this.step.solutionTemplateName });
+            return Em.View.extend({
+                tagName:"pre",
+                classNames:["code","brush: js"],
+                templateName: this.step.solutionTemplateName
+            });
         }.property('step')
     });
 });
