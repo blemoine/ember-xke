@@ -162,7 +162,8 @@
   display: inline-block;
   position: absolute;
   top: 0;
-  bottom: 0px;
+  overflow: auto;
+  height:100%;
   width: @tutoWidth;
 
   #header {
@@ -185,9 +186,9 @@
   }
 
   .steps {
-    overflow: auto;
+
     position: relative;
-    overflow-x: hidden;
+
     bottom: 0px;
 
     .step {
