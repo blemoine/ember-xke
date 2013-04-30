@@ -17,7 +17,7 @@
         <span class="picto"></span>
         <span class="vline b"></span>
     </div>
-    <div {{bindAttr class=":step-detail :well view.detailIsShown::hidden"}}>
+    <div {{bindAttr class=":step-detail :well view.detailIsShown:solShown:solHidden"}}>
 
         <h4>Explications</h4>
         {{view view.explanationView}}
@@ -28,7 +28,7 @@
         </div>
         <button class="btn btn-success" type="button" {{action toggleSolution target="view"}}>Solution<span class="caret"></span></button>
 
-        <div {{bindAttr class="view.solutionIsShown::hidden"}}>
+        <div {{bindAttr class=":solution view.solutionIsShown:solShown:solHidden"}}>
             {{view view.solutionView}}
         </div>
     </div>
@@ -46,7 +46,7 @@
 
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-app">
-    Il était une fois un petit Poney-Licorne nommé Raimond qui cherchait désespérément à construire une application
+    Il était une fois un petit Poney-Licorne nommé Raymond qui cherchait désespérément à construire une application
     ember, malheuresement il ne trouvait personne pour l'aider.
 
 
