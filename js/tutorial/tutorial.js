@@ -144,7 +144,12 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer une fixture Ember-Data"
+            title: "Créer une fixture Ember-Data",
+            detailTemplateName: "tutorial-step-fixture",
+            solutionTemplateName: "tutorial-solution-fixture",
+            test: function () {
+                //TODO A implémenter
+            }
         }),
         Tuto.Step.create({
             title: "Créer le template (liste)"
