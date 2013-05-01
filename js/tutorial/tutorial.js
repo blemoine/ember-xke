@@ -176,7 +176,12 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer un lien vers la home"
+            title: "Créer un lien vers la home",
+            detailTemplateName: "tutorial-step-home",
+            solutionTemplateName: "tutorial-solution-home",
+            test: function () {
+                //TODO A implémenter
+            }
         }),
         Tuto.Step.create({
             title: "Créer une page d'ajout"

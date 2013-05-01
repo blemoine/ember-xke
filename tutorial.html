@@ -259,6 +259,7 @@ App.Pony = DS.Model.extend({
 
     <p>Enfin, utilisez le helper <a href="http://emberjs.com/guides/templates/links/">linkTo</a> pour créer un lien vers le détail. </p>
 </script>
+
 <script type="text/x-handlebars" data-template-name="tutorial-solution-consultation">
 App.Router.map(function () {
   this.route('detail', {path: 'pony/:pony_id'});
@@ -268,5 +269,24 @@ App.Router.map(function () {
     <span>Name: \{{content.name}}</span><br/>
     <span>Color: \{{content.color}}</span><br/>
     <span>Type: \{{content.type}}</span><br/>
+&#8249;/script>
+
+&#8249;script type="text/x-handlebars" data-template-name="index">
+<ul>
+    \{{#each poney in content}}
+    <li>\{{#linkTo detail poney}}\{{poney.name}}\{{/linkTo}}</li>
+    \{{/each}}
+</ul>
+&#8249;/script>
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-home">
+    <p>Créez maintenant un lien sur le titre de l'application pour retourner à la home page. Par convention, la home page se nomme index.</p>
+</script>
+<script type="text/x-handlebars" data-template-name="tutorial-solution-home">
+&#8249;script type="text/x-handlebars" data-template-name="application">
+    <h1>\{{#linkTo index}}My Li'l Pony Application\{{/linkTo}}</h1>
+    \{{outlet}}
 &#8249;/script>
 </script>
