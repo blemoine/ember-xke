@@ -159,7 +159,10 @@ $.get('tutorial.html').done(function (content) {
                     "La méthode 'model' de App.IndexRoute ne renvoie rien ou n'est pas définie.");
                 ok (App.IndexRoute.prototype.model().get('content'),
                     "La méthode 'model' de App.IndexRoute ne renvoie pas la liste bouchonée des poneys.");
-                ok (false, "TODO à implémenter");
+
+
+                ok(Em.TEMPLATES['index'] != undefined, "Le template 'index' n'est pas déclaré.");
+                // TODO Tester si il y a bien des ul li dans le dom : Problème d'asynchronisme
             }
         }),
         Tuto.Step.create({
