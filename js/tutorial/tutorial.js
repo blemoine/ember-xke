@@ -169,6 +169,18 @@ $.get('tutorial.html').done(function (content) {
         }),
         Tuto.Step.create({
             title: "Créer une route consultation"
+        }),
+        Tuto.Step.create({
+            title: "Créer un lien vers la home"
+        }),
+        Tuto.Step.create({
+            title: "Créer une page d'ajout"
+        }),
+        Tuto.Step.create({
+            title: "Utiliser l'API Rest"
+        }),
+        Tuto.Step.create({
+            title: "Utiliser un Helper"
         })
     ];
 
