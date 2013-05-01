@@ -1,5 +1,13 @@
 Ember.ENV.TESTING = true;
 window.location.hash = "#/"
+SyntaxHighlighter.defaults['gutter'] = false;
+
+var registerHelper = Ember.Handlebars.registerBoundHelper;
+var helpers = {};
+Ember.Handlebars.registerBoundHelper= function (name, fn){
+    helpers[name] = fn;
+    registerHelper(name, fn);
+}
 
 $.get('tutorial.html').done(function (content) {
     $('body').append(content);
@@ -230,6 +238,8 @@ $.get('tutorial.html').done(function (content) {
             test: function () {
                 var appRouter = App.__container__.lookup('router:main');
 
+                // TODO : checker contenu de index un lien pour add -> async problem
+
                 ok (appRouter.hasRoute('add'), "Il n'y pas de route 'add' déclarée dans le router.");
                 ok(Em.TEMPLATES['add'] != undefined, "Le template 'add' n'est pas déclaré.");
                 // TODO : checker contenu de add -> async problem
@@ -241,8 +251,33 @@ $.get('tutorial.html').done(function (content) {
                 ok (App.AddRoute.prototype.model().id > 0,
                     "La méthode 'model' de App.AddRoute ne renvois pas d'objet avec un id");
 
+                ok (Em.typeOf(App.AddController) == "class",
+                    "App.AddController n'est pas définie ou n'est pas une classe Ember");
 
-                ok (false, "TODO à implémenter");
+                ok (Em.typeOf(App.AddController.create().savePony) == "function",
+                    "La fonction 'savePony' de App.AddController n'est pas définie ou n'est pas une fonction");
+
+
+                // TODO : checker contenu de add pour action -> async problem
+                // wtf : l'ajout du template pour le bouton ajouter est intérprété dans le tutorial.html O_o
+
+                var createRecord = App.Pony.createRecord, createRecordCall = 0;
+                var addController = App.AddController.create();
+                var transitionToRoute = App.AddController.create().transitionToRoute, transitionToRouteCall = 0, goodRoute = false;
+
+                App.Pony.createRecord = function(){ createRecordCall++ };
+                addController.transitionToRoute = function(route){
+                    transitionToRouteCall++;
+                    goodRoute = route == "index";
+                };
+
+                addController.savePony();
+
+                ok (createRecordCall == 1, "App.Pony.createRecord doit être appelé au moins une fois dans savePony");
+                ok (transitionToRouteCall == 1, "transitionToRoute doit être appelé au moins une fois dans savePony");
+                ok (goodRoute, "transitionToRoute doit être appelé avec comme paramètre index pour retourner sur l'index de l'application.");
+
+                App.Pony.createRecord = createRecord;
             }
         }),
         Tuto.Step.create({
@@ -253,7 +288,16 @@ $.get('tutorial.html').done(function (content) {
                 ok (App.Store.prototype.adapter == "DS.RESTAdapter",
                     "L'adaptater actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
                         " alors qu'il devrait être 'DS.RESTAdapter'");
-                //TODO test le commit
+
+                var commitCall = 0;
+                var addController = App.AddController.create({
+                   store:{
+                       commit : function(){
+                           commitCall++;
+                       }
+                   }
+                });
+                ok (commitCall == 1, "commit de l'objet store doit être appelé au moins une fois dans savePony")
             }
         }),
         Tuto.Step.create({
@@ -261,7 +305,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-helper",
             solutionTemplateName: "tutorial-solution-helper",
             test: function () {
+                ok (helpers.upperCase != undefined, "Le helper 'upperCase' n'est pas définie.");
+                ok (helpers.upperCase('salut') === "SALUT", "Le helper 'upperCase' doit retourner la chaine passée en argument en majuscule");
                 ok (false, "TODO à implémenter");
+
+                // TODO : checker contenu template
             }
         })
     ];
@@ -308,6 +356,3 @@ $.get('tutorial.html').done(function (content) {
     });
 
 });
-
-SyntaxHighlighter.defaults['gutter'] = false;
-
