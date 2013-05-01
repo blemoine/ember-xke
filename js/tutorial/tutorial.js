@@ -111,21 +111,21 @@ $.get('tutorial.html').done(function (content) {
             solutionTemplateName: "tutorial-solution-model",
             test: function () {
                 ok(typeof App.Pony != "undefined",
-                    "Il n'y a pas d'élement Pony dans App");
+                    "App.Poney n'est pas définie.");
 
-                ok(Em.typeOf(App.Pony) == "class",
-                    "App.Pony n'est pas une classe ember");
+                ok(Em.typeOf(App.Pony)  == "class",
+                    "App.Pony n'est pas une classe ember.");
 
-                var assertPonyPropertyExistenceAndType = function (propertyName, propertyType) {
+                var assertPonyPropertyExistenceAndType = function (propertyName, expectedType) {
                     try {
-                        equal(App.Pony.metaForProperty(propertyName).type, propertyType,
-                            "la proprité " + proriété + " App.pony n'est pas de type " + propertyType);
+                        var type = App.Pony.metaForProperty(propertyName).type;
+                        equal(type, expectedType,
+                            "La proprité " + propertyName + " de App.pony doit être de type "+expectedType+" et de non type " +type );
                     } catch (e) {
-                        if (e instanceof ReferenceError) {
-                            //fail("App.Pony ne contient pas de propriété "+propertyName);
-                        } else {
-                            throw  e;
+                        if (e instanceof Failed){
+                            throw e;
                         }
+                        fail("App.Pony ne contient pas de propriété "+propertyName + " ou elle n'est pas correctement déclarée.");
                     }
                 }
 
@@ -140,7 +140,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-fixture",
             solutionTemplateName: "tutorial-solution-fixture",
             test: function () {
-                //TODO A implémenter
+                ok(false, "Test not implemented")
             }
         }),
         Tuto.Step.create({
