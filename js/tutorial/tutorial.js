@@ -1,3 +1,5 @@
+Ember.ENV.TESTING = true;
+
 $.get('tutorial.html').done(function (content) {
     $('body').append(content);
 
@@ -96,7 +98,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-ds",
             solutionTemplateName: "tutorial-solution-ds",
             test: function () {
-                //TODO A implémenter
+                ok (Em.typeOf(App.Store) == 'class', "App.Store n'est pas définie.");
+                ok (App.Store.create() instanceof DS.Store, "App.Store n'est pas de type DS.Store");
+                ok (App.Store.prototype.revision == 12,
+                    "La revision actuelle de App.Store est "+App.Store.prototype.revision
+                        +" alors qu'elle devrait être 12");
             }
         }),
         Tuto.Step.create({

@@ -31,7 +31,7 @@ var PonyUnit = (function () {
             if (e instanceof Failed) {
                 assertionFailed.push(e.message);
             } else{
-                throw e;
+                assertionFailed.push("Error :"+ e.message);
             }
         } finally{
             step.setProperties({
