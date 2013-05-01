@@ -12,12 +12,20 @@ var PonyUnit = (function () {
 
     var assertionFailed = [], countAssert;
 
-    window.exec = function (fn, onFinish) {
+    window.execTestsSteps = function (steps) {
+        if (steps.length == 0) return;
+        var step = steps.shift();
+        var test = step.test;
         countAssert = 0;
         var failed = false;
 
         try {
-            fn();
+            var promiseOfTest = test();
+            if (promiseOfTest){
+                promiseOfTest.done(function(){ execTestsSteps(steps); });
+            } else {
+                execTestsSteps(steps);
+            }
         } catch (e) {
             failed = true;
             if (e instanceof Failed) {
@@ -25,14 +33,12 @@ var PonyUnit = (function () {
             } else{
                 throw e;
             }
-        } finally {
-            if (onFinish) {
-                onFinish({
-                    count : countAssert,
-                    errors: assertionFailed,
-                    failed : failed
-                });
-            }
+        } finally{
+            step.setProperties({
+                executed: true,
+                passed: !failed,
+                errors: assertionFailed
+            });
         }
     }
 

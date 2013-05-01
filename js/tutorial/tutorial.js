@@ -12,20 +12,10 @@ $.get('tutorial.html').done(function (content) {
     Tuto.ApplicationView = Ember.View.extend({
         templateName: "tutorial-app",
         didInsertElement: function () {
-            var view = this;
             SyntaxHighlighter.highlight();
 
             $.get("js/App.js").done(function(app){
-                $.each(Tuto.STEPS, function (idx, step) {
-                    exec(step.test, function (result) {
-                        step.setProperties({
-                            executed: true,
-                            passed: !result.failed,
-                            errors: result.errors
-                        });
-                    });
-                    return step.passed;
-                });
+                execTestsSteps(Tuto.STEPS)
                 Em.run.next(function(){
                     $('#tutorial').animate({
                         scrollTop: $(".is-active").offset().top
@@ -69,6 +59,13 @@ $.get('tutorial.html').done(function (content) {
                     "L'élément racine de App est "+App.rootElement+" alors qu'il devrait être la div avec l'id ember-app.");
 
                 App.advanceReadiness();
+                var promise = $.Deferred();
+                App.ApplicationView = Em.View.extend({
+                    didInsertElement:function(){
+                        promise.resolve();
+                    }
+                })
+                return promise;
             }
         }),
         Tuto.Step.create({
