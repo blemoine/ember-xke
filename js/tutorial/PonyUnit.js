@@ -20,7 +20,7 @@ var PonyUnit = (function () {
         var failed = false;
 
         try {
-            if (localStorage.lastRuningTestIdx || localStorage.lastRuningTestIdx <= index){
+            if (localStorage.lastRuningTestIdx == undefined || localStorage.lastRuningTestIdx <= index){
                 var promiseOfTest = test();
                 if (promiseOfTest){
                     promiseOfTest.done(function(){ execTestsSteps(steps, 1+index); });

@@ -1,4 +1,4 @@
-//Ember.ENV.TESTING = true;
+Ember.ENV.TESTING = true;
 window.location.hash = "#/"
 
 $.get('tutorial.html').done(function (content) {
