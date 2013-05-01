@@ -190,7 +190,7 @@
         outlet qui nous servira de placeholder indiquand ou sera inséré la liste des poneys.</p>
     <p>Enfin, il faut créer un nouveau template nommé <strong>index</strong>. Par convention, le modèle renvoyé par la route est chargé dans une propriété nommé <strong>content</strong> dans le controller.
        Ici, la liste des poneys est donc accessible dans le template depuis la propriété content.
-        Afficher la liste des poneys dans le template index à l'aide de balise &lt;ul&gt; et &lt;li&gt;.
+        Afficher la liste des prénoms de poneys dans le template index à l'aide de balise &lt;ul&gt; et &lt;li&gt;.
     </p>
 
     <a href="http://emberjs.com/guides/templates/displaying-a-list-of-items/">Affiche une liste d'éléments dans un template</a>
@@ -212,8 +212,36 @@ App.IndexRoute = Ember.Route.extend({
 &#8249;script type="text/x-handlebars" data-template-name="index">
 <ul>
   \{{#each poney in content}}
-    <li>\{{poney.name}}</li>
+    <li>\{{poney.firstName}}</li>
   \{{/each}}
+</ul>
+&#8249;/script>
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-computed">
+    <p>Plutôt que d'afficher simplement la liste des prénoms, nous allons maintenant afficher la liste des noms complet (prénom et nom) des poneys. Pour cela, nous allons déclarer
+    une propriété calculé <strong>name</strong> dans la classe App.Poney . Les <a href="http://emberjs.com/guides/object-model/computed-properties/">propriétés calculées</a>
+        sont des propriétés accessibles sur les objets Ember, dont la valeur est dépendant d'autres propriétés du même objet.
+    </p>
+    <p>La propriété calculé name doit être la concaténation du prénom et du nom, séparé par un espace. Afficher ensuite cette propriété à la place du prénom dans la liste des poneys.</p>
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-solution-computed">
+App.Pony = DS.Model.extend({
+    firstName: DS.attr('string'),
+    lastName: DS.attr('string'),
+    color: DS.attr('string'),
+    type: DS.attr('string'),
+    name: function () {
+       return this.get('firstName') + ' ' + this.get('lastName');
+    }.property('firstName', 'lastName')
+});
+
+&#8249;script type="text/x-handlebars" data-template-name="index">
+<ul>
+    \{{#each poney in content}}
+    <li>\{{poney.name}}</li>
+    \{{/each}}
 </ul>
 &#8249;/script>
 </script>

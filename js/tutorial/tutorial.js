@@ -160,7 +160,12 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer une propriété calculée"
+            title: "Créer une propriété calculée",
+            detailTemplateName: "tutorial-step-computed",
+            solutionTemplateName: "tutorial-solution-computed",
+            test: function () {
+                //TODO A implémenter
+            }
         }),
         Tuto.Step.create({
             title: "Créer une route consultation"
