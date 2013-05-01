@@ -2,13 +2,6 @@ Ember.ENV.TESTING = true;
 window.location.hash = "#/"
 SyntaxHighlighter.defaults['gutter'] = false;
 
-var registerHelper = Ember.Handlebars.registerBoundHelper;
-var helpers = {};
-Ember.Handlebars.registerBoundHelper= function (name, fn){
-    helpers[name] = fn;
-    registerHelper(name, fn);
-}
-
 $.get('tutorial.html').done(function (content) {
     $('body').append(content);
 
@@ -25,15 +18,65 @@ $.get('tutorial.html').done(function (content) {
         didInsertElement: function () {
             SyntaxHighlighter.highlight();
 
-            $.get("js/App.js").done(function(app){
-                execTestsSteps(Tuto.STEPS, 0);
-                Em.run.next(function(){
+            var view = this;
+            Em.run.next(function(){
+                var stepIsActive = $(".is-active");
+                if (stepIsActive.length > 0){
                     $('#tutorial').animate({
                         scrollTop: $(".is-active").offset().top
                     }, 100);
-                });
+                } else{
+                    view.set('status', " terminé !")
+                }
             });
+
         }
+    });
+    Tuto.ApplicationController = Em.Controller.extend({
+       initialize:function(){
+           execTestsSteps(Tuto.STEPS, 0);
+       }
+    });
+
+    Tuto.StepView = Em.View.extend({
+        templateName: "tutorial-step",
+        classNames: "step",
+        classNameBindings: ['step.isActive'],
+        solutionIsShown: false,
+        toggleSolution: function () {
+            this.toggleProperty("solutionIsShown");
+            Em.run.next(function () {
+                SyntaxHighlighter.defaults['gutter'] = false;
+                SyntaxHighlighter.all();
+            });
+            this.$('.solution').stop().slideToggle(this.solutionIsShown);
+        },
+        explanationView: function () {
+            return Em.View.extend({
+                classNames: "well",
+                templateName: this.step.detailTemplateName
+            });
+        }.property('step'),
+        detailIsShownToggler: false,
+        toggleDetail: function () {
+            this.toggleProperty("detailIsShownToggler");
+            $('.step-detail').not(this.$('.step-detail')).slideUp();
+            this.$('.step-detail').stop().slideToggle(this.detailIsShownToggler);
+
+        },
+        detailIsShown: function () {
+            return this.get('step.isActive') || this.detailIsShownToggler;
+        }.property("step.isActive", "detailIsShownToggler"),
+        errorsIsShown: function(){
+
+        }.property("step.passed", "step.executed"),
+        solutionView: function () {
+            return Em.View.extend({
+                tagName: "pre",
+                classNames: ["code", "brush: js"],
+                templateName: this.step.solutionTemplateName
+            });
+        }.property("step.solutionTemplateName")
     });
 
     Tuto.Step = Em.Object.extend({
@@ -63,20 +106,6 @@ $.get('tutorial.html').done(function (content) {
 
                 ok(Em.typeOf(App) == "instance",
                     "Cet objet App doit être un objet Ember");
-
-                App.deferReadiness();
-
-                ok(App.rootElement == "#ember-app",
-                    "L'élément racine de App est "+App.rootElement+" alors qu'il devrait être la div avec l'id ember-app.");
-
-                App.advanceReadiness();
-                var promise = $.Deferred();
-                App.ApplicationView = Em.View.extend({
-                    didInsertElement:function(){
-                        promise.resolve();
-                    }
-                })
-                return promise;
             }
         }),
         Tuto.Step.create({
@@ -291,13 +320,17 @@ $.get('tutorial.html').done(function (content) {
 
                 var commitCall = 0;
                 var addController = App.AddController.create({
-                   store:{
-                       commit : function(){
-                           commitCall++;
-                       }
-                   }
+                    store:{
+                        commit : function(){
+                            commitCall++;
+                        }
+                    },
+                    transitionToRoute:function(){
+
+                    }
                 });
-                ok (commitCall == 1, "commit de l'objet store doit être appelé au moins une fois dans savePony")
+                addController.savePony();
+                ok (commitCall == 1, "la méthode commit de l'objet store doit être appelé au moins une fois dans savePony")
             }
         }),
         Tuto.Step.create({
@@ -307,52 +340,9 @@ $.get('tutorial.html').done(function (content) {
             test: function () {
                 ok (helpers.upperCase != undefined, "Le helper 'upperCase' n'est pas définie.");
                 ok (helpers.upperCase('salut') === "SALUT", "Le helper 'upperCase' doit retourner la chaine passée en argument en majuscule");
-                ok (false, "TODO à implémenter");
 
                 // TODO : checker contenu template
             }
         })
     ];
-
-    Tuto.StepView = Em.View.extend({
-        templateName: "tutorial-step",
-        classNames: "step",
-        classNameBindings: ['step.isActive'],
-        solutionIsShown: false,
-        toggleSolution: function () {
-            this.toggleProperty("solutionIsShown");
-            Em.run.next(function () {
-                SyntaxHighlighter.defaults['gutter'] = false;
-                SyntaxHighlighter.all();
-            });
-            this.$('.solution').stop().slideToggle(this.solutionIsShown);
-        },
-        explanationView: function () {
-            return Em.View.extend({
-                classNames: "well",
-                templateName: this.step.detailTemplateName
-            });
-        }.property('step'),
-        detailIsShownToggler: false,
-        toggleDetail: function () {
-            this.toggleProperty("detailIsShownToggler");
-            $('.step-detail').not(this.$('.step-detail')).slideUp();
-            this.$('.step-detail').stop().slideToggle(this.detailIsShownToggler);
-
-        },
-        detailIsShown: function () {
-            return this.get('step.isActive') || this.detailIsShownToggler;
-        }.property("step.isActive", "detailIsShownToggler"),
-        errorsIsShown: function(){
-
-        }.property("step.passed", "step.executed"),
-        solutionView: function () {
-            return Em.View.extend({
-                tagName: "pre",
-                classNames: ["code", "brush: js"],
-                templateName: this.step.solutionTemplateName
-            });
-        }.property("step.solutionTemplateName")
-    });
-
 });
