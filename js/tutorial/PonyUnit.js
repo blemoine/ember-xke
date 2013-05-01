@@ -12,7 +12,7 @@ var PonyUnit = (function () {
 
     var assertionFailed = [], countAssert;
 
-    window.execTestsSteps = function (steps) {
+    window.execTestsSteps = function (steps, index) {
         if (steps.length == 0) return;
         var step = steps.shift();
         var test = step.test;
@@ -20,17 +20,23 @@ var PonyUnit = (function () {
         var failed = false;
 
         try {
-            var promiseOfTest = test();
-            if (promiseOfTest){
-                promiseOfTest.done(function(){ execTestsSteps(steps); });
-            } else {
-                execTestsSteps(steps);
+            if (localStorage.lastRuningTestIdx || localStorage.lastRuningTestIdx <= index){
+                var promiseOfTest = test();
+                if (promiseOfTest){
+                    promiseOfTest.done(function(){ execTestsSteps(steps, 1+index); });
+                } else {
+                    execTestsSteps(steps, 1+index);
+                }
+            } else{
+                execTestsSteps(steps, 1+index);
             }
         } catch (e) {
+            localStorage.lastRuningTestIdx = index;
             failed = true;
             if (e instanceof Failed) {
                 assertionFailed.push(e.message);
             } else{
+                debugger;
                 assertionFailed.push("Error :"+ e.message);
             }
         } finally{

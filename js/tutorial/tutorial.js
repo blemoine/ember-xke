@@ -17,7 +17,7 @@ $.get('tutorial.html').done(function (content) {
             SyntaxHighlighter.highlight();
 
             $.get("js/App.js").done(function(app){
-                execTestsSteps(Tuto.STEPS)
+                execTestsSteps(Tuto.STEPS, 0);
                 Em.run.next(function(){
                     $('#tutorial').animate({
                         scrollTop: $(".is-active").offset().top
@@ -170,7 +170,27 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-computed",
             solutionTemplateName: "tutorial-solution-computed",
             test: function () {
-                ok (false, "TODO à implémenter");
+
+                ok (typeof App.Pony.createRecord({}).get('name') != "undefined",
+                    "App.Pony.name n'est pas pas définie");
+
+                ok (typeof App.Pony.createRecord({}).name != "function",
+                    "App.Pony.name n'est pas une proriété calculée mais une fonction, " +
+                        "on aurait pas oublié '.property(...)' par hazard ?");
+
+                var pony = App.Pony.createRecord({
+                    firstName :'AA',
+                    lastName: 'BB'
+                });
+                ok (pony.get("name") == "AA BB", "Si firstName = 'AA' et lastName = 'BB' name devrait valoir 'AA BB' " +
+                    "et non pas "+ pony.get("name"));
+
+                pony.set('firstName', 'CC');
+                ok (pony.get("name") == "CC BB", "La propriété calculée name ne dépend pas de firstName");
+
+                pony.set('lastName', 'DD');
+                ok (pony.get("name") == "CC DD", "La propriété calculée name ne dépend pas de lastName");
+                pony.deleteRecord();
             }
         }),
         Tuto.Step.create({
