@@ -228,6 +228,20 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-add",
             solutionTemplateName: "tutorial-solution-add",
             test: function () {
+                var appRouter = App.__container__.lookup('router:main');
+
+                ok (appRouter.hasRoute('add'), "Il n'y pas de route 'add' déclarée dans le router.");
+                ok(Em.TEMPLATES['add'] != undefined, "Le template 'add' n'est pas déclaré.");
+                // TODO : checker contenu de add -> async problem
+
+                ok (Em.typeOf(App.AddRoute) == 'class', "App.AddRoute n'est pas définie ou n'est pas une classe Ember.");
+                ok (App.AddRoute.create() instanceof Em.Route, "App.AddRoute n'est pas de type Ember.Route");
+                ok (App.AddRoute.prototype.model(),
+                    "La méthode 'model' de App.AddRoute ne renvoie rien ou n'est pas définie.");
+                ok (App.AddRoute.prototype.model().id > 0,
+                    "La méthode 'model' de App.AddRoute ne renvois pas d'objet avec un id");
+
+
                 ok (false, "TODO à implémenter");
             }
         }),
