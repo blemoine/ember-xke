@@ -153,6 +153,12 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-list",
             solutionTemplateName: "tutorial-solution-list",
             test: function () {
+                ok (Em.typeOf(App.IndexRoute) == 'class', "App.IndexRoute n'est pas définie ou n'est pas une classe Ember.");
+                ok (App.IndexRoute.create() instanceof Em.Route, "App.IndexRoute n'est pas de type Ember.Route");
+                ok (App.IndexRoute.prototype.model(),
+                    "La méthode 'model' de App.IndexRoute ne renvoie rien ou n'est pas définie.");
+                ok (App.IndexRoute.prototype.model().get('content'),
+                    "La méthode 'model' de App.IndexRoute ne renvoie pas la liste bouchonée des poneys.");
                 ok (false, "TODO à implémenter");
             }
         }),
