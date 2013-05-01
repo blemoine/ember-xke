@@ -168,7 +168,12 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer une route consultation"
+            title: "Créer une route consultation",
+            detailTemplateName: "tutorial-step-consultation",
+            solutionTemplateName: "tutorial-solution-consultation",
+            test: function () {
+                //TODO A implémenter
+            }
         }),
         Tuto.Step.create({
             title: "Créer un lien vers la home"

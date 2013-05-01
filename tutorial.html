@@ -245,3 +245,28 @@ App.Pony = DS.Model.extend({
 </ul>
 &#8249;/script>
 </script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-consultation">
+    <p>Nous allons maintenant créer une page de consultation pour chaque poney. Pour cela, nous allons devoir créer une route, un template correspondant à la page de consultation
+        et un lien pour atteindre cette page.</p>
+
+    <p> Tout d'abord, nous allons créer une route nommée <strong>detail</strong>, ayant pour path <strong>/pony/:pony_id</strong>. </p>
+    <a href="http://emberjs.com/guides/routing/defining-your-routes/">Déclaration d'une route</a>
+    <p>Par convention, Ember cherche un template correspondant au nom de la route pour l'insérer dans l'outlet application. Par ailleurs, toujours par convention,
+        Ember appelle la méthode App.Pony.find(pony_id) si le paramètre de path se nomme pony_id. Nous n'avons donc ici pas besoin de définir de route pour charger le modèle.</p>
+
+    <p>Définissez ensuite un template nommé <strong>detail</strong>, dans lequel vous afficherez le nom complet, le type et la couleur du poney choisi.</p>
+
+    <p>Enfin, utilisez le helper <a href="http://emberjs.com/guides/templates/links/">linkTo</a> pour créer un lien vers le détail. </p>
+</script>
+<script type="text/x-handlebars" data-template-name="tutorial-solution-consultation">
+App.Router.map(function () {
+  this.route('detail', {path: 'pony/:pony_id'});
+});
+
+&#8249;script type="text/x-handlebars" data-template-name="index">
+    <span>Name: \{{content.name}}</span><br/>
+    <span>Color: \{{content.color}}</span><br/>
+    <span>Type: \{{content.type}}</span><br/>
+&#8249;/script>
+</script>
