@@ -11,10 +11,10 @@ $.get('tutorial.html').done(function (content) {
 
     Tuto.ApplicationView = Ember.View.extend({
         templateName: "tutorial-app",
-        didInsertElement:function(){
+        didInsertElement: function () {
             SyntaxHighlighter.highlight();
-            $.each(Tuto.STEPS, function(idx, step){
-                exec(step.test, function(result){
+            $.each(Tuto.STEPS, function (idx, step) {
+                exec(step.test, function (result) {
                     step.setProperties({
                         executed: true,
                         passed: !result.failed,
@@ -30,40 +30,42 @@ $.get('tutorial.html').done(function (content) {
         title: "",
         detailTemplateName: "tutorial-step-empty",
         solutionTemplateName: "tutorial-solution-empty",
-        test:function(){ok(false, "Test not implemented")},
-        passed:false,
-        executed:false,
-        errors:[],
-        isActive:function(){
+        test: function () {
+            ok(false, "Test not implemented")
+        },
+        passed: false,
+        executed: false,
+        errors: [],
+        isActive: function () {
             return !this.passed && this.executed;
         }.property("passed", "executed")
     });
 
     Tuto.StepView = Em.View.extend({
         templateName: "tutorial-step",
-        classNames:"step",
-        classNameBindings:['step.isActive'],
-        solutionIsShown:false,
-        toggleSolution:function(){
+        classNames: "step",
+        classNameBindings: ['step.isActive'],
+        solutionIsShown: false,
+        toggleSolution: function () {
             this.toggleProperty("solutionIsShown");
         },
-        explanationView: function (){
+        explanationView: function () {
             return Em.View.extend({
-                classNames:"well",
+                classNames: "well",
                 templateName: this.step.detailTemplateName
             });
         }.property('step'),
-        detailIsShownToggler:false,
-        toggleDetail:function(){
+        detailIsShownToggler: false,
+        toggleDetail: function () {
             this.toggleProperty("detailIsShownToggler");
         },
-        detailIsShown:function(){
+        detailIsShown: function () {
             return this.get('step.isActive') || this.detailIsShownToggler;
         }.property("step.isActive", "detailIsShownToggler"),
-        solutionView: function (){
+        solutionView: function () {
             return Em.View.extend({
-                tagName:"pre",
-                classNames:["code","brush: js;"],
+                tagName: "pre",
+                classNames: ["code", "brush: js;"],
                 templateName: this.step.solutionTemplateName
             });
         }.property('step')
@@ -73,7 +75,7 @@ $.get('tutorial.html').done(function (content) {
         Tuto.Step.create({
             title: "Création de l'application",
             detailTemplateName: "tutorial-step-app",
-            solutionTemplateName:"tutorial-solution-app",
+            solutionTemplateName: "tutorial-solution-app",
 
             test: function () {
                 ok(typeof App != "undefined",
@@ -89,7 +91,7 @@ $.get('tutorial.html').done(function (content) {
         Tuto.Step.create({
             title: "Dites hello Pony",
             detailTemplateName: "tutorial-step-hello",
-            solutionTemplateName:"tutorial-solution-hello",
+            solutionTemplateName: "tutorial-solution-hello",
 
             test: function () {
                 ok($('#ember-app').children().length >= 1,
@@ -124,14 +126,14 @@ $.get('tutorial.html').done(function (content) {
                 ok(Em.typeOf(App.Pony) == "class",
                     "App.Pony n'est pas une classe ember");
 
-                var assertPonyPropertyExistenceAndType = function (propertyName, propertyType){
-                    try{
+                var assertPonyPropertyExistenceAndType = function (propertyName, propertyType) {
+                    try {
                         equal(App.Pony.metaForProperty(propertyName).type, propertyType,
-                            "la proprité " +proriété+ " App.pony n'est pas de type "+ propertyType);
-                    } catch (e){
-                        if (e instanceof ReferenceError){
+                            "la proprité " + proriété + " App.pony n'est pas de type " + propertyType);
+                    } catch (e) {
+                        if (e instanceof ReferenceError) {
                             //fail("App.Pony ne contient pas de propriété "+propertyName);
-                        } else{
+                        } else {
                             throw  e;
                         }
                     }
@@ -211,35 +213,37 @@ $.get('tutorial.html').done(function (content) {
 
     Tuto.StepView = Em.View.extend({
         templateName: "tutorial-step",
-        classNames:"step",
-        classNameBindings:['step.isActive'],
-        solutionIsShown:false,
-        toggleSolution:function(){
+        classNames: "step",
+        classNameBindings: ['step.isActive'],
+        solutionIsShown: false,
+        toggleSolution: function () {
             this.toggleProperty("solutionIsShown");
-            Em.run.next(function(){
+            Em.run.next(function () {
                 SyntaxHighlighter.defaults['gutter'] = false;
                 SyntaxHighlighter.all();
             });
             this.$('.solution').stop().slideToggle(this.solutionIsShown);
         },
-        explanationView: function (){
+        explanationView: function () {
             return Em.View.extend({
-                classNames:"well",
+                classNames: "well",
                 templateName: this.step.detailTemplateName
             });
         }.property('step'),
-        detailIsShownToggler:false,
-        toggleDetail:function(){
+        detailIsShownToggler: false,
+        toggleDetail: function () {
             this.toggleProperty("detailIsShownToggler");
+            $('.step-detail').not(this.$('.step-detail')).slideUp();
             this.$('.step-detail').stop().slideToggle(this.detailIsShownToggler);
+
         },
-        detailIsShown:function(){
+        detailIsShown: function () {
             return this.get('step.isActive') || this.detailIsShownToggler;
         }.property("step.isActive", "detailIsShownToggler"),
-        solutionView: function (){
+        solutionView: function () {
             return Em.View.extend({
-                tagName:"pre",
-                classNames:["code","brush: js"],
+                tagName: "pre",
+                classNames: ["code", "brush: js"],
                 templateName: this.step.solutionTemplateName
             });
         }.property('step')

@@ -368,6 +368,18 @@ App.AddController = Ember.ObjectController.extend({
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-helper">
+    <p>Enfin nous allons créer un <a href="http://emberjs.com/guides/templates/writing-helpers/">helper</a>, permettant d'afficher le nom du poney en majuscule dans la consultation. </p>
+    <p>Créez le helper <strong>upperCase</strong> et utilisez le sur le nom dans la consultation</p>
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-helper">
+Ember.Handlebars.registerBoundHelper('upperCase', function (text) {
+    return text.toUpperCase();
+});
+
+&#8249;script type="text/x-handlebars" data-template-name="index">
+    <span>Name: \{{upperCase content.name}}</span><br/>
+    <span>Color: \{{content.color}}</span><br/>
+    <span>Type: \{{content.type}}</span><br/>
+&#8249;/script>
+
 </script>
