@@ -19,7 +19,8 @@ $.get('tutorial.html').done(function (content) {
             SyntaxHighlighter.highlight();
 
             var view = this;
-            Em.run.next(function(){
+            execTestsSteps(Tuto.STEPS, 0);
+            Em.run.later(function(){
                 var stepIsActive = $(".is-active");
                 if (stepIsActive.length > 0){
                     $('#tutorial').animate({
@@ -28,14 +29,13 @@ $.get('tutorial.html').done(function (content) {
                 } else{
                     view.set('status', " terminé !")
                 }
-            });
+            }, 200);
 
+            $('#tutorial img').on('click',function(){
+                localStorage.removeItem("lastRuningTestIdx");
+                window.location.reload();
+            });
         }
-    });
-    Tuto.ApplicationController = Em.Controller.extend({
-       initialize:function(){
-           execTestsSteps(Tuto.STEPS, 0);
-       }
     });
 
     Tuto.StepView = Em.View.extend({
@@ -93,6 +93,10 @@ $.get('tutorial.html').done(function (content) {
             return !this.passed && this.executed;
         }.property("passed", "executed")
     });
+
+    templateContains = function (templateName, text, msg){
+        ok(templates[templateName].indexOf(text) != - 1, msg);
+    }
 
     Tuto.STEPS = [
         Tuto.Step.create({
@@ -183,7 +187,7 @@ $.get('tutorial.html').done(function (content) {
                         " alors qu'il devrait être 'DS.FixtureAdapter'");
 
                 ok (App.Pony.FIXTURES && App.Pony.FIXTURES.length > 0,
-                    "Faut faire un copier/coller de ce qu'il y au dessus !");
+                    "Faut faire un copier/coller de ce qu'il y a au dessus !");
             }
         }),
         Tuto.Step.create({
@@ -191,6 +195,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-list",
             solutionTemplateName: "tutorial-solution-list",
             test: function () {
+                ok (templates.application.indexOf("{{outlet}}") != -1, "Le template application ne contient pas de {{outlet}}");
                 ok (Em.typeOf(App.IndexRoute) == 'class', "App.IndexRoute n'est pas définie ou n'est pas une classe Ember.");
                 ok (App.IndexRoute.create() instanceof Em.Route, "App.IndexRoute n'est pas de type Ember.Route");
                 ok (App.IndexRoute.prototype.model(),
@@ -200,7 +205,10 @@ $.get('tutorial.html').done(function (content) {
 
 
                 ok(Em.TEMPLATES['index'] != undefined, "Le template 'index' n'est pas déclaré.");
-                // TODO Tester si il y a bien des ul li dans le dom : Problème d'asynchronisme
+
+                ok (templates.index.indexOf("<ul>") != -1, "Le template ne contient pas de balise ul");
+                ok (templates.index.indexOf("<li>") != -1, "Le template ne contient pas de balise li");
+                ok (templates.index.indexOf("{{#each") != -1, "Le template ne contient pas de helper {{each}}");
             }
         }),
         Tuto.Step.create({
@@ -230,7 +238,7 @@ $.get('tutorial.html').done(function (content) {
                 ok (pony.get("name") == "CC DD", "La propriété calculée name ne dépend pas de lastName");
                 pony.deleteRecord();
 
-                // TODO tester utilisation de name dans le template index -> async problem
+                ok (templates.index.indexOf("name}}") != -1, "La propriété name n'est pas utilisée dans le template index");
             }
         }),
         Tuto.Step.create({
@@ -245,7 +253,9 @@ $.get('tutorial.html').done(function (content) {
 
                 ok(Em.TEMPLATES['detail'] != undefined, "Le template 'detail' n'est pas déclaré.");
 
-                // TODO : Checher contenu de detail -> async problem
+                ok(templates.detail.indexOf('name}}') != -1, "Le nom n'est pas affiché dans le détail.");
+                ok(templates.detail.indexOf('type}}') != -1, "Le type n'est pas affiché dans le détail.");
+                ok(templates.detail.indexOf('color}}') != -1, "La couleur n'est pas affichée dans le détail.");
             }
         }),
         Tuto.Step.create({
@@ -253,11 +263,13 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-home",
             solutionTemplateName: "tutorial-solution-home",
             test: function () {
-                ok ($('#ember-app div h1 a').length == 1, "Le titre n'a pas de linkTo.");
-                ok ($('#ember-app div h1 a').attr('href') == "#/", "Le lien du titre pointe vers "+
-                    $('#ember-app div h1 a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
+                ok(templates.application.indexOf('{{#linkTo') != - 1 &&
+                   templates.application.indexOf('{{/linkTo') != - 1, "Le template application ne contient pas de linkTo");
 
-                // TODO : Tester contenue tmpl
+                ok(templates.application.indexOf('{{#linkToindex}}') != -1, "LinkTo doit pointer vers index");
+                ok(templates.application.indexOf('<h1>{{#linkToindex}}') != -1, "LinkTo doit être entre les h1");
+                ok ($('#ember-app div a').attr('href') == "#/", "Le lien du titre pointe vers "+
+                    $('#ember-app div a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
             }
         }),
         Tuto.Step.create({
@@ -267,11 +279,17 @@ $.get('tutorial.html').done(function (content) {
             test: function () {
                 var appRouter = App.__container__.lookup('router:main');
 
-                // TODO : checker contenu de index un lien pour add -> async problem
+                ok (templates.index.indexOf("{{#linkToadd}}") != -1 &&
+                    templates.index.indexOf("{{/linkTo}}") != -1
+                    , "Le template index ne contient pas de linkTo vers la route add");
 
                 ok (appRouter.hasRoute('add'), "Il n'y pas de route 'add' déclarée dans le router.");
                 ok(Em.TEMPLATES['add'] != undefined, "Le template 'add' n'est pas déclaré.");
-                // TODO : checker contenu de add -> async problem
+
+                templateContains('add',"{{inputvalue=firstName}}", "Le template add de helper input pour le firstName");
+                templateContains('add',"{{inputvalue=lastName}}", "Le template add de helper input pour le lastName");
+                templateContains('add',"{{inputvalue=color}}", "Le template add de helper input pour le color");
+                templateContains('add',"{{inputvalue=type}}", "Le template add de helper input pour le type");
 
                 ok (Em.typeOf(App.AddRoute) == 'class', "App.AddRoute n'est pas définie ou n'est pas une classe Ember.");
                 ok (App.AddRoute.create() instanceof Em.Route, "App.AddRoute n'est pas de type Ember.Route");
@@ -287,12 +305,14 @@ $.get('tutorial.html').done(function (content) {
                     "La fonction 'savePony' de App.AddController n'est pas définie ou n'est pas une fonction");
 
 
-                // TODO : checker contenu de add pour action -> async problem
-                // wtf : l'ajout du template pour le bouton ajouter est intérprété dans le tutorial.html O_o
+                templateContains('add',"{{action", "Le template add ne contient d'action");
+                templateContains('add',"{{actionsavePony}}", "Le template contient une action mais elle n'appelle pas savePony");
 
                 var createRecord = App.Pony.createRecord, createRecordCall = 0;
-                var addController = App.AddController.create();
-                var transitionToRoute = App.AddController.create().transitionToRoute, transitionToRouteCall = 0, goodRoute = false;
+                var addController = App.AddController.create({store:{
+                    commit : function(){}}
+                });
+                var transitionToRoute = addController.transitionToRoute, transitionToRouteCall = 0, goodRoute = false;
 
                 App.Pony.createRecord = function(){ createRecordCall++ };
                 addController.transitionToRoute = function(route){
@@ -315,8 +335,12 @@ $.get('tutorial.html').done(function (content) {
             solutionTemplateName: "tutorial-solution-rest",
             test: function () {
                 ok (App.Store.prototype.adapter == "DS.RESTAdapter",
-                    "L'adaptater actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
+                    "L'adapter actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
                         " alors qu'il devrait être 'DS.RESTAdapter'");
+
+
+                ok (typeof App.Pony.FIXTURES == "undefined",
+                    "App.Poney.FIXTURES n'est plus utile maintenant, supprimer le.");
 
                 var commitCall = 0;
                 var addController = App.AddController.create({
@@ -341,7 +365,7 @@ $.get('tutorial.html').done(function (content) {
                 ok (helpers.upperCase != undefined, "Le helper 'upperCase' n'est pas définie.");
                 ok (helpers.upperCase('salut') === "SALUT", "Le helper 'upperCase' doit retourner la chaine passée en argument en majuscule");
 
-                // TODO : checker contenu template
+                templateContains("detail", "{{upperCase", "Le helper upperCase n'est pas utilisé dans le template detail");
             }
         })
     ];
