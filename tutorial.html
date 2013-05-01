@@ -323,7 +323,7 @@ App.Router.map(function () {
         <a target="_blank" href="http://emberjs.com/guides/templates/actions/">action</a>
         pour appeler la méthode <code>savePoney</code>. </p>
 
-    <p>Créez un controller <code>App.AddController</code> héritant de <code>Ember.ObjectController</code>, et créez une méthode <code>savePoney</code> dans icelui.
+    <p>Créez un controller <code>App.AddController</code> héritant de <code>Ember.ObjectController</code>, et créez une méthode <code>savePoney</code> dans celui.
         C'est cette méthode qui est appelée par le bouton.
         Les champs du formulaire sont synchronisés en temps réel au fur et à mesure de la frappe&nbsp;;
         la méthode <code>savePoney</code>
@@ -359,6 +359,16 @@ App.AddController = Ember.ObjectController.extend({
     this.transitionToRoute('index');
   }
 });
+
+&lt;script type="text/x-handlebars" data-template-name="index">
+    {{#linkTo add}}Add{{/linkTo}}
+    <ul>
+        {{#each pony in content}}
+        <li>{{#linkTo detail pony}}{{pony.name}}{{/linkTo}}</li>
+        {{/each}}
+    </ul>
+&lt;/script>
+
 
 &lt;script type="text/x-handlebars" data-template-name="add">
     <form>
