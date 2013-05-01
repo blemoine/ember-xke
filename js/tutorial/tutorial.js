@@ -12,16 +12,25 @@ $.get('tutorial.html').done(function (content) {
     Tuto.ApplicationView = Ember.View.extend({
         templateName: "tutorial-app",
         didInsertElement: function () {
+            var view = this;
             SyntaxHighlighter.highlight();
-            $.each(Tuto.STEPS, function (idx, step) {
-                exec(step.test, function (result) {
-                    step.setProperties({
-                        executed: true,
-                        passed: !result.failed,
-                        errors: result.errors
+
+            $.get("js/App.js").done(function(app){
+                $.each(Tuto.STEPS, function (idx, step) {
+                    exec(step.test, function (result) {
+                        step.setProperties({
+                            executed: true,
+                            passed: !result.failed,
+                            errors: result.errors
+                        });
                     });
+                    return step.passed;
                 });
-                return step.passed;
+                Em.run.next(function(){
+                    $('#tutorial').animate({
+                        scrollTop: $(".is-active").offset().top
+                    }, 100);
+                });
             });
         }
     });
@@ -41,36 +50,6 @@ $.get('tutorial.html').done(function (content) {
         }.property("passed", "executed")
     });
 
-    Tuto.StepView = Em.View.extend({
-        templateName: "tutorial-step",
-        classNames: "step",
-        classNameBindings: ['step.isActive'],
-        solutionIsShown: false,
-        toggleSolution: function () {
-            this.toggleProperty("solutionIsShown");
-        },
-        explanationView: function () {
-            return Em.View.extend({
-                classNames: "well",
-                templateName: this.step.detailTemplateName
-            });
-        }.property('step'),
-        detailIsShownToggler: false,
-        toggleDetail: function () {
-            this.toggleProperty("detailIsShownToggler");
-        },
-        detailIsShown: function () {
-            return this.get('step.isActive') || this.detailIsShownToggler;
-        }.property("step.isActive", "detailIsShownToggler"),
-        solutionView: function () {
-            return Em.View.extend({
-                tagName: "pre",
-                classNames: ["code", "brush: js;"],
-                templateName: this.step.solutionTemplateName
-            });
-        }.property('step')
-    });
-
     Tuto.STEPS = [
         Tuto.Step.create({
             title: "Création de l'application",
@@ -84,8 +63,12 @@ $.get('tutorial.html').done(function (content) {
                 ok(Em.typeOf(App) == "instance",
                     "Cet objet App doit être un objet Ember");
 
-                ok($('#ember-app').hasClass("ember-application"),
-                    "La div avec l'id #ember-app n'a pas la class 'ember-application, ce n'est donc pas encore un élément racine ember");
+                App.deferReadiness();
+
+                ok(App.rootElement == "#ember-app",
+                    "L'élément racine de App est "+App.rootElement+" alors qu'il devrait être la div avec l'id ember-app.");
+
+                App.advanceReadiness();
             }
         }),
         Tuto.Step.create({
@@ -94,6 +77,10 @@ $.get('tutorial.html').done(function (content) {
             solutionTemplateName: "tutorial-solution-hello",
 
             test: function () {
+
+                ok(Em.TEMPLATES['application'] != undefined,
+                    "Le template 'application' n'est pas déclaré.");
+
                 ok($('#ember-app').children().length >= 1,
                     "La div racine de l'application est vide");
 
@@ -240,13 +227,16 @@ $.get('tutorial.html').done(function (content) {
         detailIsShown: function () {
             return this.get('step.isActive') || this.detailIsShownToggler;
         }.property("step.isActive", "detailIsShownToggler"),
+        errorsIsShown: function(){
+
+        }.property("step.passed", "step.executed"),
         solutionView: function () {
             return Em.View.extend({
                 tagName: "pre",
                 classNames: ["code", "brush: js"],
                 templateName: this.step.solutionTemplateName
             });
-        }.property('step')
+        }.property("step.solutionTemplateName")
     });
 
 });
