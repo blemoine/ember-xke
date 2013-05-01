@@ -18,12 +18,11 @@
         {{outlet}}
     </script>
 
-
     <script type="text/x-handlebars" data-template-name="index">
         {{#linkTo add}}Add{{/linkTo}}
         <ul>
-            {{#each poney in content}}
-            <li>{{#linkTo detail poney}}{{poney.name}}{{/linkTo}}</li>
+            {{#each pony in content}}
+            <li>{{#linkTo detail pony}}{{pony.name}}{{/linkTo}}</li>
             {{/each}}
         </ul>
     </script>
@@ -38,24 +37,26 @@
         <form>
             <label for="firstName">First Name</label>
             {{input value=firstName}}
-            <br />
+            <br>
 
             <label for="lastName">Last Name</label>
             {{input value=lastName}}
-            <br />
+            <br>
 
             <label for="color">Color</label>
             {{input value=color}}
-            <br />
+            <br>
 
             <label for="type">Type</label>
             {{input value=type}}
-            <br />
+            <br>
 
-            <input type="submit" {{action savePoney}}/>
+            <input type="submit" {{action savePony}} />
 
         </form>
     </script>
+
+
 
     <script src="js/vendor/jquery-2.0.0.min.js"></script>
     <script src="js/vendor/handlebars-1.0.0-rc.3.js"></script>
