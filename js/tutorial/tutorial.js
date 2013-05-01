@@ -216,7 +216,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-home",
             solutionTemplateName: "tutorial-solution-home",
             test: function () {
-                ok (false, "TODO à implémenter");
+                ok ($('#ember-app div h1 a').length == 1, "Le titre n'a pas de linkTo.");
+                ok ($('#ember-app div h1 a').attr('href') == "#/", "Le lien du titre pointe vers "+
+                    $('#ember-app div h1 a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
+
+                // TODO : Tester contenue tmpl
             }
         }),
         Tuto.Step.create({
