@@ -152,7 +152,12 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer le template (liste)"
+            title: "Créer le template (liste)",
+            detailTemplateName: "tutorial-step-list",
+            solutionTemplateName: "tutorial-solution-list",
+            test: function () {
+                //TODO A implémenter
+            }
         }),
         Tuto.Step.create({
             title: "Créer une propriété calculée"

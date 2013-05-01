@@ -116,7 +116,7 @@
 <script type="text/x-handlebars" data-template-name="tutorial-step-fixture">
     <p>Afin de préparer l'alimentation d'une liste de poneys, nous utilisons des données bouchonnées par Ember Data. Ce bouchon se nomme <strong>fixture</strong>.</p>
     <p>Indiquez au datastore que vous souhaitez utiliser un adapter de type <strong>DS.FixtureAdapter</strong> (cf <a href="http://emberjs.com/guides/models/defining-a-store">la partie concernant l'adapter</a></p>
-    <p>Puis dans une propriété statique nommé FIXTURES de la classe App.Poney, ajouter le tableau contenant la liste de vos poneys&nbsp;: </p>
+    <p>Puis dans une propriété statique nommée FIXTURES de la classe App.Poney, ajouter le tableau contenant la liste de vos poneys&nbsp;: </p>
     <pre class="brush: js">
         App.Poney.FIXTURES = [
     {
@@ -142,8 +142,6 @@
     }
 ];
     </pre>
-
-
 
 </script>
 
@@ -179,4 +177,43 @@
     }
 ];
     </pre>
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-step-list">
+
+    <p>Par convention, sur la route <strong>/</strong> Ember rend la propriété Index (cf <a href="http://emberjs.com/guides/routing/defining-your-routes/">les conventions sur les routes</a>.
+    Vous devez donc maintenant définir une route <strong>App.IndexRoute</strong>, dont le modèle associé sera la liste des poneys renvoyés par la fixture.</p>
+    <a href="http://emberjs.com/guides/routing/specifying-a-routes-model/">Pour définir une route (il n'y a pas besoin de définir de router pour l'instant, tout se fait par convention)</a>
+    <br />
+    <a href="http://emberjs.com/guides/models/finding-models/">Pour récupérer la liste des poneys depuis le modèle</a>
+    <p>Nous allons maintenant afficher la liste des poneys dans la page. Pour cela il faut ajout une balise <a href="http://emberjs.com/api/classes/Ember.Handlebars.helpers.html#method_outlet">outlet</a> au template application,
+        outlet qui nous servira de placeholder indiquand ou sera inséré la liste des poneys.</p>
+    <p>Enfin, il faut créer un nouveau template nommé <strong>index</strong>. Par convention, le modèle renvoyé par la route est chargé dans une propriété nommé <strong>content</strong> dans le controller.
+       Ici, la liste des poneys est donc accessible dans le template depuis la propriété content.
+        Afficher la liste des poneys dans le template index à l'aide de balise &lt;ul&gt; et &lt;li&gt;.
+    </p>
+
+    <a href="http://emberjs.com/guides/templates/displaying-a-list-of-items/">Affiche une liste d'éléments dans un template</a>
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-solution-list">
+App.IndexRoute = Ember.Route.extend({
+    model: function () {
+       return App.Pony.find();
+    }
+});
+
+&#8249;script type="text/x-handlebars" data-template-name="application">
+  <h1>My Li'l Pony Application</h1>
+  \{{outlet}}
+&#8249;/script>
+
+&#8249;script type="text/x-handlebars" data-template-name="index">
+<ul>
+  \{{#each poney in content}}
+    <li>\{{poney.name}}</li>
+  \{{/each}}
+</ul>
+&#8249;/script>
 </script>
