@@ -184,13 +184,28 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer une page d'ajout"
+            title: "Créer une page d'ajout",
+            detailTemplateName: "tutorial-step-add",
+            solutionTemplateName: "tutorial-solution-add",
+            test: function () {
+                //TODO A implémenter
+            }
         }),
         Tuto.Step.create({
-            title: "Utiliser l'API Rest"
+            title: "Utiliser l'API Rest",
+            detailTemplateName: "tutorial-step-rest",
+            solutionTemplateName: "tutorial-solution-rest",
+            test: function () {
+                //TODO A implémenter
+            }
         }),
         Tuto.Step.create({
-            title: "Utiliser un Helper"
+            title: "Utiliser un Helper",
+            detailTemplateName: "tutorial-step-helper",
+            solutionTemplateName: "tutorial-solution-helper",
+            test: function () {
+                //TODO A implémenter
+            }
         })
     ];
 

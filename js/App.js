@@ -31,7 +31,7 @@ App.Router.map(function () {
 
 App.AddRoute = Ember.Route.extend({
     model: function () {
-        return {id: new Date().getTime()}
+        return {id: new Date().getTime()};
     }
 });
 
