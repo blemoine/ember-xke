@@ -89,7 +89,7 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Dites hello Pony",
+            title: "Dites bonjour au monde des poneys",
             detailTemplateName: "tutorial-step-hello",
             solutionTemplateName: "tutorial-solution-hello",
 
