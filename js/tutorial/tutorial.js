@@ -1,4 +1,5 @@
-Ember.ENV.TESTING = true;
+//Ember.ENV.TESTING = true;
+window.location.hash = "#/"
 
 $.get('tutorial.html').done(function (content) {
     $('body').append(content);
@@ -191,6 +192,8 @@ $.get('tutorial.html').done(function (content) {
                 pony.set('lastName', 'DD');
                 ok (pony.get("name") == "CC DD", "La propriété calculée name ne dépend pas de lastName");
                 pony.deleteRecord();
+
+                // TODO tester utilisation de name dans le template index -> async problem
             }
         }),
         Tuto.Step.create({
@@ -198,7 +201,14 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-consultation",
             solutionTemplateName: "tutorial-solution-consultation",
             test: function () {
-                ok (false, "TODO à implémenter");
+
+                var appRouter = App.__container__.lookup('router:main');
+
+                ok (appRouter.hasRoute('detail'), "Il n'y pas de route 'detail' déclarée dans le router.");
+
+                ok(Em.TEMPLATES['detail'] != undefined, "Le template 'detail' n'est pas déclaré.");
+
+                // TODO : Checher contenu de detail -> async problem
             }
         }),
         Tuto.Step.create({
@@ -222,7 +232,10 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-rest",
             solutionTemplateName: "tutorial-solution-rest",
             test: function () {
-                ok (false, "TODO à implémenter");
+                ok (App.Store.prototype.adapter == "DS.RESTAdapter",
+                    "L'adaptater actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
+                        " alors qu'il devrait être 'DS.RESTAdapter'");
+                //TODO test le commit
             }
         }),
         Tuto.Step.create({
