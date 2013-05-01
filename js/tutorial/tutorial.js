@@ -140,7 +140,12 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-fixture",
             solutionTemplateName: "tutorial-solution-fixture",
             test: function () {
-                ok(false, "Test not implemented")
+                ok (App.Store.prototype.adapter == "DS.FixtureAdapter",
+                    "L'adaptater actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
+                        " alors qu'il devrait être 'DS.FixtureAdapter'");
+
+                ok (App.Pony.FIXTURES && App.Pony.FIXTURES.length > 0,
+                    "Faut faire un copier/coller de ce qu'il y au dessus !");
             }
         }),
         Tuto.Step.create({
@@ -148,7 +153,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-list",
             solutionTemplateName: "tutorial-solution-list",
             test: function () {
-                //TODO A implémenter
+                ok (false, "TODO à implémenter");
             }
         }),
         Tuto.Step.create({
@@ -156,7 +161,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-computed",
             solutionTemplateName: "tutorial-solution-computed",
             test: function () {
-                //TODO A implémenter
+                ok (false, "TODO à implémenter");
             }
         }),
         Tuto.Step.create({
@@ -164,7 +169,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-consultation",
             solutionTemplateName: "tutorial-solution-consultation",
             test: function () {
-                //TODO A implémenter
+                ok (false, "TODO à implémenter");
             }
         }),
         Tuto.Step.create({
@@ -172,7 +177,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-home",
             solutionTemplateName: "tutorial-solution-home",
             test: function () {
-                //TODO A implémenter
+                ok (false, "TODO à implémenter");
             }
         }),
         Tuto.Step.create({
@@ -180,7 +185,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-add",
             solutionTemplateName: "tutorial-solution-add",
             test: function () {
-                //TODO A implémenter
+                ok (false, "TODO à implémenter");
             }
         }),
         Tuto.Step.create({
@@ -188,7 +193,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-rest",
             solutionTemplateName: "tutorial-solution-rest",
             test: function () {
-                //TODO A implémenter
+                ok (false, "TODO à implémenter");
             }
         }),
         Tuto.Step.create({
@@ -196,7 +201,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-helper",
             solutionTemplateName: "tutorial-solution-helper",
             test: function () {
-                //TODO A implémenter
+                ok (false, "TODO à implémenter");
             }
         })
     ];
