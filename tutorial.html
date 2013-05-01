@@ -80,10 +80,10 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-ds">
-    <p>Il va maintenant être nécessaire de créer une classe pour représenter votre Poney. Pour cela, nous allons utiliser <a href="https://github.com/emberjs/data" target="_blank">Ember-Data</a>.
-        Attention, Ember-data reste une librairie en cours de développement. </p>
+    <p>Il va maintenant être nécessaire de créer une classe pour représenter les poneys.
+        Pour cela, nous allons utiliser <a href="https://github.com/emberjs/data" target="_blank">Ember-Data</a>, une librairie expérimentale gérant l'aspect persistence des données pour Ember</p>
 
-    <p> La première étape va être de configurer un store : <a href="http://emberjs.com/guides/models/defining-a-store" target="_blank">créer un store</a>.</p>
+    <p>La première étape va être de configurer un store&nbsp;: <a href="http://emberjs.com/guides/models/defining-a-store" target="_blank">créer un store</a>.</p>
 
 </script>
 
@@ -94,28 +94,27 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-model">
-    <p> Ensuite, il va falloir définir une classe <strong>App.Pony</strong>,  avec 4 propriétés de type String&nbsp;:
-        <strong>firstName</strong>, <strong>lastName</strong>, <strong>color</strong>, <strong>type</strong></p>
+    <p>Ensuite, il faut définir une classe <code>App.Pony</code>,  avec 4 propriétés de type String&nbsp;:
+        <code>firstName</code>, <code>lastName</code>, <code>color</code> et <code>type</code>.</p>
 
     <a href="http://emberjs.com/guides/models/defining-models" target="_blank">Définition des modèles</a>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-model">
-    App.Poney = DS.Model.extend({
+    App.Pony = DS.Model.extend({
         lastName: DS.attr('string'),
         firstName: DS.attr('string'),
         color: DS.attr('string'),
-        type: DS.attr('string'),
-        name: function () {
-            return this.get('firstName') + ' ' + this.get('lastName');
-        }.property('firstName', 'lastName')
+        type: DS.attr('string')
     });
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-fixture">
-    <p>Afin de préparer l'alimentation d'une liste de poneys, nous utilisons des données bouchonnées par Ember Data. Ce bouchon se nomme <strong>fixture</strong>.</p>
-    <p>Indiquez au datastore que vous souhaitez utiliser un adapter de type <strong>DS.FixtureAdapter</strong> (cf <a target="_blank" href="http://emberjs.com/guides/models/defining-a-store">la partie concernant l'adapter</a></p>
-    <p>Puis dans une propriété statique nommée FIXTURES de la classe App.Poney, ajouter le tableau contenant la liste de vos poneys&nbsp;: </p>
+    <p>Afin de préparer l'affichage d'une liste de poneys, nous utiliserons des données bouchonnées par Ember Data.
+        Ce bouchon se nomme <strong>fixture</strong>.
+    </p>
+    <p>Indiquez au datastore que vous souhaitez utiliser un adapter de type <code>DS.FixtureAdapter</code> (cf. <a target="_blank" href="http://emberjs.com/guides/models/defining-a-store">la partie concernant l'adapter</a>)</p>
+    <p>Puis dans une propriété statique nommée <code>FIXTURES</code> de la classe <code>App.Pony</code>, ajoutez le tableau contenant la liste de vos poneys&nbsp;: </p>
     <pre class="brush: js">
         App.Poney.FIXTURES = [
     {
@@ -180,16 +179,20 @@
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-list">
 
-    <p>Par convention, sur la route <strong>/</strong> Ember rend la propriété Index (cf <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/">les conventions sur les routes</a>.
-    Vous devez donc maintenant définir une route <strong>App.IndexRoute</strong>, dont le modèle associé sera la liste des poneys renvoyés par la fixture.</p>
+    <p>Par convention, sur le chemin <strong>/</strong> Ember rend la route <strong>Index</strong>
+        (cf <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/">les conventions sur les routes</a>.
+    Vous devez donc maintenant définir une route <code>App.IndexRoute</code>, dont le modèle associé sera la liste des poneys renvoyés par la fixture.</p>
     <a target="_blank" href="http://emberjs.com/guides/routing/specifying-a-routes-model/">Pour définir une route (il n'y a pas besoin de définir de router pour l'instant, tout se fait par convention)</a>
     <br />
     <a target="_blank" href="http://emberjs.com/guides/models/finding-models/">Pour récupérer la liste des poneys depuis le modèle</a>
-    <p>Nous allons maintenant afficher la liste des poneys dans la page. Pour cela il faut ajout une balise <a target="_blank" href="http://emberjs.com/api/classes/Ember.Handlebars.helpers.html#method_outlet">outlet</a> au template application,
-        outlet qui nous servira de placeholder indiquand ou sera inséré la liste des poneys.</p>
-    <p>Enfin, il faut créer un nouveau template nommé <strong>index</strong>. Par convention, le modèle renvoyé par la route est chargé dans une propriété nommé <strong>content</strong> dans le controller.
+    <p>Nous allons maintenant afficher la liste des poneys dans la page.
+        Pour cela il faut ajout une balise <a target="_blank" href="http://emberjs.com/api/classes/Ember.Handlebars.helpers.html#method_outlet"><code>outlet</code></a> au template <code>application</code>,
+        outlet qui nous servira de placeholder indiquant où sera insérée la liste des poneys.</p>
+
+    <p>Enfin, il faut créer un nouveau template nommé <code>index</code>.
+        Par convention, le modèle renvoyé par la route est chargé dans une propriété nommé <code>content</code> dans le controller.
        Ici, la liste des poneys est donc accessible dans le template depuis la propriété content.
-        Afficher la liste des prénoms de poneys dans le template index à l'aide de balise &lt;ul&gt; et &lt;li&gt;.
+        Afficher la liste des prénoms de poneys dans le template <code>index</code> à l'aide de balise <code>&lt;ul&gt;</code> et <code>&lt;li&gt;</code>.
     </p>
 
     <a target="_blank" href="http://emberjs.com/guides/templates/displaying-a-list-of-items/">Affiche une liste d'éléments dans un template</a>
@@ -218,11 +221,14 @@ App.IndexRoute = Ember.Route.extend({
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-computed">
-    <p>Plutôt que d'afficher simplement la liste des prénoms, nous allons maintenant afficher la liste des noms complet (prénom et nom) des poneys. Pour cela, nous allons déclarer
-    une propriété calculé <strong>name</strong> dans la classe App.Poney . Les <a target="_blank" href="http://emberjs.com/guides/object-model/computed-properties/">propriétés calculées</a>
-        sont des propriétés accessibles sur les objets Ember, dont la valeur est dépendant d'autres propriétés du même objet.
+    <p>Plutôt que d'afficher simplement la liste des prénoms, nous allons maintenant afficher la liste des noms complet (prénom et nom) des poneys.
+        Pour cela, nous allons déclarer
+    une propriété calculé <code>name</code> dans la classe <code>App.Pony</code>.
+        Les <a target="_blank" href="http://emberjs.com/guides/object-model/computed-properties/">propriétés calculées</a>
+        sont des propriétés accessibles sur les objets Ember, dont la valeur est dépendante d'autres propriétés du même objet.
     </p>
-    <p>La propriété calculé name doit être la concaténation du prénom et du nom, séparé par un espace. Afficher ensuite cette propriété à la place du prénom dans la liste des poneys.</p>
+    <p>La propriété calculée name doit être la concaténation du prénom et du nom, séparés par un espace.
+        Afficher ensuite cette propriété à la place du prénom dans la liste des poneys.</p>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-computed">
@@ -246,17 +252,19 @@ App.Pony = DS.Model.extend({
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-consultation">
-    <p>Nous allons maintenant créer une page de consultation pour chaque poney. Pour cela, nous allons devoir créer une route, un template correspondant à la page de consultation
+    <p>Nous allons maintenant créer une page de consultation pour chaque poney.
+        Pour cela, nous allons devoir créer une route, un template correspondant à la page de consultation
         et un lien pour atteindre cette page.</p>
 
-    <p> Tout d'abord, nous allons créer une route nommée <strong>detail</strong>, ayant pour path <strong>/pony/:pony_id</strong>. </p>
+    <p> Tout d'abord, nous allons créer une route nommée <code>detail</code>, ayant pour path <code>/pony/:pony_id</code>. </p>
     <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/">Déclaration d'une route</a>
-    <p>Par convention, Ember cherche un template correspondant au nom de la route pour l'insérer dans l'outlet application. Par ailleurs, toujours par convention,
-        Ember appelle la méthode App.Pony.find(pony_id) si le paramètre de path se nomme pony_id. Nous n'avons donc ici pas besoin de définir de route pour charger le modèle.</p>
+    <p>Par convention, Ember cherche un template correspondant au nom de la route pour l'insérer dans l'outlet du template <code>application</code>. Par ailleurs, toujours par convention,
+        Ember appelle la méthode <code>App.Pony.find(pony_id)</code> si le paramètre de <code>path</code> se nomme <code>pony_id</code>.
+        Nous n'avons donc ici pas besoin de définir de route pour charger le modèle.</p>
 
-    <p>Définissez ensuite un template nommé <strong>detail</strong>, dans lequel vous afficherez le nom complet, le type et la couleur du poney choisi.</p>
+    <p>Définissez ensuite un template nommé <code>detail</code>, dans lequel vous afficherez le nom complet, le type et la couleur du poney choisi.</p>
 
-    <p>Enfin, utilisez le helper <a target="_blank" href="http://emberjs.com/guides/templates/links/">linkTo</a> pour créer un lien vers le détail. </p>
+    <p>Enfin, utilisez le helper <a target="_blank" href="http://emberjs.com/guides/templates/links/">linkTo</a> pour créer un lien vers le détail depuis la liste des poneys. </p>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-consultation">
@@ -281,7 +289,7 @@ App.Router.map(function () {
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-home">
-    <p>Créez maintenant un lien sur le titre de l'application pour retourner à la home page. Par convention, la home page se nomme index.</p>
+    <p>Créez maintenant un lien sur le titre de l'application pour retourner à la home page. Par convention, la home page se nomme <code>index</code>.</p>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-home">
@@ -294,31 +302,43 @@ App.Router.map(function () {
 <script type="text/x-handlebars" data-template-name="tutorial-step-add">
     <p>Il est maintenant nécessaire de pouvoir ajouter de nouveaux poneys. Pour cela, nous allons créer une route, un controller et un template.</p>
 
-    <p>Tout d'abord, il faut créer la route add, permettant d'arriver sur la page d'ajout. Par convention, si aucun path n'est spécifier l'url de la route se déduit de son nom.</p>
+    <p>Tout d'abord, il faut créer la route <code>add</code>, permettant d'arriver sur la page d'ajout.
+        Par convention, si aucun chemin n'est spécifié, l'url de la route se déduit de son nom.</p>
     <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/">Rappel sur la création de route</a>
 
-    <p>Nous allons maintenant créer le template <strong>add</strong> avec un formulaire. Ember fournit des composants permettant de gérer le binding sur les formulaires, nous allons donc
-    utiliser ceux-ci. Créer un formulaire avec 4 label et 4 champs input text en utilisant <a target="_blank" href="http://emberjs.com/blog/2013/04/21/ember-1-0-rc3.html">la syntaxe de formulaire de la RC.3</a></p>
+    <p>Nous allons maintenant créer le template <code>add</code> avec un formulaire.
+        Ember fournit des composants permettant de gérer le binding sur les formulaires, nous allons donc les utiliser.
+        Créer un formulaire avec 4 label et
+        4 champs input textfield en utilisant <a target="_blank" href="http://emberjs.com/blog/2013/04/21/ember-1-0-rc3.html">la syntaxe de formulaire de la RC.3</a></p>
 
-    <p>Pour que nos propriétés soient enregistrés dans un objet avant d'être synchronisé par Ember Data, il faut créer cet objet au niveau du controller.
-        Une solution pour cela est d'indiqué que le model correspondant à notre route est un objet simple contenant simplement une propriété id préremplie, ie :
-    <code>{id: new Date().getTime()}</code>. Créer la route <strong>App.AddRoute</strong> et dans sa méthode modèle, renvoyé l'objet précréé.</p>
+    <p>Pour que nos propriétés soient enregistrées dans un objet avant d'être synchronisées par Ember Data,
+        il faut créer cet objet au niveau du controller.
+        Une solution pour cela est d'indiquer que le modèle correspondant à notre route est un objet simple contenant une propriété id préremplie, par exemple&nbsp;:
+    <code>{id: new Date().getTime()}</code>.
+        Créez la route <code>App.AddRoute</code> et dans sa méthode modèle, renvoyez l'objet précréé.</p>
 
-    <p>Il ne reste plus qu'à créer un bouton dans le formulaire qui enregistrera effectivement le poney dans le store. Pour cela ajoutez un <strong>input type="submit"</strong>
-        à votre formulaire, utilisez un helper <a target="_blank" href="http://emberjs.com/guides/templates/actions/">action</a> pour appeler une méthode <strong>savePoney</strong>. </p>
-    <p>Créer un controller <strong>App.AddController</strong> héritant de <code>Ember.ObjectController</code>, et créez une méthode savePoney dans celui-ci.
-        C'est cette méthode qui est appelée par le bouton. Les champs du formulaire sont synchronisé en temps réel au fur et à mesure de la frappe&nbsp;; la méthode savePoney
+    <p>Il ne reste plus qu'à créer un bouton dans le formulaire qui enregistrera effectivement le poney dans le store.
+        Pour cela ajoutez un <strong>input HTML  de type submit</strong>
+        à votre formulaire, utilisez un helper
+        <a target="_blank" href="http://emberjs.com/guides/templates/actions/">action</a>
+        pour appeler la méthode <code>savePoney</code>. </p>
+
+    <p>Créez un controller <code>App.AddController</code> héritant de <code>Ember.ObjectController</code>, et créez une méthode <code>savePoney</code> dans icelui.
+        C'est cette méthode qui est appelée par le bouton.
+        Les champs du formulaire sont synchronisés en temps réel au fur et à mesure de la frappe&nbsp;;
+        la méthode <code>savePoney</code>
         peut donc se contenter d'enregistrer l'attribut <code>content</code> du controller dans le datastore.
     </p>
 
-    <p>Pour accéder au content du controller, vous pouvez utilisez la méthode <code>this.get('content')</code>.
-        Pour enregistrer votre modèle, vous devez utiliser la fonction <code>createRecord</code>, ie&nbsp;:
+    <p>Pour accéder au content du controller, vous pouvez utiliser la méthode <code>this.get('content')</code>.
+        Pour enregistrer votre modèle, vous devez utiliser la fonction <code>createRecord</code> de <code>App.Pony</code>, exemple&nbsp;:
         <code>App.Pony.createRecord(this.get('content'));</code>
     </p>
 
-    <p>Enfin, une fois le poney enregistré dans le datastore, on souhaite rediriger vers l'accueil. Pour cela, le controller possède
-        une méthode <a target="_blank" href="http://emberjs.com/api/classes/Ember.Controller.html#method_transitionToRoute">transitionToRoute</a> prenant en paramètre
-    le  nom de la route vers laquelle on désire être redirigé.</p>
+    <p>Enfin, une fois le poney enregistré dans le datastore, on souhaite rediriger vers l'accueil.
+        Pour cela, le controller possède une méthode
+        <a target="_blank" href="http://emberjs.com/api/classes/Ember.Controller.html#method_transitionToRoute">transitionToRoute</a>
+        prenant en paramètre le  nom de la route vers laquelle on désire être redirigé.</p>
 
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-add">
@@ -339,15 +359,38 @@ App.AddController = Ember.ObjectController.extend({
     this.transitionToRoute('index');
   }
 });
+
+&lt;script type="text/x-handlebars" data-template-name="add">
+    <form>
+        <label for="firstName">First Name</label>
+        \{{input value=firstName}}
+        <br />
+
+        <label for="lastName">Last Name</label>
+        \{{input value=lastName}}
+        <br />
+
+        <label for="color">Color</label>
+        \{{input value=color}}
+        <br />
+
+        <label for="type">Type</label>
+        \{{input value=type}}
+        <br />
+
+        &lt;input type="submit" \{{action savePoney}} />
+
+    </form>
+&lt;/script>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-rest">
-    <p>Plutôt que d'utiliser un bouchon, on peut maintenant se brancher directement sur le serveur pour persister les poneys que l'on créé.
-      Pour cela, changez d'adapter dans le store et utiliser le <a target="_blank" href="http://emberjs.com/guides/models/the-rest-adapter/">le REST adapter</a>.
+    <p>Plutôt que d'utiliser un bouchon, on peut maintenant se brancher directement sur le serveur pour persister les poneys que nous créons.
+      Pour cela, changez d'<code>adapter</code> dans le store et utiliser le <a target="_blank" href="http://emberjs.com/guides/models/the-rest-adapter/">le REST adapter</a>.
     </p>
 
-    <p>Par ailleurs, pour synchroniser le store avec le serveur, il est nécessaire de commiter les modifications. Pour cela,
-        appelez la méthode <code>this.get('store').commit();</code> juste avant la rédirection dans la méthode <code>savePony</code>
+    <p>Par ailleurs, pour synchroniser le store avec le serveur, il est nécessaire de commiter les modifications.
+        Pour cela, appelez la méthode <code>this.get('store').commit();</code> juste avant la rédirection dans la méthode <code>savePony</code>
     </p>
 
 </script>
@@ -367,8 +410,10 @@ App.AddController = Ember.ObjectController.extend({
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-helper">
-    <p>Enfin nous allons créer un <a target="_blank" href="http://emberjs.com/guides/templates/writing-helpers/">helper</a>, permettant d'afficher le nom du poney en majuscule dans la consultation. </p>
-    <p>Créez le helper <strong>upperCase</strong> et utilisez le sur le nom dans la consultation</p>
+    <p>Enfin nous allons créer un
+        <a target="_blank" href="http://emberjs.com/guides/templates/writing-helpers/">helper</a>,
+        permettant d'afficher le nom du poney en majuscule dans la consultation. </p>
+    <p>Créez le helper <code>upperCase</code> et utilisez le sur le nom dans la consultation</p>
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-helper">
 Ember.Handlebars.registerBoundHelper('upperCase', function (text) {
