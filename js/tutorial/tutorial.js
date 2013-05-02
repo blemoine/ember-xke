@@ -145,7 +145,7 @@ $.get('tutorial.html').done(function (content) {
             solutionTemplateName: "tutorial-solution-model",
             test: function () {
                 ok(typeof App.Pony != "undefined",
-                    "App.Poney n'est pas définie.");
+                    "App.Pony n'est pas définie.");
 
                 ok(Em.typeOf(App.Pony)  == "class",
                     "App.Pony n'est pas une classe ember.");
@@ -340,7 +340,7 @@ $.get('tutorial.html').done(function (content) {
 
 
                 ok (typeof App.Pony.FIXTURES == "undefined",
-                    "App.Poney.FIXTURES n'est plus utile maintenant, supprimer le.");
+                    "App.Pony.FIXTURES n'est plus utile maintenant, supprimer le.");
 
                 var commitCall = 0;
                 var addController = App.AddController.create({
