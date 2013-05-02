@@ -361,11 +361,11 @@ App.AddController = Ember.ObjectController.extend({
 });
 
 &lt;script type="text/x-handlebars" data-template-name="index">
-    &#123;&#123;#linkTo add}}Add&#123;&#123;/linkTo}}
+    \{{#linkTo add}}Add&#123;&#123;/linkTo}}
     <ul>
-        &#123;&#123;#each pony in content}}
-        <li>&#123;&#123;#linkTo detail pony}}&#123;&#123;pony.name}}&#123;&#123;/linkTo}}</li>
-        &#123;&#123;/each}}
+        \{{#each pony in content}}
+        <li>\{{#linkTo detail pony}}\{{pony.name}}\{{/linkTo}}</li>
+        \{{/each}}
     </ul>
 &lt;/script>
 
