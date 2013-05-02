@@ -264,7 +264,7 @@ App.Pony = DS.Model.extend({
 
     <p>Définissez ensuite un template nommé <code>detail</code>, dans lequel vous afficherez le nom complet, le type et la couleur du poney choisi.</p>
 
-    <p>Enfin, utilisez le helper <a target="_blank" href="http://emberjs.com/guides/templates/links/">linkTo</a> pour créer un lien vers le détail depuis la liste des poneys. </p>
+    <p>Enfin, utilisez le helper <a target="_blank" href="http://emberjs.com/guides/templates/links/">linkTo</a> pour créer un lien vers le détail depuis la liste des poneys. Attention, le helper <code>linkTo</code> doit prendre en paramètre le poney et non pas son id. </p>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-consultation">
@@ -305,6 +305,8 @@ App.Router.map(function () {
     <p>Tout d'abord, il faut créer la route <code>add</code>, permettant d'arriver sur la page d'ajout.
         Par convention, si aucun chemin n'est spécifié, l'url de la route se déduit de son nom.</p>
     <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/">Rappel sur la création de route</a>
+
+    <p>Créez ensuite dans le template de liste de poney un lien vers la page d'ajout</p>
 
     <p>Nous allons maintenant créer le template <code>add</code> avec un formulaire.
         Ember fournit des composants permettant de gérer le binding sur les formulaires, nous allons donc les utiliser.
