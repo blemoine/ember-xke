@@ -27,15 +27,15 @@
     <script src="js/tutorial/tutorial.js"></script>
 
     <script type="text/x-handlebars" data-template-name="application">
-        <h1>{{#linkTo index}}My Li'l Pony Application{{/linkTo}}</h1>
+        <h1>{{#link-to 'index'}}My Li'l Pony Application{{/link-to}}</h1>
         {{outlet}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="index">
-        {{#linkTo add}}Add{{/linkTo}}
+        {{#link-to 'add'}}Add{{/link-to}}
         <ul>
             {{#each pony in content}}
-            <li>{{#linkTo detail pony}}{{pony.name}}{{/linkTo}}</li>
+              <li>{{#link-to 'detail' pony}}{{pony.name}}{{/link-to}}</li>
             {{/each}}
         </ul>
     </script>
@@ -47,7 +47,7 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="add">
-        <form>
+        <form {{action savePony on='submit'}}>
             <label for="firstName">First Name</label>
             {{input value=firstName}}
             <br>
@@ -64,8 +64,7 @@
             {{input value=type}}
             <br>
 
-            <input type="submit" {{action savePony}} />
-
+            <input type="submit"/>
         </form>
     </script>
 </body>

@@ -10,22 +10,22 @@ app.configure(function () {
 var ponies = {
     1: {
         id: 1,
-        first_name: 'Rainbow',
-        last_name: 'Dash',
+        firstName: 'Rainbow',
+        lastName: 'Dash',
         color: 'Sky blue',
         type: 'Pegasus'
     },
     2: {
         id: 2,
-        first_name: 'Twillight',
-        last_name: 'Sparkle',
+        firstName: 'Twillight',
+        lastName: 'Sparkle',
         color: 'Lavender',
         type: 'Alicorn'
     },
     3: {
         id: 3,
-        first_name: 'Apple',
-        last_name: 'Jack',
+        firstName: 'Apple',
+        lastName: 'Jack',
         color: 'orange',
         type: 'Earth Pony'
     }
@@ -36,24 +36,24 @@ app.use(express.static(__dirname));
 
 
 // list of pony
-app.get('/ponys', function(req, res) {
+app.get('/ponies', function(req, res) {
     var ponyInArray = [];
     for (var userId in ponies){
-        ponyInArray.push(ponies[userId])
+        ponyInArray.push(ponies[userId]);
     }
 
-    res.send({'ponys': ponyInArray});
+    res.send({'ponies': ponyInArray});
 });
 
 
 // get pony by id
-app.get('/ponys/:id', function(req, res) {
+app.get('/ponies/:id', function(req, res) {
     res.send({'pony':ponies[req.params.id]});
 });
 
 
 // new pony
-app.post('/ponys', function(req, res) {
+app.post('/ponies', function(req, res) {
     console.log("req -->" + req);
     if (!!req.body.pony.id && ponies[req.body.pony.id] == null){
         ponies[req.body.pony.id] = req.body.pony;
@@ -64,7 +64,7 @@ app.post('/ponys', function(req, res) {
 
 
 // update pony
-app.put('/ponys/:id', function(req, res) {
+app.put('/ponies/:id', function(req, res) {
     if (!!req.body.id && ponies[req.body.id] != null){
         ponies[req.body.id] = req.body;
         res.send("ok");
@@ -72,7 +72,7 @@ app.put('/ponys/:id', function(req, res) {
     res.send("ko");
 });
 
-app.delete('/ponys/:id', function(req, res) {
+app.delete('/ponies/:id', function(req, res) {
     if (!!req.params.id && ponies[req.params.id] != null){
         delete ponies[req.params.id];
         res.send("ok");
