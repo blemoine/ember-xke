@@ -128,18 +128,6 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer un datastore",
-            detailTemplateName: "tutorial-step-ds",
-            solutionTemplateName: "tutorial-solution-ds",
-            test: function () {
-                ok (Em.typeOf(App.Store) == 'class', "App.Store n'est pas définie.");
-                ok (App.Store.create() instanceof DS.Store, "App.Store n'est pas de type DS.Store");
-                ok (App.Store.prototype.revision == 12,
-                    "La revision actuelle de App.Store est "+App.Store.prototype.revision
-                        +" alors qu'elle devrait être 12");
-            }
-        }),
-        Tuto.Step.create({
             title: "Créer une classe Pony",
             detailTemplateName: "tutorial-step-model",
             solutionTemplateName: "tutorial-solution-model",
