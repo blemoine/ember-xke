@@ -27,30 +27,31 @@
     <script src="js/tutorial/tutorial.js"></script>
 
     <script type="text/x-handlebars" data-template-name="application">
-      <h1>{{#link-to 'index'}}My Li'l Pony Application{{/link-to}}</h1>
-      {{outlet}}
+        <h1>{{#link-to 'pony.index'}}My Li'l Pony Application{{/link-to}}</h1>
+        {{outlet}}
     </script>
 
-    <script type="text/x-handlebars" data-template-name="index">
-        {{#link-to 'add'}}Add{{/link-to}}
+    <script type="text/x-handlebars" data-template-name="pony/index">
+        {{#link-to 'pony.add'}}Add{{/link-to}}
         <ul>
             {{#each pony in sorted}}
               <li>
-                {{#link-to 'detail' pony}}{{pony.name}}{{/link-to}}
+                {{#link-to 'pony.detail' pony}}{{pony.name}}{{/link-to}}
+                {{#link-to 'pony.edit' pony}}Modifier{{/link-to}}
                 <button {{action deletePony pony}}>supprimer</button>
               </li>
             {{/each}}
         </ul>
     </script>
 
-    <script type="text/x-handlebars" data-template-name="detail">
-      <span>Name: {{upperCase content.name}}</span><br/>
-      <span>Type: {{content.type}}</span><br/>
-      <span>Color: {{content.color}}</span><br/>
+    <script type="text/x-handlebars" data-template-name="pony/detail">
+        <span>Name: {{upperCase content.name}}</span><br/>
+        <span>Type: {{content.type}}</span><br/>
+        <span>Color: {{content.color}}</span><br/>
     </script>
 
-    <script type="text/x-handlebars" data-template-name="add">
-        <form {{action savePony on='submit'}}>
+    <script type="text/x-handlebars" data-template-name="pony/form">
+        <form {{action savePony this on='submit'}}>
             <label for="firstName">First Name</label>
             {{input value=firstName}}
             <br>
@@ -69,6 +70,14 @@
 
             <input type="submit"/>
         </form>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="pony/add">
+      {{partial 'pony/form'}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="pony/edit">
+      {{partial 'pony/form'}}
     </script>
 </body>
 </html>
