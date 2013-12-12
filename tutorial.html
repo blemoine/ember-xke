@@ -5,7 +5,7 @@
     </div>
     <div class="steps">
         {{#each step in Tuto.STEPS}}
-            {{view Tuto.StepView stepBinding=step}}
+            {{view Tuto.StepView stepBinding="step"}}
         {{/each}}
     </div>
 </script>
@@ -17,7 +17,7 @@
         <span class="picto"></span>
         <span class="vline b"></span>
     </div>
-    <div {{bindAttr class=":step-detail :well view.detailIsShown:solShown:solHidden"}}>
+    <div {{bind-attr class=":step-detail :well view.detailIsShown:solShown:solHidden"}}>
 
         <h4>Explications</h4>
         {{view view.explanationView}}
@@ -264,7 +264,7 @@ App.Pony = DS.Model.extend({
 
     <p>Définissez ensuite un template nommé <code>detail</code>, dans lequel vous afficherez le nom complet, le type et la couleur du poney choisi.</p>
 
-    <p>Enfin, utilisez le helper <a target="_blank" href="http://emberjs.com/guides/templates/links/">linkTo</a> pour créer un lien vers le détail depuis la liste des poneys. Attention, le helper <code>linkTo</code> doit prendre en paramètre le poney et non pas son id. </p>
+    <p>Enfin, utilisez le helper <a target="_blank" href="http://emberjs.com/guides/templates/links/">link-to</a> pour créer un lien vers le détail depuis la liste des poneys. Attention, le helper <code>link-to</code> doit prendre en paramètre le poney et non pas son id. </p>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-consultation">
@@ -281,7 +281,7 @@ App.Router.map(function () {
 &lt;script type="text/x-handlebars" data-template-name="index">
 <ul>
     \{{#each poney in content}}
-    <li>\{{#linkTo detail poney}}\{{poney.name}}\{{/linkTo}}</li>
+    <li>\{{#link-to 'detail' poney}}\{{poney.name}}\{{/link-to}}</li>
     \{{/each}}
 </ul>
 &lt;/script>
@@ -294,7 +294,7 @@ App.Router.map(function () {
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-home">
 &lt;script type="text/x-handlebars" data-template-name="application">
-    <h1>\{{#linkTo index}}My Li'l Pony Application\{{/linkTo}}</h1>
+    <h1>\{{#link-to 'index'}}My Li'l Pony Application\{{/link-to}}</h1>
     \{{outlet}}
 &lt;/script>
 </script>
@@ -363,10 +363,10 @@ App.AddController = Ember.ObjectController.extend({
 });
 
 &lt;script type="text/x-handlebars" data-template-name="index">
-    \{{#linkTo add}}Add&#123;&#123;/linkTo}}
+    \{{#link-to 'add'}}Add&#123;&#123;/link-to}}
     <ul>
         \{{#each pony in content}}
-        <li>\{{#linkTo detail pony}}\{{pony.name}}\{{/linkTo}}</li>
+        <li>\{{#link-to 'detail' pony}}\{{pony.name}}\{{/link-to}}</li>
         \{{/each}}
     </ul>
 &lt;/script>
