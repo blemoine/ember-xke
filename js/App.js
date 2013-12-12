@@ -29,6 +29,11 @@ App.AddRoute = Ember.Route.extend({
     }
 });
 
+App.IndexController = Em.ArrayController.extend({
+  sortBy: ['name'],
+  sorted: Em.computed.sort('@this', 'sortBy')
+});
+
 App.AddController = Ember.ObjectController.extend({
   actions: {
     savePony: function () {

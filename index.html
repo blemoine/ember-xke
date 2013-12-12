@@ -34,7 +34,7 @@
     <script type="text/x-handlebars" data-template-name="index">
         {{#link-to 'add'}}Add{{/link-to}}
         <ul>
-            {{#each pony in content}}
+            {{#each pony in sorted}}
               <li>{{#link-to 'detail' pony}}{{pony.name}}{{/link-to}}</li>
             {{/each}}
         </ul>
