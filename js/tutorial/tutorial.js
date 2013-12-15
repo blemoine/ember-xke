@@ -162,6 +162,12 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-fixture",
             solutionTemplateName: "tutorial-solution-fixture",
             test: function () {
+                ok (typeof App.Store != "undefined",
+                    "App.Store n'est pas encore définie");
+
+                ok (App.Store.superclass == DS.Store,
+                    "App.Store n'est pas de type DS.Store");
+
                 ok (App.Store.prototype.adapter == "DS.FixtureAdapter",
                     "L'adapter actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
                         " alors qu'il devrait être 'DS.FixtureAdapter'");
