@@ -138,8 +138,8 @@ $.get('tutorial.html').done(function (content) {
                 ok(Em.typeOf(App.Pony)  == "class",
                     "App.Pony n'est pas une classe ember.");
 
-                ok(App.Pony.createRecord &&
-                   App.Pony.createRecord() instanceof DS.Model,
+                ok(App.Pony.ClassMixin && App.Pony.ClassMixin.mixins && App.Pony.ClassMixin.mixins[0] &&
+                    App.Pony.ClassMixin.mixins[0].ownerConstructor ==  'DS.Model',
                     "App.Pony n'est pas de type DS.Model");
 
                 var assertPonyPropertyExistenceAndType = function (propertyName, expectedType) {
