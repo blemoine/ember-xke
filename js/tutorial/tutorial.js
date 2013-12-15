@@ -123,7 +123,7 @@ $.get('tutorial.html').done(function (content) {
                 ok(Em.TEMPLATES['application'] != undefined,
                     "Le template 'application' n'est pas déclaré.");
 
-                templateContains("application", "MyLi'lPonyApplication",
+                templateContains("application", "My Li'l Pony Application",
                     "Le template application ne contient pas le bon titre et/ou les bonnes balises.")
             }
         }),
