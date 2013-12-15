@@ -1,5 +1,3 @@
-Ember.ENV.TESTING = true;
-window.location.hash = "#/"
 SyntaxHighlighter.defaults['gutter'] = false;
 
 $.get('tutorial.html').done(function (content) {
@@ -181,7 +179,7 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-list",
             solutionTemplateName: "tutorial-solution-list",
             test: function () {
-                ok (templates.application.indexOf("{{outlet}}") != -1, "Le template application ne contient pas de {{outlet}}");
+                ok (TEMPLATES.application.indexOf("{{outlet}}") != -1, "Le template application ne contient pas de {{outlet}}");
                 ok (Em.typeOf(App.IndexRoute) == 'class', "App.IndexRoute n'est pas définie ou n'est pas une classe Ember.");
                 ok (App.IndexRoute.create() instanceof Em.Route, "App.IndexRoute n'est pas de type Ember.Route");
                 ok (App.IndexRoute.prototype.model(),
@@ -194,9 +192,9 @@ $.get('tutorial.html').done(function (content) {
 
                 ok(Em.TEMPLATES['index'] != undefined, "Le template 'index' n'est pas déclaré.");
 
-                ok (templates.index.indexOf("<ul>") != -1, "Le template ne contient pas de balise ul");
-                ok (templates.index.indexOf("<li>") != -1, "Le template ne contient pas de balise li");
-                ok (templates.index.indexOf("{{#each") != -1, "Le template ne contient pas de helper {{each}}");
+                ok (TEMPLATES.index.indexOf("<ul>") != -1, "Le template ne contient pas de balise ul");
+                ok (TEMPLATES.index.indexOf("<li>") != -1, "Le template ne contient pas de balise li");
+                ok (TEMPLATES.index.indexOf("{{#each") != -1, "Le template ne contient pas de helper {{each}}");
             }
         }),
         Tuto.Step.create({
@@ -226,7 +224,7 @@ $.get('tutorial.html').done(function (content) {
                 ok (pony.get("name") == "CC DD", "La propriété calculée name ne dépend pas de lastName");
                 pony.deleteRecord();
 
-                ok (templates.index.indexOf("name}}") != -1, "La propriété name n'est pas utilisée dans le template index");
+                ok (TEMPLATES.index.indexOf("name}}") != -1, "La propriété name n'est pas utilisée dans le template index");
             }
         }),
         Tuto.Step.create({
@@ -253,11 +251,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-home",
             solutionTemplateName: "tutorial-solution-home",
             test: function () {
-                ok(templates.application.indexOf('{{#linkTo') != - 1 &&
-                   templates.application.indexOf('{{/linkTo') != - 1, "Le template application ne contient pas de linkTo");
+                ok(TEMPLATES.application.indexOf('{{#linkTo') != - 1 &&
+                   TEMPLATES.application.indexOf('{{/linkTo') != - 1, "Le template application ne contient pas de linkTo");
 
-                ok(templates.application.indexOf('{{#linkToindex}}') != -1, "LinkTo doit pointer vers index");
-                ok(templates.application.indexOf('<h1>{{#linkToindex}}') != -1, "LinkTo doit être entre les h1");
+                ok(TEMPLATES.application.indexOf('{{#linkToindex}}') != -1, "LinkTo doit pointer vers index");
+                ok(TEMPLATES.application.indexOf('<h1>{{#linkToindex}}') != -1, "LinkTo doit être entre les h1");
                 ok ($('#ember-app div a').attr('href') == "#/", "Le lien du titre pointe vers "+
                     $('#ember-app div a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
             }
@@ -269,8 +267,8 @@ $.get('tutorial.html').done(function (content) {
             test: function () {
                 var appRouter = App.__container__.lookup('router:main');
 
-                ok (templates.index.indexOf("{{#linkToadd}}") != -1 &&
-                    templates.index.indexOf("{{/linkTo}}") != -1
+                ok (TEMPLATES.index.indexOf("{{#linkToadd}}") != -1 &&
+                    TEMPLATES.index.indexOf("{{/linkTo}}") != -1
                     , "Le template index ne contient pas de linkTo vers la route add");
 
                 ok (appRouter.hasRoute('add'), "Il n'y pas de route 'add' déclarée dans le router.");
