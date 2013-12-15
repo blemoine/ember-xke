@@ -162,19 +162,6 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer une fixture Ember-Data",
-            detailTemplateName: "tutorial-step-fixture",
-            solutionTemplateName: "tutorial-solution-fixture",
-            test: function () {
-                ok (App.Store.prototype.adapter == "DS.FixtureAdapter",
-                    "L'adapter actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
-                        " alors qu'il devrait être 'DS.FixtureAdapter'");
-
-                ok (App.Pony.FIXTURES && App.Pony.FIXTURES.length > 0,
-                    "Faut faire un copier/coller de ce qu'il y a au dessus !");
-            }
-        }),
-        Tuto.Step.create({
             title: "Créer le template (liste)",
             detailTemplateName: "tutorial-step-list",
             solutionTemplateName: "tutorial-solution-list",
