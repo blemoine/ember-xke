@@ -43,40 +43,37 @@ $.get('tutorial.html').done(function (content) {
         classNames: "step",
         classNameBindings: ['step.isActive'],
         solutionIsShown: false,
-        toggleSolution: function () {
-            this.toggleProperty("solutionIsShown");
-            Em.run.next(function () {
-                SyntaxHighlighter.defaults['gutter'] = false;
-                SyntaxHighlighter.all();
-            });
-            this.$('.solution').stop().slideToggle(this.solutionIsShown);
-        },
+        detailIsShownToggler: false,
+        detailIsShown: Em.computed.or("step.isActive", "detailIsShownToggler"),
         explanationView: function () {
             return Em.View.extend({
                 classNames: "well",
                 templateName: this.step.detailTemplateName
             });
         }.property('step'),
-        detailIsShownToggler: false,
-        toggleDetail: function () {
-            this.toggleProperty("detailIsShownToggler");
-            $('.step-detail').not(this.$('.step-detail')).slideUp();
-            this.$('.step-detail').stop().slideToggle(this.detailIsShownToggler);
-
-        },
-        detailIsShown: function () {
-            return this.get('step.isActive') || this.detailIsShownToggler;
-        }.property("step.isActive", "detailIsShownToggler"),
-        errorsIsShown: function(){
-
-        }.property("step.passed", "step.executed"),
         solutionView: function () {
             return Em.View.extend({
                 tagName: "pre",
                 classNames: ["code", "brush: js"],
                 templateName: this.step.solutionTemplateName
             });
-        }.property("step.solutionTemplateName")
+        }.property("step.solutionTemplateName"),
+        actions:{
+            toggleSolution: function () {
+                this.toggleProperty("solutionIsShown");
+                Em.run.next(function () {
+                    SyntaxHighlighter.defaults['gutter'] = false;
+                    SyntaxHighlighter.all();
+                });
+                this.$('.solution').stop().slideToggle(this.solutionIsShown);
+            },
+            toggleDetail: function () {
+                this.toggleProperty("detailIsShownToggler");
+                $('.step-detail').not(this.$('.step-detail')).slideUp();
+                this.$('.step-detail').stop().slideToggle(this.detailIsShownToggler);
+
+            }
+        }
     });
 
     Tuto.Step = Em.Object.extend({
@@ -95,7 +92,7 @@ $.get('tutorial.html').done(function (content) {
     });
 
     templateContains = function (templateName, text, msg){
-        ok(templates[templateName].indexOf(text) != - 1, msg);
+        ok(TEMPLATES[templateName].replace(/ /g, '').indexOf(text) != - 1, msg);
     }
 
     Tuto.STEPS = [

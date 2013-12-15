@@ -1,4 +1,10 @@
 App = Ember.Application.create({
+    rootElement: '#ember-app'
+});
+
+/***********
+
+App = Ember.Application.create({
   rootElement: '#ember-app'
 });
 
@@ -53,3 +59,5 @@ App.PonyIndexController = Em.ArrayController.extend({
 Ember.Handlebars.helper('upperCase', function (text) {
   return text.toUpperCase();
 });
+
+ ********/
