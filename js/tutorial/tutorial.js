@@ -95,7 +95,7 @@ $.get('tutorial.html').done(function (content) {
     });
 
     templateContains = function (templateName, text, msg){
-        ok(templates[templateName].indexOf(text) != - 1, msg);
+        ok(TEMPLATES[templateName].indexOf(text) != - 1, msg);
     }
 
     Tuto.STEPS = [
