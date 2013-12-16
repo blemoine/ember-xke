@@ -84,13 +84,16 @@ $.get('tutorial.html').done(function (content) {
         passed: false,
         executed: false,
         errors: [],
+        allErrors:function(){
+            return [TEMPLATES_ERROR,this.errors].join('\n');
+        }.property('errors'),
         isActive: function () {
             return !this.passed && this.executed;
         }.property("passed", "executed")
     });
 
     templateContains = function (templateName, text, msg){
-        ok(TEMPLATES[templateName].replace(/ /g, '').indexOf(text) != - 1, msg);
+        ok(TEMPLATES[templateName] && TEMPLATES[templateName].replace(/ /g, '').indexOf(text) != - 1, msg);
     }
 
     Tuto.STEPS = [
@@ -182,11 +185,14 @@ $.get('tutorial.html').done(function (content) {
                 ok (TEMPLATES.application.indexOf("{{outlet}}") != -1, "Le template application ne contient pas de {{outlet}}");
                 ok (Em.typeOf(App.IndexRoute) == 'class', "App.IndexRoute n'est pas définie ou n'est pas une classe Ember.");
                 ok (App.IndexRoute.create() instanceof Em.Route, "App.IndexRoute n'est pas de type Ember.Route");
-                ok (App.IndexRoute.prototype.model(),
+
+                var indexRoute = App.__container__.lookup('route:index');
+
+                ok (indexRoute.model(),
                     "La méthode 'model' de App.IndexRoute ne renvoie rien ou n'est pas définie.");
-                ok (App.IndexRoute.prototype.model().get,
-                    "La méthode 'model' de App.IndexRoute un Objet Ember.");
-                ok (App.IndexRoute.prototype.model().get('content'),
+                ok (indexRoute.model().get,
+                    "La méthode 'model' de App.IndexRoute doit être un Objet Ember.");
+                ok (indexRoute.model().get ('isFulfilled') == false,
                     "La méthode 'model' de App.IndexRoute ne renvoie pas la liste bouchonée des poneys.");
 
 
