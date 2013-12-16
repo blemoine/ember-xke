@@ -1,6 +1,7 @@
 var express = require('express');
 var RSVP = require('rsvp');
 var fs = require('fs');
+var recursive_readdir = require('recursive-readdir');
 var app = express();
 
 app.configure(function () {
@@ -77,16 +78,19 @@ app.delete('/ponies/:id', function(req, res) {
 });
 
 app.get('/templates.js', function(req, res) {
-  fs.readdir('templates', function(err, files) {
+    recursive_readdir('templates', function(err, files) {
     if (err) { res.send(err); }
 
-    files = files.map(function(filename) {
+    files = files.filter(function(filename) {
+        return !filename.match(/\.gitkeep/);
+    }).map(function(filename) {
+            console.log(filename);
       return new RSVP.Promise(function(resolve, reject) {
-        fs.readFile('templates/' + filename, { encoding: 'utf-8' }, function(err, text) {
+        fs.readFile(filename, { encoding: 'utf-8' }, function(err, text) {
           if (err) { reject(err); }
 
           resolve({
-            name: filename.replace(/\.hbs$/, ''),
+            name: filename.replace(/\.hbs$/, '').replace("templates/", ''),
             template: text
           });
         });
@@ -100,7 +104,9 @@ app.get('/templates.js', function(req, res) {
           data.template + ');\nTEMPLATES["' + data.name + '"] = ' +
           data.template + ';';
       });
-      res.send('TEMPLATES = {};\n' + templates.join('\n'));
+      res.send('TEMPLATES_ERROR= null, TEMPLATES = {};\ntry{\n'
+          + templates.join('\n')
+          + "\n} catch(e) {\nTEMPLATES_ERROR = e.message}\n");
     }, function(err) {
       res.send(err);
     });
