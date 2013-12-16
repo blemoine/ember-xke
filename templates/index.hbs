@@ -1,8 +1,8 @@
-{{#link-to 'add'}}Add{{/link-to}}
+{{#link-to 'pony.add'}}Add{{/link-to}}
 <ul>
     {{#each pony in sorted}}
         <li>
-            {{#link-to 'pony.index' pony}}{{pony.name}}{{/link-to}}
+            {{#link-to 'pony.detail' pony}}{{pony.name}}{{/link-to}}
             {{#link-to 'pony.edit' pony}}Modifier{{/link-to}}
             <button {{action deletePony pony}}>supprimer</button>
         </li>

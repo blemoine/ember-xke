@@ -3,14 +3,6 @@ App = Ember.Application.create({
     LOG_TRANSITIONS:true
 });
 
-
-App.Router.map(function() {
-    this.route('add');
-    this.resource('pony', {path: '/pony/:pony_id'},function(){
-        this.route('edit', {path: '/edit'});
-    });
-});
-
 App.Pony = DS.Model.extend({
     firstName: DS.attr('string'),
     lastName: DS.attr('string'),
@@ -21,7 +13,7 @@ App.Pony = DS.Model.extend({
     }.property('firstName', 'lastName')
 });
 
-/*
+
 App.ApplicationAdapter = DS.FixtureAdapter;
 
 App.Pony.FIXTURES = [
@@ -46,7 +38,16 @@ App.Pony.FIXTURES = [
         color: 'orange',
         type: 'Earth Pony'
     }
-];*/
+];
+
+
+App.Router.map(function() {
+    this.resource('pony',function(){
+        this.route('add');
+        this.route('detail',{path: '/:pony_id'});
+        this.route('edit', {path: '/:pony_id/edit'});
+    });
+});
 
 App.IndexRoute = Ember.Route.extend({
     model: function() {
@@ -54,16 +55,20 @@ App.IndexRoute = Ember.Route.extend({
     }
 });
 
-App.AddController = Em.ObjectController.extend({
+App.PonyRoute = Em.Route.extend({
     actions:{
-        savePony: function() {
-            this.content.save();
-            this.transitionToRoute('pony.index');
+        savePony: function(pony) {
+            pony.save();
+            this.transitionTo('index');
+        },
+        deletePony: function(pony) {
+            pony.deleteRecord();
+            pony.save();
         }
     }
 });
 
-App.AddRoute = Ember.Route.extend({
+App.PonyAddRoute = Ember.Route.extend({
     model: function() {
         return this.store.createRecord('pony');
     }
@@ -71,13 +76,7 @@ App.AddRoute = Ember.Route.extend({
 
 App.IndexController = Em.ArrayController.extend({
     sortBy: ['name'],
-    sorted: Em.computed.sort('@this', 'sortBy'),
-    actions:{
-        deletePony: function(pony) {
-            pony.deleteRecord();
-            pony.save();
-        }
-    }
+    sorted: Em.computed.sort('@this', 'sortBy')
 });
 
 

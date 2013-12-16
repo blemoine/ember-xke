@@ -93,7 +93,7 @@ $.get('tutorial.html').done(function (content) {
     });
 
     templateContains = function (templateName, text, msg){
-        ok(TEMPLATES[templateName] &&
+        return ok(TEMPLATES[templateName] &&
             TEMPLATES[templateName]
                 .replace(/ /g, '')
                 .replace("\"", "'").indexOf(text) != - 1, msg);
@@ -258,11 +258,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-home",
             solutionTemplateName: "tutorial-solution-home",
             test: function () {
-                ok(TEMPLATES.application.indexOf('{{#link-to') != - 1 &&
-                   TEMPLATES.application.indexOf('{{/link-to') != - 1, "Le template application ne contient pas de link-to");
+                templateContains('application',"{{#link-to") && templateContains('application',"{{/link-to}}",
+                    "Le template application ne contient pas de link-to");
 
-                ok(templateContains('application',"{{#link-to'index'}}", "LinkTo doit pointer vers index"));
-                ok(templateContains('application',"<h1>{{#link-to'index'}}", "LinkTo doit être entre les h1"));
+                templateContains('application',"{{#link-to'index'}}", "LinkTo doit pointer vers index");
+                templateContains('application',"<h1>{{#link-to'index'}}", "LinkTo doit être entre les h1");
                 ok ($('#ember-app div a').attr('href') == "#/", "Le lien du titre pointe vers "+
                     $('#ember-app div a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
             }
@@ -286,14 +286,21 @@ $.get('tutorial.html').done(function (content) {
                 templateContains('add',"{{inputvalue=color}}", "Le template add ne contient pas de helper input pour le color");
                 templateContains('add',"{{inputvalue=type}}", "Le template add ne contient pas de helper input pour le type");
 
-                ok (Em.typeOf(App.AddRoute) == 'class', "App.AddRoute n'est pas définie ou n'est pas une classe Ember.");
-                ok (App.AddRoute.create() instanceof Em.Route, "App.AddRoute n'est pas de type Ember.Route");
-                ok (App.AddRoute.prototype.model(),
-                    "La méthode 'model' de App.AddRoute ne renvoie rien ou n'est pas définie.");
-                ok (App.AddRoute.prototype.model().id > 0,
-                    "La méthode 'model' de App.AddRoute ne renvois pas d'objet avec un id");
+                ok (Em.typeOf(App.PonyAddRoute) == 'class', "App.PonyAddRoute n'est pas définie ou n'est pas une classe Ember.");
 
-                ok (Em.typeOf(App.AddController) == "class",
+                var ponyAddRoute = App.__container__.lookup("route:ponyAdd");
+
+                ok (!!ponyAddRoute, "App.PonyAddRoute App.PonyAddRoute est mal définie.");
+
+                ok (ponyAddRoute instanceof Em.Route, "App.PonyAddRoute n'est pas de type Ember.Route");
+                var model =ponyAddRoute.model();
+                ok (!model,
+                    "La méthode 'model' de App.PonyAddRoute ne renvoie rien ou n'est pas définie.");
+                ok (model.id > 0,
+                    "La méthode 'model' de App.PonyAddRoute ne renvois pas d'objet avec un id");
+                model.deleteRecord();
+
+                /*ok (Em.typeOf(App.AddController) == "class",
                     "App.AddController n'est pas définie ou n'est pas une classe Ember");
 
                 ok (Em.typeOf(App.AddController.create().savePony) == "function",
@@ -303,25 +310,21 @@ $.get('tutorial.html').done(function (content) {
                 templateContains('add',"{{action", "Le template add ne contient d'action");
                 templateContains('add',"{{actionsavePony}}", "Le template contient une action mais elle n'appelle pas savePony");
 
-                var createRecord = App.Pony.createRecord, createRecordCall = 0;
-                var addController = App.AddController.create({store:{
-                    commit : function(){}}
-                });
+                var save = 0;
+                var addController = App.AddController.create();
                 var transitionToRoute = addController.transitionToRoute, transitionToRouteCall = 0, goodRoute = false;
 
-                App.Pony.createRecord = function(){ createRecordCall++ };
                 addController.transitionToRoute = function(route){
                     transitionToRouteCall++;
                     goodRoute = route == "index";
                 };
+                addController.set('model',Em.Object.create({save : function(){ save++ }}));
 
-                addController.savePony();
+                addController.send('savePony');
 
-                ok (createRecordCall == 1, "App.Pony.createRecord doit être appelé une fois dans savePony");
+                ok (save == 1, "App.Pony.createRecord doit être appelé une fois dans savePony");
                 ok (transitionToRouteCall == 1, "transitionToRoute doit être appelé une fois dans savePony");
-                ok (goodRoute, "transitionToRoute doit être appelé avec comme paramètre index pour retourner sur l'index de l'application.");
-
-                App.Pony.createRecord = createRecord;
+                ok (goodRoute, "transitionToRoute doit être appelé avec comme paramètre index pour retourner sur l'index de l'application.");*/
             }
         }),
         Tuto.Step.create({
