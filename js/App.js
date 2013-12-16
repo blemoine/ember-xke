@@ -38,7 +38,7 @@ App.PonyAddRoute = Ember.Route.extend({
     }
 });
 
-App.PonyRoute = Ember.Route.extend({
+App.AddRoute = Ember.Route.extend({
     actions: {
         savePony: function(pony) {
             pony.save();

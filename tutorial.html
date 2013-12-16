@@ -398,27 +398,13 @@ App.AddController = Ember.ObjectController.extend({
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-rest">
     <p>Plutôt que d'utiliser un bouchon, on peut maintenant se brancher directement sur le serveur pour persister les poneys que nous créons.
-      Pour cela, changez d'<code>adapter</code> dans le store et utiliser le <a target="_blank" href="http://emberjs.com/guides/models/the-rest-adapter/">le REST adapter</a>.
-    </p>
-
-    <p>Par ailleurs, pour synchroniser le store avec le serveur, il est nécessaire de commiter les modifications.
-        Pour cela, appelez la méthode <code>this.get('store').commit();</code> juste avant la rédirection dans la méthode <code>savePony</code>
+      Pour cela, supprimer la ligne <code>App.ApplicationAdapter  = DS.FixtureAdapter;</code>, afin de revenir à l'adapter par défaut.
     </p>
 
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-rest">
-App.Store = DS.Store.extend({
-    revision: 12,
-    adapter: 'DS.RESTAdapter'
-});
+// App.ApplicationAdapter  = DS.FixtureAdapter;
 
-App.AddController = Ember.ObjectController.extend({
-  savePony: function () {
-    App.Pony.createRecord(this.get('content'));
-    this.get('store').commit();
-    this.transitionToRoute('index');
-  }
-});
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-helper">
