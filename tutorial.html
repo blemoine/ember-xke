@@ -428,7 +428,7 @@ App.AddController = Ember.ObjectController.extend({
     <p>Créez le helper <code>upperCase</code> et utilisez le sur le nom dans la consultation</p>
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-helper">
-Ember.Handlebars.registerBoundHelper('upperCase', function (text) {
+Ember.Handlebars.helper('upperCase', function (text) {
     return text.toUpperCase();
 });
 

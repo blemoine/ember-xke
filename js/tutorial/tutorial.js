@@ -357,10 +357,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-helper",
             solutionTemplateName: "tutorial-solution-helper",
             test: function () {
+                var helpers = Em.Handlebars.helpers;
                 ok (helpers.upperCase != undefined, "Le helper 'upperCase' n'est pas définie.");
-                ok (helpers.upperCase('salut') === "SALUT", "Le helper 'upperCase' doit retourner la chaine passée en argument en majuscule");
+                ok (helpers.upperCase._rawFunction('salut') === "SALUT", "Le helper 'upperCase' doit retourner la chaine passée en argument en majuscule");
 
-                templateContains("detail", "{{upperCase", "Le helper upperCase n'est pas utilisé dans le template detail");
+                templateContains("pony/index", "{{upperCase", "Le helper upperCase n'est pas utilisé dans le template detail");
             }
         })
     ];

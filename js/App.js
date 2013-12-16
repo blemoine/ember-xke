@@ -54,5 +54,5 @@ App.IndexController = Em.ArrayController.extend({
 
 
 Ember.Handlebars.helper('upperCase', function (text) {
-    return text.toUpperCase();
+    return text && text.toUpperCase();
 });
