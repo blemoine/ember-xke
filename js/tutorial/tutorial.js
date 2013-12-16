@@ -329,27 +329,8 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-rest",
             solutionTemplateName: "tutorial-solution-rest",
             test: function () {
-                ok (App.Store.prototype.adapter == "DS.RESTAdapter",
-                    "L'adapter actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
-                        " alors qu'il devrait être 'DS.RESTAdapter'");
-
-
-                ok (typeof App.Pony.FIXTURES == "undefined",
-                    "App.Pony.FIXTURES n'est plus utile maintenant, supprimer le.");
-
-                var commitCall = 0;
-                var addController = App.AddController.create({
-                    store:{
-                        commit : function(){
-                            commitCall++;
-                        }
-                    },
-                    transitionToRoute:function(){
-
-                    }
-                });
-                addController.savePony();
-                ok (commitCall == 1, "la méthode commit de l'objet store doit être appelé une fois dans savePony")
+                ok (typeof App.ApplicationAdapter === "undefined",
+                    "App.ApplicationAdapter ne doit plus être défini");
             }
         }),
         Tuto.Step.create({
