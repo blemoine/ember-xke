@@ -93,7 +93,10 @@ $.get('tutorial.html').done(function (content) {
     });
 
     templateContains = function (templateName, text, msg){
-        ok(TEMPLATES[templateName] && TEMPLATES[templateName].replace(/ /g, '').indexOf(text) != - 1, msg);
+        ok(TEMPLATES[templateName] &&
+            TEMPLATES[templateName]
+                .replace(/ /g, '')
+                .replace("\"", "'").indexOf(text) != - 1, msg);
     }
 
     Tuto.STEPS = [
@@ -239,15 +242,15 @@ $.get('tutorial.html').done(function (content) {
 
                 var appRouter = App.__container__.lookup('router:main');
 
-                ok (appRouter.hasRoute('detail'), "Il n'y pas de route 'detail' déclarée dans le router.");
+                ok (appRouter.hasRoute('pony.index'), "Il n'y pas de route 'pony.index' déclarée dans le router.");
 
-                ok(Em.TEMPLATES['detail'] != undefined, "Le template 'detail' n'est pas déclaré.");
+                ok(Em.TEMPLATES['pony/index'] != undefined, "Le template 'pony/index' n'est pas déclaré.");
 
-                templateContains('detail','name}}', "Le nom n'est pas affiché dans le détail.");
-                templateContains('detail','type}}', "Le type n'est pas affiché dans le détail.");
-                templateContains('detail','color}}', "La couleur n'est pas affichée dans le détail.");
+                templateContains('pony/index','name}}', "Le nom n'est pas affiché dans le détail.");
+                templateContains('pony/index','type}}', "Le type n'est pas affiché dans le détail.");
+                templateContains('pony/index','color}}', "La couleur n'est pas affichée dans le détail.");
 
-                templateContains('index', "{{#linkTodetail" , "Le helper linkTo n'est pas utilisé dans le template index.");
+                templateContains('index', "{{#link-to'pony.index'" , "Le helper link-to n'est pas utilisé dans le template index.");
             }
         }),
         Tuto.Step.create({
@@ -255,11 +258,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-home",
             solutionTemplateName: "tutorial-solution-home",
             test: function () {
-                ok(TEMPLATES.application.indexOf('{{#linkTo') != - 1 &&
-                   TEMPLATES.application.indexOf('{{/linkTo') != - 1, "Le template application ne contient pas de linkTo");
+                ok(TEMPLATES.application.indexOf('{{#link-to') != - 1 &&
+                   TEMPLATES.application.indexOf('{{/link-to') != - 1, "Le template application ne contient pas de link-to");
 
-                ok(TEMPLATES.application.indexOf('{{#linkToindex}}') != -1, "LinkTo doit pointer vers index");
-                ok(TEMPLATES.application.indexOf('<h1>{{#linkToindex}}') != -1, "LinkTo doit être entre les h1");
+                ok(templateContains('application',"{{#link-to'index'}}", "LinkTo doit pointer vers index"));
+                ok(templateContains('application',"<h1>{{#link-to'index'}}", "LinkTo doit être entre les h1"));
                 ok ($('#ember-app div a').attr('href') == "#/", "Le lien du titre pointe vers "+
                     $('#ember-app div a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
             }
@@ -271,9 +274,9 @@ $.get('tutorial.html').done(function (content) {
             test: function () {
                 var appRouter = App.__container__.lookup('router:main');
 
-                ok (TEMPLATES.index.indexOf("{{#linkToadd}}") != -1 &&
-                    TEMPLATES.index.indexOf("{{/linkTo}}") != -1
-                    , "Le template index ne contient pas de linkTo vers la route add");
+                ok (TEMPLATES.index.indexOf("{{#link-toadd}}") != -1 &&
+                    TEMPLATES.index.indexOf("{{/link-to}}") != -1
+                    , "Le template index ne contient pas de link-to vers la route add");
 
                 ok (appRouter.hasRoute('add'), "Il n'y pas de route 'add' déclarée dans le router.");
                 ok(Em.TEMPLATES['add'] != undefined, "Le template 'add' n'est pas déclaré.");
