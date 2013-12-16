@@ -163,15 +163,11 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-fixture",
             solutionTemplateName: "tutorial-solution-fixture",
             test: function () {
-                ok (typeof App.Store != "undefined",
-                    "App.Store n'est pas encore définie");
+                ok (typeof App.ApplicationAdapter != "undefined",
+                    "App.ApplicationAdapter n'est pas encore définie");
 
-                ok (App.Store.superclass == DS.Store,
-                    "App.Store n'est pas de type DS.Store");
-
-                ok (App.Store.prototype.adapter == "DS.FixtureAdapter",
-                    "L'adapter actuel de App.Store est '"+ App.Store.prototype.adapter +"'" +
-                        " alors qu'il devrait être 'DS.FixtureAdapter'");
+                ok (App.ApplicationAdapter == DS.FixtureAdapter,
+                    "App.ApplicationAdapter doit être initialiser avec DS.FixtureAdapter");
 
                 ok (App.Pony.FIXTURES && App.Pony.FIXTURES.length > 0,
                     "Faut faire un copier/coller de ce qu'il y a au dessus !");
@@ -209,17 +205,18 @@ $.get('tutorial.html').done(function (content) {
             solutionTemplateName: "tutorial-solution-computed",
             test: function () {
 
-                ok (typeof App.Pony.createRecord({}).get('name') != "undefined",
-                    "App.Pony.name n'est pas pas définie");
+                var store = App.__container__.lookup('store:main');
 
-                ok (typeof App.Pony.createRecord({}).name != "function",
-                    "App.Pony.name n'est pas une proriété calculée mais une fonction, " +
-                        "on aurait pas oublié '.property(...)' par hazard ?");
-
-                var pony = App.Pony.createRecord({
+                var pony = store.createRecord('pony',{
                     firstName :'AA',
                     lastName: 'BB'
                 });
+
+                ok (typeof pony.get('name') != "undefined", "App.Pony.name n'est pas pas définie");
+
+                ok (typeof pony.name != "function", "App.Pony.name n'est pas une proriété calculée mais une fonction, " +
+                        "on aurait pas oublié '.property(...)' par hazard ?");
+
                 ok (pony.get("name") == "AA BB", "Si firstName = 'AA' et lastName = 'BB' name devrait valoir 'AA BB' " +
                     "et non pas "+ pony.get("name"));
 
@@ -228,6 +225,7 @@ $.get('tutorial.html').done(function (content) {
 
                 pony.set('lastName', 'DD');
                 ok (pony.get("name") == "CC DD", "La propriété calculée name ne dépend pas de lastName");
+
                 pony.deleteRecord();
 
                 ok (TEMPLATES.index.indexOf("name}}") != -1, "La propriété name n'est pas utilisée dans le template index");
