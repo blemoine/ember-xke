@@ -50,10 +50,11 @@ var PonyUnit = (function () {
 
     window.ok = function (testPassed, msg) {
         countAssert++;
-        return testPassed = !!testPassed;
+        testPassed = !!testPassed;
         if (!testPassed) {
             throw new Failed(msg)
         }
+        return testPassed;
     }
 
     window.fail = function (msg) {
