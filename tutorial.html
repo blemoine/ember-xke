@@ -146,10 +146,7 @@ App.Pony.FIXTURES = [
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-fixture">
      <pre class="brush: js">
-        App.Store = DS.Store.extend({
-            revision: 12,
-            adapter: 'DS.FixtureAdapter'
-        });
+        App.ApplicationAdapter  = DS.FixtureAdapter;
 
         App.Pony.FIXTURES = [
     {
