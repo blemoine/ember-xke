@@ -1,11 +1,13 @@
 App = Ember.Application.create({
-    rootElement: '#ember-app'
+    rootElement: '#ember-app',
+    LOG_TRANSITIONS:true
 });
 
-/***********
-
-App = Ember.Application.create({
-  rootElement: '#ember-app'
+App.Router.map(function() {
+    this.route('add');
+    this.resource('pony', {path: '/:pony_id'},function(){
+        this.route('edit', {path: '/edit'});
+    });
 });
 
 App.Pony = DS.Model.extend({
@@ -14,50 +16,43 @@ App.Pony = DS.Model.extend({
     color: DS.attr('string'),
     type: DS.attr('string'),
     name: function() {
-      return this.get('firstName') + ' ' + this.get('lastName');
+        return this.get('firstName') + ' ' + this.get('lastName');
     }.property('firstName', 'lastName')
 });
 
-App.Router.map(function() {
-  this.resource('pony', {path: '/'}, function() {
-    this.route('add');
-    this.route('detail', {path: '/:pony_id'});
-    this.route('edit', {path: '/:pony_id/edit'});
-  });
-});
-
-App.PonyRoute = Ember.Route.extend({
-  actions: {
-    deletePony: function(pony) {
-      pony.deleteRecord();
-      pony.save();
+App.IndexRoute = Ember.Route.extend({
+    model: function() {
+        return this.store.find('pony');
     },
-    savePony: function(pony) {
-      pony.save();
-      this.transitionTo('pony.index');
+    actions:{
+        deletePony: function(pony) {
+            pony.deleteRecord();
+            pony.save();
+        }
     }
-  }
-});
-
-App.PonyIndexRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.find('pony');
-  }
 });
 
 App.PonyAddRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.createRecord('pony');
-  }
+    model: function() {
+        return this.store.createRecord('pony');
+    }
 });
 
-App.PonyIndexController = Em.ArrayController.extend({
-  sortBy: ['name'],
-  sorted: Em.computed.sort('@this', 'sortBy')
+App.PonyRoute = Ember.Route.extend({
+    actions: {
+        savePony: function(pony) {
+            pony.save();
+            this.transitionTo('pony.index');
+        }
+    }
 });
+
+App.IndexController = Em.ArrayController.extend({
+    sortBy: ['name'],
+    sorted: Em.computed.sort('@this', 'sortBy')
+});
+
 
 Ember.Handlebars.helper('upperCase', function (text) {
-  return text.toUpperCase();
+    return text.toUpperCase();
 });
-
- ********/
