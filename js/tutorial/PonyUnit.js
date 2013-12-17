@@ -47,20 +47,22 @@ var PonyUnit = (function () {
         }
     }
 
-    window.ok = function (testPassed, msg) {
+    window.ok = function (testPassed, msg, failCallback) {
         countAssert++;
         testPassed = !!testPassed;
         if (!testPassed) {
+            !!failCallback && typeof failCallback == "function" && failCallback();
             throw new Failed(msg)
         }
+        return testPassed;
     }
 
     window.fail = function (msg) {
-        ok (false, msg)
+        return ok (false, msg)
     }
 
     window.equal = function (a , b, msg) {
-        ok (a === b, msg);
+        return ok (a === b, msg);
     }
 
     return {
