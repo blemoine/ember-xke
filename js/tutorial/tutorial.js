@@ -260,7 +260,11 @@ $.get('tutorial.html').done(function (content) {
 
                 var appRouter = App.__container__.lookup('router:main');
 
+                ok(appRouter.hasRoute('pony.index'), "Il n'y pas de resource 'pony' déclarée dans le router.");
                 ok(appRouter.hasRoute('pony.detail'), "Il n'y pas de route 'pony.detail' déclarée dans le router.");
+
+                ok (!!appRouter.router.recognizer.recognize('/pony/1'),
+                    'La propriété path est mal définie sur la route "pony.detail"');
 
                 ok(Em.TEMPLATES['pony/detail'] != undefined, "Le template 'pony/detail' n'est pas déclaré.");
 
