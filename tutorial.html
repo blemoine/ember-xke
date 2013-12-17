@@ -309,77 +309,80 @@ App.Router.map(function() {
 <script type="text/x-handlebars" data-template-name="tutorial-step-add">
     <p>Il est maintenant nécessaire de pouvoir ajouter de nouveaux poneys. Pour cela, nous allons créer une route, un controller et un template.</p>
 
-    <p>Tout d'abord, il faut créer la route <code>add</code>, permettant d'arriver sur la page d'ajout.
+    <p>Tout d'abord, il faut créer la route <code>add</code> dans la resource <code>pony</code>, permettant d'arriver sur la page d'ajout.
         Par convention, si aucun chemin n'est spécifié, l'url de la route se déduit de son nom.</p>
     <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/">Rappel sur la création de route</a>
 
     <p>Créez ensuite dans le template de liste de poney un lien vers la page d'ajout</p>
 
-    <p>Nous allons maintenant créer le template <code>add</code> avec un formulaire.
+    <p>Nous allons maintenant créer le template <code>add</code> dans le dossier pony, lui même dans le dossier templates, avec un formulaire.
         Ember fournit des composants permettant de gérer le binding sur les formulaires, nous allons donc les utiliser.
         Créer un formulaire avec 4 label et
-        4 champs input textfield en utilisant <a target="_blank" href="http://emberjs.com/blog/2013/04/21/ember-1-0-rc3.html">la syntaxe de formulaire de la RC.3</a></p>
+        4 champs input textfield en utilisant <a target="_blank" href="http://emberjs.com/guides/templates/input-helpers/">la syntaxe de formulaire.</a></p>
 
     <p>Pour que nos propriétés soient enregistrées dans un objet avant d'être synchronisées par Ember Data,
-        il faut créer cet objet au niveau du controller.
-        Une solution pour cela est d'indiquer que le modèle correspondant à notre route est un objet simple contenant une propriété id préremplie, par exemple&nbsp;:
-    <code>{id: new Date().getTime()}</code>.
-        Créez la route <code>App.AddRoute</code> et dans sa méthode modèle, renvoyez l'objet précréé.</p>
-
-    <p>Il ne reste plus qu'à créer un bouton dans le formulaire qui enregistrera effectivement le poney dans le store.
-        Pour cela ajoutez un <strong>input HTML  de type submit</strong>
-        à votre formulaire, utilisez un helper
-        <a target="_blank" href="http://emberjs.com/guides/templates/actions/">action</a>
-        pour appeler la méthode <code>savePoney</code>. </p>
-
-    <p>Créez un controller <code>App.AddController</code> héritant de <code>Ember.ObjectController</code>, et créez une méthode <code>savePoney</code> dans celui.
-        C'est cette méthode qui est appelée par le bouton.
-        Les champs du formulaire sont synchronisés en temps réel au fur et à mesure de la frappe&nbsp;;
-        la méthode <code>savePoney</code>
-        peut donc se contenter d'enregistrer l'attribut <code>content</code> du controller dans le datastore.
+        il faut créer une instance de notre modèle dans la méthode <code>model</code> de la class PonyAddRoute
+        <a target="_blank" href="http://emberjs.com/guides/models/creating-and-deleting-records/">Comment créer un record</a>
     </p>
 
-    <p>Pour accéder au content du controller, vous pouvez utiliser la méthode <code>this.get('content')</code>.
-        Pour enregistrer votre modèle, vous devez utiliser la fonction <code>createRecord</code> de <code>App.Pony</code>, exemple&nbsp;:
-        <code>App.Pony.createRecord(this.get('content'));</code>
+    <p>Il ne reste plus qu'à créer un bouton dans le formulaire qui enregistrera effectivement le poney dans le store.
+        Pour cela ajoutez un <strong>input HTML  de type submit</strong> à votre formulaire, utilisez un helper
+        <a target="_blank" href="http://emberjs.com/guides/templates/actions/">action</a>
+        pour appeler la méthode <code>savePoney</code> en lui passant en argument le le model courant.
+    </p>
+
+    <p>
+        Chose intéréssante pour nous, ember par défault bubble les actions provenant d'une page. C'est à dire que pour une action 'savePoney', si il ne la trouve pas
+        dans le PonyAddController, comme elle pourrait être logiquement trouvé, il va remonter dans la route, puis de route en parente en route parente jusqu'à arriver à
+        l'ApplicationRoute.
+        <a target="_blank" href="http://emberjs.com/guides/templates/actions/#toc_action-bubbling">Pour en savoir plus sur le Bubbling d'action</a>
+    </p>
+
+    <p>
+        Nous allons utiliser cette fonctionalité pour placer l'action savePony dans la class PonyRoute,
+        cette façon de faire nous permettra ne presque rien changer pour faire la fonctionalité de modification de poney.
     </p>
 
     <p>Enfin, une fois le poney enregistré dans le datastore, on souhaite rediriger vers l'accueil.
         Pour cela, le controller possède une méthode
-        <a target="_blank" href="http://emberjs.com/api/classes/Ember.Controller.html#method_transitionToRoute">transitionToRoute</a>
+        <a target="_blank" href="http://emberjs.com/api/classes/Ember.Route.html#method_transitionTo">transitionTo</a>
         prenant en paramètre le  nom de la route vers laquelle on désire être redirigé.</p>
 
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-add">
-App.Router.map(function () {
-    this.route('detail', {path: 'pony/:pony_id'});
-    this.route('add');
+App.Router.map(function() {
+    this.resource('pony',function(){
+        this.route('add');
+        this.route('detail',{path: '/:pony_id'});
+    });
 });
 
-App.AddRoute = Ember.Route.extend({
-  model: function () {
-    return {id: new Date().getTime()};
-  }
+App.PonyAddRoute = Ember.Route.extend({
+    model: function() {
+        return this.store.createRecord('pony');
+    }
 });
 
-App.AddController = Ember.ObjectController.extend({
-  savePony: function () {
-    App.Pony.createRecord(this.get('content'));
-    this.transitionToRoute('index');
-  }
+App.PonyRoute = Em.Route.extend({
+    actions:{
+        savePony: function(pony) {
+            pony.save();
+            this.transitionTo('index');
+        }
+    }
 });
 
 &lt;script type="text/x-handlebars" data-template-name="index">
-    \{{#link-to 'add'}}Add&#123;&#123;/link-to}}
+    \{{#link-to 'pony.add'}}Add&#123;&#123;/link-to}}
     <ul>
         \{{#each pony in content}}
-        <li>\{{#link-to 'detail' pony}}\{{pony.name}}\{{/link-to}}</li>
+        <li>\{{#link-to 'pony.detail' pony}}\{{pony.name}}\{{/link-to}}</li>
         \{{/each}}
     </ul>
 &lt;/script>
 
 
-&lt;script type="text/x-handlebars" data-template-name="add">
+&lt;script type="text/x-handlebars" data-template-name="pony.add">
     <form>
         <label for="firstName">First Name</label>
         \{{input value=firstName}}
@@ -397,7 +400,7 @@ App.AddController = Ember.ObjectController.extend({
         \{{input value=type}}
         <br />
 
-        &lt;input type="submit" \{{action savePoney}} />
+        &lt;input type="submit" \{{action savePoney this}}/>
 
     </form>
 &lt;/script>
