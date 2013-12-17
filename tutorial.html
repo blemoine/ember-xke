@@ -315,7 +315,7 @@ App.Router.map(function() {
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-add">
-    <p>Il est maintenant nécessaire de pouvoir ajouter de nouveaux poneys. Pour cela, nous allons créer une route, un controller et un template.</p>
+    <p>Il est maintenant nécessaire de pouvoir ajouter de nouveaux poneys. Pour cela, nous allons créer une route, deux classes de route et un template.</p>
 
     <p>Tout d'abord, il faut créer la route <code>add</code> dans la resource <code>pony</code>, permettant d'arriver sur la page d'ajout.
         Par convention, si aucun chemin n'est spécifié, l'url de la route se déduit de son nom.</p>
@@ -429,7 +429,7 @@ App.PonyRoute = Em.Route.extend({
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-helper">
 Ember.Handlebars.helper('upperCase', function (text) {
-    return text.toUpperCase();
+    return text && text.toUpperCase();
 });
 
 // template index
