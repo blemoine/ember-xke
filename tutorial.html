@@ -243,6 +243,24 @@ App.Pony = DS.Model.extend({
 </ul>
 </script>
 
+<script type="text/x-handlebars" data-template-name="tutorial-step-sort">
+    <p>Sort</p>
+</script>
+
+<script type="text/x-handlebars" data-template-name="tutorial-solution-sort">
+App.IndexController = Em.ArrayController.extend({
+    sortBy: ['name'],
+    sorted: Em.computed.sort('@this', 'sortBy')
+});
+
+// template index
+<ul>
+    \{{#each pony in sorted}}
+    <li>\{{pony.name}}</li>
+    \{{/each}}
+</ul>
+</script>
+
 <script type="text/x-handlebars" data-template-name="tutorial-step-consultation">
     <p>Nous allons maintenant créer une page de consultation pour chaque poney.
         Pour cela, nous allons devoir créer une route, un template correspondant à la page de consultation

@@ -84,7 +84,6 @@ app.get('/templates.js', function(req, res) {
     files = files.filter(function(filename) {
         return !filename.match(/\.gitkeep/);
     }).map(function(filename) {
-            console.log(filename);
       return new RSVP.Promise(function(resolve, reject) {
         fs.readFile(filename, { encoding: 'utf-8' }, function(err, text) {
           if (err) { reject(err); }
@@ -104,9 +103,9 @@ app.get('/templates.js', function(req, res) {
           data.template + ');\nTEMPLATES["' + data.name + '"] = ' +
           data.template + ';';
       });
-      res.send('TEMPLATES_ERROR= null, TEMPLATES = {};\ntry{\n'
-          + templates.join('\n')
-          + "\n} catch(e) {\nTEMPLATES_ERROR = e.message}\n");
+      res.send('TEMPLATES_ERROR= null, TEMPLATES = {};\ntry{\n' +
+          templates.join('\n') +
+          "\n} catch(e) {\nTEMPLATES_ERROR = e.message}\n");
     }, function(err) {
       res.send(err);
     });

@@ -79,7 +79,7 @@ $.get('tutorial.html').done(function (content) {
         detailTemplateName: "tutorial-step-empty",
         solutionTemplateName: "tutorial-solution-empty",
         test: function () {
-            ok(false, "Test not implemented")
+            ok(false, "Test not implemented");
         },
         passed: false,
         executed: false,
@@ -97,7 +97,7 @@ $.get('tutorial.html').done(function (content) {
             TEMPLATES[templateName]
                 .replace(/ /g, '')
                 .replace(/"/g, "'").indexOf(text) != -1, msg);
-    }
+    };
 
     Tuto.STEPS = [
         Tuto.Step.create({
@@ -128,7 +128,7 @@ $.get('tutorial.html').done(function (content) {
                     "Le template 'application' n'est pas déclaré.");
 
                 templateContains("application", "MyLi'lPonyApplication",
-                    "Le template application ne contient pas le bon titre et/ou les bonnes balises.")
+                    "Le template application ne contient pas le bon titre et/ou les bonnes balises.");
             }
         }),
         Tuto.Step.create({
@@ -156,7 +156,7 @@ $.get('tutorial.html').done(function (content) {
                         }
                         fail("App.Pony ne contient pas de propriété " + propertyName + " ou elle n'est pas correctement déclarée.");
                     }
-                }
+                };
 
                 assertPonyPropertyExistenceAndType("firstName", 'string');
                 assertPonyPropertyExistenceAndType("lastName", 'string');
@@ -253,6 +253,22 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
+            title: "Ordoner les élements de la liste par leur nom",
+            detailTemplateName: "tutorial-step-sort",
+            solutionTemplateName: "tutorial-solution-sort",
+            test: function () {
+              var indexController = App.__container__.lookup('controller:index');
+
+              ok(indexController, "Il n'y a pas de controller `App.IndexController`.");
+              ok(!indexController.toString().match(/generated/), 'vous devez exlicitement déclarer `App.IndexController`');
+              ok(indexController instanceof Em.ArrayController, "`App.IndexController` n'est pas de type `Em.ArrayController`.");
+              ok(indexController.get('sortBy'), "La propriété `sortBy` n'est pas définie.");
+              ok(indexController.get('sortBy')[0] === 'name', "La propriété `sortBy` ne contient pas `['name']`.");
+              ok(indexController.get('sorted'), "La propriété `sorted` n'est pas définie.");
+              templateContains('index', 'ponyinsorted}}', "Le helper {{each}} ne se base pas sur la liste ordonée.");
+            }
+        }),
+        Tuto.Step.create({
             title: "Créer une route consultation",
             detailTemplateName: "tutorial-step-consultation",
             solutionTemplateName: "tutorial-solution-consultation",
@@ -260,7 +276,7 @@ $.get('tutorial.html').done(function (content) {
 
                 var appRouter = App.__container__.lookup('router:main');
 
-                ok(appRouter.hasRoute('pony.detail'), "Il n'y pas de route 'pony.detail' déclarée dans le router.");
+                ok(appRouter.hasRoute('pony.detail'), "Il n'y a pas de route 'pony.detail' déclarée dans le router.");
 
                 ok(Em.TEMPLATES['pony/detail'] != undefined, "Le template 'pony/detail' n'est pas déclaré.");
 
@@ -297,10 +313,10 @@ $.get('tutorial.html').done(function (content) {
                 ok(appRouter.hasRoute('pony.add'), "Il n'y pas de route 'pony.add' déclarée dans le router.");
                 ok(Em.TEMPLATES['pony/add'] != undefined, "Le template 'pony/add' n'est pas déclaré.");
 
-                templateContains('pony/add', "{{inputvalue=firstName}}", "Le template add ne contient pas de helper input pour le firstName");
-                templateContains('pony/add', "{{inputvalue=lastName}}", "Le template add ne contient pas de helper input pour le lastName");
-                templateContains('pony/add', "{{inputvalue=color}}", "Le template add ne contient pas de helper input pour le color");
-                templateContains('pony/add', "{{inputvalue=type}}", "Le template add ne contient pas de helper input pour le type");
+                templateContains('pony/form', "{{inputvalue=firstName}}", "Le template add ne contient pas de helper input pour le firstName");
+                templateContains('pony/form', "{{inputvalue=lastName}}", "Le template add ne contient pas de helper input pour le lastName");
+                templateContains('pony/form', "{{inputvalue=color}}", "Le template add ne contient pas de helper input pour le color");
+                templateContains('pony/form', "{{inputvalue=type}}", "Le template add ne contient pas de helper input pour le type");
 
                 ok(Em.typeOf(App.PonyAddRoute) == 'class', "App.PonyAddRoute n'est pas définie ou n'est pas une classe Ember.");
 
@@ -324,8 +340,8 @@ $.get('tutorial.html').done(function (content) {
                 );
                 model.deleteRecord();
 
-                templateContains('pony/add', "{{action", "Le template add ne contient d'action");
-                templateContains('pony/add', "{{actionsavePony", "Le template contient une action mais elle n'appelle pas savePony");
+                templateContains('pony/form', "{{action", "Le template add ne contient d'action");
+                templateContains('pony/form', "{{actionsavePony", "Le template contient une action mais elle n'appelle pas savePony");
 
 
                 ok(Em.typeOf(App.PonyRoute) == 'class', "App.PonyRoute n'est pas définie ou n'est pas une classe Ember.");
@@ -342,7 +358,7 @@ $.get('tutorial.html').done(function (content) {
                     goodRoute = route == "index";
                 };
                 var pony = Em.Object.create({save: function () {
-                    save++
+                    save++;
                 }});
 
                 ponyRoute.send('savePony', pony);
