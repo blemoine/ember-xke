@@ -295,6 +295,8 @@ $.get('tutorial.html').done(function (content) {
             test: function () {
                 var appRouter = App.__container__.lookup('router:main');
 
+                ok(appRouter.hasRoute('pony.add'), "Il n'y pas de route 'pony.add' déclarée dans le router.");
+
                 templateContains('index', "{{#link-to'pony.add'}}", "Le template index ne contient pas de link-to vers la route pony.add")
                 templateContains('index', "{{/link-to}}", "Le template index ne contient pas de link-to vers la route pony.add");
 
@@ -317,13 +319,13 @@ $.get('tutorial.html').done(function (content) {
                 ok(!Em.isNone(model),
                     "La méthode 'model' de App.PonyAddRoute ne renvoie rien ou n'est pas définie.",
                     function () {
-                        model.deleteRecord();
+                        model && model.deleteRecord();
                     }
                 );
                 ok(!!model.get('id'),
                     "La méthode 'model' de App.PonyAddRoute ne renvois pas d'objet avec un id",
                     function () {
-                        model.deleteRecord();
+                        model && model.deleteRecord();
                     }
                 );
                 model.deleteRecord();
@@ -337,7 +339,11 @@ $.get('tutorial.html').done(function (content) {
                 var ponyRoute = App.__container__.lookup("route:pony");
 
                 ok(!!ponyRoute, "App.PonyRoute App.PonyRoute est mal définie.");
-                ok(ponyRoute instanceof Em.Route, "App.PonyRoute n'est pas de type Ember.Route");
+                ok(!!ponyRoute._actions, "Il n'y a pas d'objet actions déclaré dans App.PonyRoute");
+                ok(!!ponyRoute._actions.savePony, "Il n'y a pas d'action 'savePony' dans l'object actions déclaré dans App.PonyRoute");
+                ok(ponyRoute._actions.savePony.toString().replace(/ /g, '').match(/^function\((.*)\){.*/)[1] != "",
+                    "L'action savePony doit prendre un paramètre");
+
 
                 var save = 0, transitionToRouteCall = 0, goodRoute = false;
 
@@ -349,9 +355,9 @@ $.get('tutorial.html').done(function (content) {
                     save++
                 }});
 
-                ponyRoute.send('savePony', pony);
+                ponyRoute._actions.savePony.call(ponyRoute, pony);
 
-                ok(save == 1, "La méthode de pony doit être appelé une fois dans savePony");
+                ok(save == 1, "La méthode save de pony doit être appelé une fois dans savePony");
                 ok(transitionToRouteCall == 1, "transitionTo doit être appelé une fois dans savePony");
                 ok(goodRoute, "transitionTo doit être appelé avec comme paramètre index pour retourner sur l'index de l'application.");
             }
