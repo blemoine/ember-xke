@@ -366,6 +366,20 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
+            title: "Créer une page d'édition",
+            detailTemplateName: "tutorial-step-edit",
+            solutionTemplateName: "tutorial-solution-edit",
+            test: function () {
+            }
+        }),
+        Tuto.Step.create({
+            title: "Créer un lien de suppresion",
+            detailTemplateName: "tutorial-step-delete",
+            solutionTemplateName: "tutorial-solution-delete",
+            test: function () {
+            }
+        }),
+        Tuto.Step.create({
             title: "Utiliser un Helper",
             detailTemplateName: "tutorial-step-helper",
             solutionTemplateName: "tutorial-solution-helper",
