@@ -411,7 +411,7 @@ App.PonyRoute = Em.Route.extend({
 </script>
 <script type="text/x-handlebars" data-template-name="tutorial-solution-helper">
 Ember.Handlebars.helper('upperCase', function (text) {
-    return text.toUpperCase();
+    return text && text.toUpperCase();
 });
 
 // template index
