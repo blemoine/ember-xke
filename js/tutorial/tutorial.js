@@ -250,15 +250,15 @@ $.get('tutorial.html').done(function (content) {
 
                 var appRouter = App.__container__.lookup('router:main');
 
-                ok (appRouter.hasRoute('pony.index'), "Il n'y pas de route 'pony.index' déclarée dans le router.");
+                ok (appRouter.hasRoute('pony.detail'), "Il n'y pas de route 'pony.detail' déclarée dans le router.");
 
-                ok(Em.TEMPLATES['pony/index'] != undefined, "Le template 'pony/index' n'est pas déclaré.");
+                ok(Em.TEMPLATES['pony/detail'] != undefined, "Le template 'pony/detail' n'est pas déclaré.");
 
-                templateContains('pony/index','name}}', "Le nom n'est pas affiché dans le détail.");
-                templateContains('pony/index','type}}', "Le type n'est pas affiché dans le détail.");
-                templateContains('pony/index','color}}', "La couleur n'est pas affichée dans le détail.");
+                templateContains('pony/detail','name}}', "Le nom n'est pas affiché dans le détail.");
+                templateContains('pony/detail','type}}', "Le type n'est pas affiché dans le détail.");
+                templateContains('pony/detail','color}}', "La couleur n'est pas affichée dans le détail.");
 
-                templateContains('index', "{{#link-to'pony.index'" , "Le helper link-to n'est pas utilisé dans le template index.");
+                templateContains('index', "{{#link-to'pony.detail'" , "Le helper link-to n'est pas utilisé dans le template index.");
             }
         }),
         Tuto.Step.create({
@@ -353,7 +353,7 @@ $.get('tutorial.html').done(function (content) {
                 ok (helpers.upperCase != undefined, "Le helper 'upperCase' n'est pas définie.");
                 ok (helpers.upperCase._rawFunction('salut') === "SALUT", "Le helper 'upperCase' doit retourner la chaine passée en argument en majuscule");
 
-                templateContains("pony/index", "{{upperCase", "Le helper upperCase n'est pas utilisé dans le template detail");
+                templateContains("pony/detail", "{{upperCase", "Le helper upperCase n'est pas utilisé dans le template detail");
             }
         })
     ];
