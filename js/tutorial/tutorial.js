@@ -96,7 +96,7 @@ $.get('tutorial.html').done(function (content) {
         return ok(TEMPLATES[templateName] &&
             TEMPLATES[templateName]
                 .replace(/ /g, '')
-                .replace("\"", "'").indexOf(text) != - 1, msg);
+                .replace(/"/g, "'").indexOf(text) != - 1, msg);
     }
 
     Tuto.STEPS = [
@@ -269,8 +269,8 @@ $.get('tutorial.html').done(function (content) {
                 templateContains('application',"{{#link-to") && templateContains('application',"{{/link-to}}",
                     "Le template application ne contient pas de link-to");
 
-                templateContains('application',"{{#link-to'index'}}", "LinkTo doit pointer vers index");
-                templateContains('application',"<h1>{{#link-to'index'}}", "LinkTo doit être entre les h1");
+                templateContains('application',"{{#link-to'index'}}", "link-to doit pointer vers index");
+                templateContains('application',"<h1>{{#link-to'index'}}", "link-to doit être entre les h1");
                 ok ($('#ember-app div a').attr('href') == "#/", "Le lien du titre pointe vers "+
                     $('#ember-app div a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
             }
