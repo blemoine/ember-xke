@@ -281,8 +281,7 @@ $.get('tutorial.html').done(function (content) {
 
                 templateContains('application', "{{#link-to'index'}}", "link-to doit pointer vers index");
                 templateContains('application', "<h1>{{#link-to'index'}}", "link-to doit être entre les h1");
-                ok($('#ember-app div a').attr('href') == "#/", "Le lien du titre pointe vers " +
-                    $('#ember-app div a').attr('href') + " alors qu'il devrait pointer vers '#/'.");
+                
             }
         }),
         Tuto.Step.create({
