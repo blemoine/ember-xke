@@ -67,7 +67,7 @@
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-hello">
     <p>L'application Ember maintenant créée, il est temps d'afficher votre premier texte. </p>
-
+@
     <p>Créez un nouveau template nommé <code>application</code> avec une balise <code>h1</code> content le texte <code>My Li'l Pony Application</code>.
     Les templates en ember peuvent être soit créé directement dans la page html à l'aide de balise script en l'identifiant avec un id, <a href="http://emberjs.com/guides/templates/handlebars-basics/">voir doc</a>.</p>
     <p> Ou l'on peut choisir de mettre en &oelig;uvre la pré-compilation des templates, comme c'est fait ici.
@@ -76,9 +76,8 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-hello">
-    &lt;script type="text/x-handlebars" data-template-name="application">
-        <h1>My Li'l Pony Application</h1>
-    &lt;/script>
+// template application
+<h1>My Li'l Pony Application</h1>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-ds">
@@ -186,8 +185,8 @@ App.Pony.FIXTURES = [
     <p>Outlet est un helper ember permettant de spéficier où les sous parties de votre application vont permuter</p>
 
     <p>Enfin, il faut créer un nouveau template nommé <code>index</code>.
-        Par convention, le modèle renvoyé par la route est chargé dans une propriété nommé <code>content</code> dans le controller.
-       Ici, la liste des poneys est donc accessible dans le template depuis la propriété content.
+        Par convention, le modèle renvoyé par la route est chargé dans une propriété nommé <code>model</code> dans le controller.
+       Ici, la liste des poneys est donc accessible dans le template depuis la propriété model.
         Afficher la liste des prénoms de poneys dans le template <code>index</code> à l'aide de balise <code>&lt;ul&gt;</code> et <code>&lt;li&gt;</code>.
     </p>
 
@@ -202,18 +201,16 @@ App.IndexRoute = Em.Route.extend({
     }
 });
 
-&lt;script type="text/x-handlebars" data-template-name="application">
-  <h1>My Li'l Pony Application</h1>
-  \{{outlet}}
-&lt;/script>
+// template application
+<h1>My Li'l Pony Application</h1>
+\{{outlet}}
 
-&lt;script type="text/x-handlebars" data-template-name="index">
+// template index
 <ul>
-  \{{#each poney in content}}
-    <li>\{{poney.firstName}}</li>
+  \{{#each pony in model}}
+    <li>\{{pony.firstName}}</li>
   \{{/each}}
 </ul>
-&lt;/script>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-computed">
@@ -238,13 +235,12 @@ App.Pony = DS.Model.extend({
     }.property('firstName', 'lastName')
 });
 
-&lt;script type="text/x-handlebars" data-template-name="index">
+// template index
 <ul>
-    \{{#each poney in content}}
-    <li>\{{poney.name}}</li>
+    \{{#each pony in model}}
+    <li>\{{pony.name}}</li>
     \{{/each}}
 </ul>
-&lt;/script>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-consultation">
@@ -277,19 +273,17 @@ App.Router.map(function() {
     });
 });
 
-&lt;script type="text/x-handlebars" data-template-name="pony/detail">
-    <span>Name: \{{content.name}}</span><br/>
-    <span>Color: \{{content.color}}</span><br/>
-    <span>Type: \{{content.type}}</span><br/>
-&lt;/script>
+// template pony/detail
+<span>Name: \{{model.name}}</span><br/>
+<span>Color: \{{model.color}}</span><br/>
+<span>Type: \{{model.type}}</span><br/>
 
-&lt;script type="text/x-handlebars" data-template-name="index">
+// template index
 <ul>
-    \{{#each poney in content}}
-    <li>\{{#link-to 'pony.detail' poney}}\{{poney.name}}\{{/link-to}}</li>
+    \{{#each pony in model}}
+    <li>\{{#link-to 'pony.detail' pony}}\{{pony.name}}\{{/link-to}}</li>
     \{{/each}}
 </ul>
-&lt;/script>
 
 </script>
 
@@ -298,10 +292,9 @@ App.Router.map(function() {
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-home">
-&lt;script type="text/x-handlebars" data-template-name="application">
-    <h1>\{{#link-to 'index'}}My Li'l Pony Application\{{/link-to}}</h1>
-    \{{outlet}}
-&lt;/script>
+// template application
+<h1>\{{#link-to 'index'}}My Li'l Pony Application\{{/link-to}}</h1>
+\{{outlet}}
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-add">
@@ -370,38 +363,34 @@ App.PonyRoute = Em.Route.extend({
     }
 });
 
-&lt;script type="text/x-handlebars" data-template-name="index">
-    \{{#link-to 'pony.add'}}Add&#123;&#123;/link-to}}
-    <ul>
-        \{{#each pony in content}}
-        <li>\{{#link-to 'pony.detail' pony}}\{{pony.name}}\{{/link-to}}</li>
-        \{{/each}}
-    </ul>
-&lt;/script>
+// template index
+\{{#link-to 'pony.add'}}Add&#123;&#123;/link-to}}
+<ul>
+    \{{#each pony in model}}
+    <li>\{{#link-to 'pony.detail' pony}}\{{pony.name}}\{{/link-to}}</li>
+    \{{/each}}
+</ul>
 
 
-&lt;script type="text/x-handlebars" data-template-name="pony.add">
-    <form>
-        <label for="firstName">First Name</label>
-        \{{input value=firstName}}
-        <br />
+// template pony/add
+<form>
+    <label for="firstName">First Name</label>
+    \{{input value=firstName}}
+    <br />
 
-        <label for="lastName">Last Name</label>
-        \{{input value=lastName}}
-        <br />
+    <label for="lastName">Last Name</label>
+    \{{input value=lastName}}
+    <br />
 
-        <label for="color">Color</label>
-        \{{input value=color}}
-        <br />
+    <label for="color">Color</label>
+    \{{input value=color}}
+    <br />
 
-        <label for="type">Type</label>
-        \{{input value=type}}
-        <br />
-
-        &lt;input type="submit" \{{action savePony this}}/>
-
-    </form>
-&lt;/script>
+    <label for="type">Type</label>
+    \{{input value=type}}
+    <br />
+    &lt;input type="submit" \{{action savePony this}}/>
+</form>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-step-rest">
@@ -426,10 +415,8 @@ Ember.Handlebars.helper('upperCase', function (text) {
     return text.toUpperCase();
 });
 
-&lt;script type="text/x-handlebars" data-template-name="index">
-    <span>Name: \{{upperCase content.name}}</span><br/>
-    <span>Color: \{{content.color}}</span><br/>
-    <span>Type: \{{content.type}}</span><br/>
-&lt;/script>
-
+// template index
+<span>Name: \{{upperCase model.name}}</span><br/>
+<span>Color: \{{model.color}}</span><br/>
+<span>Type: \{{model.type}}</span><br/>
 </script>
