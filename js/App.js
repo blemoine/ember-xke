@@ -52,6 +52,12 @@ App.Router.map(function() {
 App.IndexRoute = Ember.Route.extend({
     model: function() {
         return this.store.find('pony');
+    },
+    actions:{
+        deletePony: function(pony) {
+            pony.deleteRecord();
+            pony.save();
+        }
     }
 });
 
@@ -60,10 +66,6 @@ App.PonyRoute = Em.Route.extend({
         savePony: function(pony) {
             pony.save();
             this.transitionTo('index');
-        },
-        deletePony: function(pony) {
-            pony.deleteRecord();
-            pony.save();
         }
     }
 });
