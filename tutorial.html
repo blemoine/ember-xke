@@ -56,7 +56,7 @@
 
     <a href="http://emberjs.com/guides/application" target="_blank">Documentation du concept d'application</a>
     <br />
-    <a href="http://emberjs.com/api/classes/Ember.Application.html" target="_blank">API de Ember.Application, cf. rootElement</a>
+    <a href="http://emberjs.com/api/classes/Ember.Application.html#toc_event-delegation" target="_blank">API de Ember.Application, cf. rootElement</a>
 </script>
 
 <script type="text/x-handlebars" data-template-name="tutorial-solution-app">
@@ -113,7 +113,7 @@
     <p>Afin de préparer l'affichage d'une liste de poneys, nous utiliserons des données bouchonnées par Ember Data.
         Ce bouchon se nomme <strong>fixture</strong>.
     </p>
-    <p>Indiquez au datastore que vous souhaitez utiliser un adapter de type <code>DS.FixtureAdapter</code> (cf. <a target="_blank" href="http://emberjs.com/guides/models/the-fixture-adapter/">la partie concernant l'adapter</a>)</p>
+    <p>Indiquez au datastore que vous souhaitez utiliser un adapter de type <code>DS.FixtureAdapter</code> (cf. <a target="_blank" href="http://emberjs.com/guides/models/connecting-to-an-http-server/#toc_customizing-the-adapter">la partie concernant l'adapter</a>)</p>
     <p>Puis dans une propriété statique nommée <code>FIXTURES</code> de la classe <code>App.Pony</code>, ajoutez le tableau contenant la liste de vos poneys&nbsp;: </p>
     <pre class="brush: js">
 App.Pony.FIXTURES = [
@@ -181,10 +181,11 @@ App.Pony.FIXTURES = [
     Vous devez donc maintenant définir une route <code>App.IndexRoute</code>, dont le modèle associé sera la liste des poneys renvoyés par la fixture.</p>
     <a target="_blank" href="http://emberjs.com/guides/routing/specifying-a-routes-model/">Pour définir une route (il n'y a pas besoin de définir de router pour l'instant, tout se fait par convention)</a>
     <br />
-    <a target="_blank" href="http://emberjs.com/guides/models/finding-models/">Pour récupérer la liste des poneys depuis le modèle</a>
+    <a target="_blank" href="http://emberjs.com/guides/models/finding-records/#toc_finding-all-records-of-a-type">Pour récupérer la liste des poneys depuis le modèle</a>
     <p>Nous allons maintenant afficher la liste des poneys dans la page.
         Pour cela il faut ajouter une balise <a target="_blank" href="http://emberjs.com/api/classes/Ember.Handlebars.helpers.html#method_outlet"><code>outlet</code></a> au template <code>application</code>,
         outlet qui nous servira de placeholder indiquant où sera insérée la liste des poneys.</p>
+    <p>Outlet est un helper ember permettant de spéficier où les sous parties de votre application vont permuter</p>
 
     <p>Enfin, il faut créer un nouveau template nommé <code>index</code>.
         Par convention, le modèle renvoyé par la route est chargé dans une propriété nommé <code>content</code> dans le controller.

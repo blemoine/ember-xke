@@ -109,6 +109,9 @@ $.get('tutorial.html').done(function (content) {
                 ok(typeof App != "undefined",
                     "Il n'y a pas d'Objet App dans window");
 
+                ok(Em.typeOf(App) != "class",
+                    "Cet objet App doit être un objet et non une classe");
+
                 ok(Em.typeOf(App) == "instance",
                     "Cet objet App doit être un objet Ember");
 
@@ -190,7 +193,7 @@ $.get('tutorial.html').done(function (content) {
                 ok (indexRoute.model(),
                     "La méthode 'model' de App.IndexRoute ne renvoie rien ou n'est pas définie.");
                 ok (indexRoute.model().get,
-                    "La méthode 'model' de App.IndexRoute doit être un Objet Ember.");
+                    "La méthode 'model' de App.IndexRoute doit renvoyer un Objet Ember.");
                 ok (indexRoute.model().get ('isFulfilled') == false,
                     "La méthode 'model' de App.IndexRoute ne renvoie pas la liste bouchonée des poneys.");
 
@@ -215,19 +218,24 @@ $.get('tutorial.html').done(function (content) {
                     lastName: 'BB'
                 });
 
-                ok (typeof pony.get('name') != "undefined", "App.Pony.name n'est pas pas définie");
+                ok (typeof pony.get('name') != "undefined", "App.Pony.name n'est pas pas définie",
+                    function(){pony.deleteRecord();});
 
                 ok (typeof pony.name != "function", "App.Pony.name n'est pas une proriété calculée mais une fonction, " +
-                        "on aurait pas oublié '.property(...)' par hazard ?");
+                        "on aurait pas oublié '.property(...)' par hazard ?",
+                    function(){pony.deleteRecord();});
 
                 ok (pony.get("name") == "AA BB", "Si firstName = 'AA' et lastName = 'BB' name devrait valoir 'AA BB' " +
-                    "et non pas "+ pony.get("name"));
+                    "et non pas "+ pony.get("name"),
+                    function(){pony.deleteRecord();});
 
                 pony.set('firstName', 'CC');
-                ok (pony.get("name") == "CC BB", "La propriété calculée name ne dépend pas de firstName");
+                ok (pony.get("name") == "CC BB", "La propriété calculée name ne dépend pas de firstName",
+                    function(){pony.deleteRecord();});
 
                 pony.set('lastName', 'DD');
-                ok (pony.get("name") == "CC DD", "La propriété calculée name ne dépend pas de lastName");
+                ok (pony.get("name") == "CC DD", "La propriété calculée name ne dépend pas de lastName",
+                    function(){pony.deleteRecord();});
 
                 pony.deleteRecord();
 

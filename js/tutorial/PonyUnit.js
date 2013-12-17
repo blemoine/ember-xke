@@ -48,10 +48,11 @@ var PonyUnit = (function () {
         }
     }
 
-    window.ok = function (testPassed, msg) {
+    window.ok = function (testPassed, msg, failCallback) {
         countAssert++;
         testPassed = !!testPassed;
         if (!testPassed) {
+            !!failCallback && typeof failCallback == "function" && failCallback();
             throw new Failed(msg)
         }
         return testPassed;
