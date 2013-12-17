@@ -281,7 +281,7 @@ $.get('tutorial.html').done(function (content) {
 
                 templateContains('application', "{{#link-to'index'}}", "link-to doit pointer vers index");
                 templateContains('application', "<h1>{{#link-to'index'}}", "link-to doit être entre les h1");
-                
+
             }
         }),
         Tuto.Step.create({
@@ -291,9 +291,8 @@ $.get('tutorial.html').done(function (content) {
             test: function () {
                 var appRouter = App.__container__.lookup('router:main');
 
-                ok(templateContains('index', "{{#link-to'pony.add'}}") &&
-                    templateContains('index', "{{/link-to}}"),
-                    "Le template index ne contient pas de link-to vers la route pony.add");
+                templateContains('index', "{{#link-to'pony.add'}}", "Le template index ne contient pas de link-to vers la route pony.add")
+                templateContains('index', "{{/link-to}}", "Le template index ne contient pas de link-to vers la route pony.add");
 
                 ok(appRouter.hasRoute('pony.add'), "Il n'y pas de route 'pony.add' déclarée dans le router.");
                 ok(Em.TEMPLATES['pony/add'] != undefined, "Le template 'pony/add' n'est pas déclaré.");
