@@ -328,11 +328,11 @@ App.Router.map(function() {
     <p>Il ne reste plus qu'à créer un bouton dans le formulaire qui enregistrera effectivement le poney dans le store.
         Pour cela ajoutez un <strong>input HTML  de type submit</strong> à votre formulaire, utilisez un helper
         <a target="_blank" href="http://emberjs.com/guides/templates/actions/">action</a>
-        pour appeler la méthode <code>savePoney</code> en lui passant en argument le le model courant.
+        pour appeler la méthode <code>savePony</code> en lui passant en argument le le model courant.
     </p>
 
     <p>
-        Chose intéréssante pour nous, ember par défault bubble les actions provenant d'une page. C'est à dire que pour une action 'savePoney', si il ne la trouve pas
+        Chose intéréssante pour nous, ember par défault bubble les actions provenant d'une page. C'est à dire que pour une action 'savePony', si il ne la trouve pas
         dans le PonyAddController, comme elle pourrait être logiquement trouvé, il va remonter dans la route, puis de route en parente en route parente jusqu'à arriver à
         l'ApplicationRoute.
         <a target="_blank" href="http://emberjs.com/guides/templates/actions/#toc_action-bubbling">Pour en savoir plus sur le Bubbling d'action</a>
@@ -400,7 +400,7 @@ App.PonyRoute = Em.Route.extend({
         \{{input value=type}}
         <br />
 
-        &lt;input type="submit" \{{action savePoney this}}/>
+        &lt;input type="submit" \{{action savePony this}}/>
 
     </form>
 &lt;/script>
