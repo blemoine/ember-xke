@@ -216,7 +216,7 @@ App.IndexRoute = Em.Route.extend({
 <script type="text/x-handlebars" data-template-name="tutorial-step-computed">
     <p>Plutôt que d'afficher simplement la liste des prénoms, nous allons maintenant afficher la liste des noms complet (prénom et nom) des poneys.
         Pour cela, nous allons déclarer
-    une propriété calculé <code>name</code> dans la classe <code>App.Pony</code>.
+    une propriété calculée <code>name</code> dans la classe <code>App.Pony</code>.
         Les <a target="_blank" href="http://emberjs.com/guides/object-model/computed-properties/">propriétés calculées</a>
         sont des propriétés accessibles sur les objets Ember, dont la valeur est dépendante d'autres propriétés du même objet.
     </p>
@@ -249,18 +249,17 @@ App.Pony = DS.Model.extend({
         et un lien pour atteindre cette page.</p>
 
     <p> Tout d'abord, nous allons créer une <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/#toc_resources">resource</a> nommée <code>pony</code>.
-    Une resource est une route Ember ayant la particularité de pouvoir contenir d'autre sous route. Nous préférons ici, créer une
-    resource car cela nous permettra d'y placer toutes les routes concernant les poneys à savoir de consultation, mais aussi la route d'édition et l'ajout (que nous ferons plus tard).
+    Une resource est une route Ember ayant la particularité de pouvoir contenir d'autres sous-routes. Nous préférons ici, créer une
+    resource car cela nous permettra d'y placer toutes les routes concernant les poneys&nbsp;; à savoir la route de consultation, mais aussi la route d'édition et la route d'ajout, que nous ferons plus tard.
     </p>
-    <p>En même temps que vous ajouterer votre resource vous ajoutez à l'intérieur une route 'detail' ayant pour path <code>/:pony_id</code>. Grâce à cela, quand nous consulteront le détail d'un
-    cheval, l'url sera sous le format "...#/pony/1"
+    <p>À l'intérieur de la ressource, une route 'detail' ayant pour path <code>/:pony_id</code>. Grâce à cela, quand nous consulterons le détail d'un poney, l'url sera sous le format "...#/pony/1"
     </p>
     <a target="_blank" href="http://emberjs.com/guides/routing/defining-your-routes/#toc_resources">Déclaration d'une resource</a>
     <p>Par convention, Ember cherche un template correspondant au nom de la route pour l'insérer dans l'outlet du template <code>application</code>. Par ailleurs, toujours par convention,
         Ember appelle la méthode <code>this.store.find(pony_id)</code> si le paramètre de <code>path</code> se nomme <code>pony_id</code>.
-        Nous n'avons donc ici pas besoin de définir de class de type route pour charger le modèle.</p>
+        Nous n'avons donc ici pas besoin de définir de classe de type route pour charger le modèle.</p>
 
-    <p>Définissez ensuite un template nommé <code>detail</code> dans un dossier pony, lui même dans le dossier templates. Dans ce template, vous afficherez le nom complet, le type et la couleur du poney choisi.</p>
+    <p>Définissez ensuite un template nommé <code>detail</code> dans un dossier <strong>pony</strong>, lui même dans le dossier <strong>templates</strong>. Dans ce template, vous afficherez le nom complet, le type et la couleur du poney choisi.</p>
 
     <p>Enfin, utilisez le helper <a target="_blank" href="http://emberjs.com/guides/templates/links/">link-to</a> pour créer un lien vers le détail depuis la liste des poneys. Attention, le helper <code>link-to</code> doit prendre en paramètre le <strong>poney et non pas son id. </strong></p>
 </script>
@@ -308,7 +307,7 @@ App.Router.map(function() {
 
     <p>Nous allons maintenant créer le template <code>add</code> dans le dossier pony, lui même dans le dossier templates, avec un formulaire.
         Ember fournit des composants permettant de gérer le binding sur les formulaires, nous allons donc les utiliser.
-        Créer un formulaire avec 4 label et
+        Créer un formulaire avec 4 labels et
         4 champs input textfield en utilisant <a target="_blank" href="http://emberjs.com/guides/templates/input-helpers/">la syntaxe de formulaire.</a></p>
 
     <p>Pour que nos propriétés soient enregistrées dans un objet avant d'être synchronisées par Ember Data,
@@ -323,15 +322,15 @@ App.Router.map(function() {
     </p>
 
     <p>
-        Chose intéréssante pour nous, ember par défault bubble les actions provenant d'une page. C'est à dire que pour une action 'savePony', si il ne la trouve pas
-        dans le PonyAddController, comme elle pourrait être logiquement trouvé, il va remonter dans la route, puis de route en parente en route parente jusqu'à arriver à
+        Chose intéréssante, Ember bubble par défault les actions provenant d'une page. C'est à dire que pour une action 'savePony', s'il ne la trouve pas
+        dans le PonyAddController (comme elle pourrait s'y trouver), il va remonter dans la route, puis de route en parente en route parente jusqu'à arriver à
         l'ApplicationRoute.
         <a target="_blank" href="http://emberjs.com/guides/templates/actions/#toc_action-bubbling">Pour en savoir plus sur le Bubbling d'action</a>
     </p>
 
     <p>
         Nous allons utiliser cette fonctionalité pour placer l'action savePony dans la class PonyRoute,
-        cette façon de faire nous permettra ne presque rien changer pour faire la fonctionalité de modification de poney.
+        cette façon de faire nous permettra de ne presque rien changer pour faire la fonctionalité de modification de poney.
     </p>
 
     <p>Enfin, une fois le poney enregistré dans le datastore, on souhaite rediriger vers l'accueil.
