@@ -276,8 +276,8 @@ $.get('tutorial.html').done(function (content) {
             detailTemplateName: "tutorial-step-home",
             solutionTemplateName: "tutorial-solution-home",
             test: function () {
-                templateContains('application', "{{#link-to") && templateContains('application', "{{/link-to}}",
-                    "Le template application ne contient pas de link-to");
+                templateContains('application', "{{#link-to", "Le template application ne contient pas de link-to");
+                templateContains('application', "{{/link-to}}", "Le template application ne contient pas de link-to");
 
                 templateContains('application', "{{#link-to'index'}}", "link-to doit pointer vers index");
                 templateContains('application', "<h1>{{#link-to'index'}}", "link-to doit être entre les h1");
