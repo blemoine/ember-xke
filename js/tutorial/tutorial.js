@@ -358,7 +358,7 @@ $.get('tutorial.html').done(function (content) {
                 ok(!!ponyRoute._actions, "Il n'y a pas d'objet actions déclaré dans App.PonyRoute");
                 ok(!!ponyRoute._actions.savePony, "Il n'y a pas d'action 'savePony' dans l'object actions déclaré dans App.PonyRoute");
                 ok(ponyRoute._actions.savePony.toString().replace(/ /g, '').match(/^function\((.*)\){.*/)[1] != "",
-                    "L'action savePony doit prendre un paramètre");
+                    "L'action savePony doit prendre un pony en paramètre");
 
 
                 var save = 0, transitionToRouteCall = 0, goodRoute = false;
@@ -388,16 +388,37 @@ $.get('tutorial.html').done(function (content) {
             }
         }),
         Tuto.Step.create({
-            title: "Créer une page d'édition",
-            detailTemplateName: "tutorial-step-edit",
-            solutionTemplateName: "tutorial-solution-edit",
-            test: function () {
-            }
-        }),
-        Tuto.Step.create({
             title: "Créer un lien de suppresion",
             detailTemplateName: "tutorial-step-delete",
             solutionTemplateName: "tutorial-solution-delete",
+            test: function () {
+
+                templateContains('index','{{actiondeletePony', "Il n'y pas encore d'action qui appel deletePony")
+
+                var indexRoute = App.__container__.lookup("route:index");
+
+                ok(!!indexRoute._actions, "Il n'y a pas d'objet actions déclaré dans App.IndexRoute");
+                ok(!!indexRoute._actions.deletePony, "Il n'y a pas d'action 'deletePony' dans l'object actions déclaré dans App.IndexRoute");
+                ok(indexRoute._actions.deletePony.toString().replace(/ /g, '').match(/^function\((.*)\){.*/)[1] != "",
+                    "L'action deletePony doit prendre un pony en paramètre");
+
+                var deleteCount = 0, saveCount =0;
+
+                var pony = Em.Object.create({
+                    save: function () {saveCount++},
+                    deleteRecord: function () {deleteCount++ }
+                });
+
+                indexRoute._actions.deletePony.call(indexRoute, pony);
+
+                ok(deleteCount == 1, "deleteRecord du pony doit être appelé une fois dans deletePony");
+                ok(saveCount == 1, "save du pony doit être appelé une fois dans deletePony");
+            }
+        }),
+        Tuto.Step.create({
+            title: "Créer une page d'édition",
+            detailTemplateName: "tutorial-step-edit",
+            solutionTemplateName: "tutorial-solution-edit",
             test: function () {
             }
         }),
