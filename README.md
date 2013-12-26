@@ -1,8 +1,10 @@
 workshop-ember
 ==============
 
-Lancez l'installation des dépendances node et bower avec npm install.
+Lancez l'installation des dépendances node et bower avec :
+  npm install
 
-Lancez l'application via node avec
-node server.js
+Lancez l'application via :
+  npm start
+
 allez sur http://localhost:3000 et suivez le tutoriel
